@@ -1,6 +1,5 @@
 using Microsoft.EntityFrameworkCore;
 using ParkEase.Auth.Data;
-using Serilog;
 
 namespace ParkEase.Auth.Data;
 
@@ -28,7 +27,6 @@ public class DatabaseSeeder
                     CreatedAt = DateTime.UtcNow
                 });
                 db.SaveChanges();
-                Log.Information("Admin seeded: admin@parkease.com / Admin@123");
             }
         }
     }
