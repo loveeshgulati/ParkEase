@@ -1,0 +1,36 @@
+{
+  "profiles": {
+    "ParkEase.ParkingLot": {
+      "commandName": "Project",
+      "dotnetRunMessages": true,
+      "launchBrowser": false,
+      "applicationUrl": "http://localhost:5003",
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        "ConnectionStrings__DefaultConnection": "Host=dpg-d7is8kvaqgkc73a4d3f0-a.virginia-postgres.render.com;Port=5432;Database=parkease_parkinglot;Username=parkease_yfo2_user;Password=EVSwWebkrsxGPZiLjqGsnYxh8eEcFn0W;SSL Mode=Require;Trust Server Certificate=true",
+        "Jwt__Secret": "ParkEase_SuperSecret_JWT_Key_MinLength32Chars!",
+        "Jwt__Issuer": "ParkEase.Auth",
+        "Jwt__Audience": "ParkEase.Client",
+        "RabbitMQ__Host": "localhost",
+        "RabbitMQ__Username": "guest",
+        "RabbitMQ__Password": "guest"
+      }
+    },
+    "Docker": {
+      "commandName": "Docker",
+      "launchBrowser": false,
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        "ConnectionStrings__DefaultConnection": "Host=postgres;Port=5432;Database=parkease_parkinglot;Username=postgres;Password=yourpassword",
+        "Jwt__Secret": "ParkEase_SuperSecret_JWT_Key_MinLength32Chars!",
+        "Jwt__Issuer": "ParkEase.Auth",
+        "Jwt__Audience": "ParkEase.Client",
+        "RabbitMQ__Host": "rabbitmq",
+        "RabbitMQ__Username": "guest",
+        "RabbitMQ__Password": "guest"
+      },
+      "publishAllPorts": true,
+      "useSSL": false
+    }
+  }
+}
