@@ -1,6 +1,4 @@
-namespace ParkEase.ParkingLot.Events;
-
-// Consumed from Auth-Service
+namespace ParkEase.ParkingLot.Events.Consumed;
 
 /// <summary>
 /// When admin deletes a manager, cascade delete all their lots.

@@ -1,6 +1,4 @@
-namespace ParkEase.ParkingLot.DTOs;
-
-// Common Response Wrapper
+namespace ParkEase.ParkingLot.DTOs.Common;
 
 public class ApiResponse<T>
 {

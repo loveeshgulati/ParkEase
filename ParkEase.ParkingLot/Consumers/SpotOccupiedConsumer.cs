@@ -1,5 +1,5 @@
 using MassTransit;
-using ParkEase.ParkingLot.Events;
+using ParkEase.ParkingLot.Events.Consumed;
 using ParkEase.ParkingLot.Interfaces;
 
 namespace ParkEase.ParkingLot.Consumers;

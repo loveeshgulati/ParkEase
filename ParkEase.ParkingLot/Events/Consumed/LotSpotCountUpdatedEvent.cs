@@ -1,6 +1,4 @@
-namespace ParkEase.ParkingLot.Events;
-
-// Consumed from Spot-Service
+namespace ParkEase.ParkingLot.Events.Consumed;
 
 /// <summary>
 /// When spots are added/removed, update lot spot counts.

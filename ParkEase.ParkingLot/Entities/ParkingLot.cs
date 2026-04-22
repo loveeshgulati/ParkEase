@@ -14,7 +14,6 @@ public class ParkingLot
     public bool IsOpen { get; set; } = false;
     public TimeOnly OpenTime { get; set; }
     public TimeOnly CloseTime { get; set; }
-    public string? ImageUrl { get; set; }
 
     // PENDING_APPROVAL | APPROVED | REJECTED
     public string ApprovalStatus { get; set; } = "PENDING_APPROVAL";

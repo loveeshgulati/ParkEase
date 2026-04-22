@@ -1,7 +1,9 @@
 using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using ParkEase.ParkingLot.DTOs;
+using ParkEase.ParkingLot.DTOs.Request;
+using ParkEase.ParkingLot.DTOs.Response;
+using ParkEase.ParkingLot.DTOs.Common;
 using ParkEase.ParkingLot.Interfaces;
 
 namespace ParkEase.ParkingLot.Controllers;

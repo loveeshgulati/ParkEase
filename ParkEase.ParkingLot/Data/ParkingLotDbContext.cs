@@ -29,7 +29,6 @@ public class ParkingLotDbContext : DbContext
             entity.Property(l => l.IsOpen).HasColumnName("is_open").HasDefaultValue(false);
             entity.Property(l => l.OpenTime).HasColumnName("open_time");
             entity.Property(l => l.CloseTime).HasColumnName("close_time");
-            entity.Property(l => l.ImageUrl).HasColumnName("image_url");
             entity.Property(l => l.ApprovalStatus).HasColumnName("approval_status")
                 .HasMaxLength(30).HasDefaultValue("PENDING_APPROVAL");
             entity.Property(l => l.RejectionReason).HasColumnName("rejection_reason");

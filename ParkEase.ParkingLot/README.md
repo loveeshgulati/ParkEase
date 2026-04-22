@@ -13,32 +13,15 @@ ParkEase.ParkingLot/
 ├── Controllers/
 │   └── ParkingLotController.cs     ← all lot endpoints
 ├── Consumers/
-│   ├── ManagerDeletedConsumer.cs
-│   ├── LotSpotCountUpdatedConsumer.cs
-│   ├── SpotOccupiedConsumer.cs
-│   └── SpotReleasedConsumer.cs
+│   └── ParkingLotConsumers.cs      ← ManagerDeleted, SpotOccupied, SpotReleased
 ├── Data/
 │   └── ParkingLotDbContext.cs
 ├── DTOs/
-│   ├── CreateLotDto.cs
-│   ├── UpdateLotDto.cs
-│   ├── RejectLotDto.cs
-│   ├── NearbyLotsRequestDto.cs
-│   ├── LotDto.cs
-│   ├── NearbyLotDto.cs
-│   └── ApiResponse.cs
+│   └── ParkingLotDtos.cs
 ├── Entities/
 │   └── ParkingLot.cs
 ├── Events/
-│   ├── LotCreatedEvent.cs
-│   ├── LotApprovedEvent.cs
-│   ├── LotRejectedEvent.cs
-│   ├── LotStatusChangedEvent.cs
-│   ├── LotDeletedEvent.cs
-│   ├── ManagerDeletedEvent.cs
-│   ├── LotSpotCountUpdatedEvent.cs
-│   ├── SpotOccupiedEvent.cs
-│   └── SpotReleasedEvent.cs
+│   └── ParkingLotEvents.cs
 ├── Helpers/
 │   └── HaversineHelper.cs          ← GPS distance calculation
 ├── Interfaces/
@@ -50,9 +33,6 @@ ParkEase.ParkingLot/
 ├── Repositories/
 │   └── ParkingLotRepository.cs
 ├── Sagas/
-│   ├── LotApprovalSagaState.cs
-│   ├── SendLotApprovalNotificationCommand.cs
-│   ├── LotApprovalNotificationSentEvent.cs
 │   └── LotApprovalSaga.cs          ← notifies manager on approve/reject
 ├── Services/
 │   └── ParkingLotService.cs

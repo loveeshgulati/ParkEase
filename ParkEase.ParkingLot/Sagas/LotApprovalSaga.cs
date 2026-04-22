@@ -1,9 +1,42 @@
 using MassTransit;
-using ParkEase.ParkingLot.Events;
+using ParkEase.ParkingLot.Events.Published;
 
 namespace ParkEase.ParkingLot.Sagas;
 
-// Saga State Machine
+// ─── Saga State ───────────────────────────────────────────────────────────────
+
+public class LotApprovalSagaState : SagaStateMachineInstance
+{
+    public Guid CorrelationId { get; set; }
+    public string CurrentState { get; set; } = string.Empty;
+    public int LotId { get; set; }
+    public int ManagerId { get; set; }
+    public string LotName { get; set; } = string.Empty;
+    public int AdminId { get; set; }
+    public DateTime InitiatedAt { get; set; }
+}
+
+// ─── Commands ─────────────────────────────────────────────────────────────────
+
+public class SendLotApprovalNotificationCommand
+{
+    public Guid CorrelationId { get; set; }
+    public int LotId { get; set; }
+    public int ManagerId { get; set; }
+    public string LotName { get; set; } = string.Empty;
+    public bool IsApproved { get; set; }
+    public string? RejectionReason { get; set; }
+}
+
+// ─── Response Events from other services ─────────────────────────────────────
+
+public class LotApprovalNotificationSentEvent
+{
+    public Guid SagaCorrelationId { get; set; }
+    public int LotId { get; set; }
+}
+
+// ─── Saga State Machine ───────────────────────────────────────────────────────
 
 /// <summary>
 /// LotApprovalSaga

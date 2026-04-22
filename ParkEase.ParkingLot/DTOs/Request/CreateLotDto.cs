@@ -1,8 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace ParkEase.ParkingLot.DTOs;
-
-// Request DTO
+namespace ParkEase.ParkingLot.DTOs.Request;
 
 public class CreateLotDto
 {
@@ -13,5 +11,4 @@ public class CreateLotDto
     [Required] public double Longitude { get; set; }
     [Required] public string OpenTime { get; set; } = string.Empty;   // "08:00"
     [Required] public string CloseTime { get; set; } = string.Empty;  // "22:00"
-    public string? ImageUrl { get; set; }
 }

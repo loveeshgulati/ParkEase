@@ -1,4 +1,5 @@
-using ParkEase.ParkingLot.DTOs;
+using ParkEase.ParkingLot.DTOs.Request;
+using ParkEase.ParkingLot.DTOs.Response;
 
 namespace ParkEase.ParkingLot.Interfaces;
 

@@ -1,6 +1,4 @@
-namespace ParkEase.ParkingLot.DTOs;
-
-// Request DTO
+namespace ParkEase.ParkingLot.DTOs.Request;
 
 public class UpdateLotDto
 {
@@ -11,5 +9,4 @@ public class UpdateLotDto
     public double? Longitude { get; set; }
     public string? OpenTime { get; set; }
     public string? CloseTime { get; set; }
-    public string? ImageUrl { get; set; }
 }

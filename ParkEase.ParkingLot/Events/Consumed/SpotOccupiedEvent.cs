@@ -1,6 +1,4 @@
-namespace ParkEase.ParkingLot.Events;
-
-// Consumed from Spot-Service
+namespace ParkEase.ParkingLot.Events.Consumed;
 
 /// <summary>
 /// When a spot is occupied (booking check-in), decrement available spots.

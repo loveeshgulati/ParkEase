@@ -1,6 +1,7 @@
 using MassTransit;
-using ParkEase.ParkingLot.DTOs;
-using ParkEase.ParkingLot.Events;
+using ParkEase.ParkingLot.DTOs.Request;
+using ParkEase.ParkingLot.DTOs.Response;
+using ParkEase.ParkingLot.Events.Published;
 using ParkEase.ParkingLot.Helpers;
 using ParkEase.ParkingLot.Interfaces;
 
@@ -35,7 +36,6 @@ public class ParkingLotService : IParkingLotService
             Longitude = request.Longitude,
             OpenTime = TimeOnly.Parse(request.OpenTime),
             CloseTime = TimeOnly.Parse(request.CloseTime),
-            ImageUrl = request.ImageUrl,
             ApprovalStatus = "PENDING_APPROVAL",
             IsOpen = false,
             TotalSpots = 0,
@@ -79,7 +79,6 @@ public class ParkingLotService : IParkingLotService
             lot.OpenTime = TimeOnly.Parse(request.OpenTime);
         if (!string.IsNullOrWhiteSpace(request.CloseTime))
             lot.CloseTime = TimeOnly.Parse(request.CloseTime);
-        if (!string.IsNullOrWhiteSpace(request.ImageUrl)) lot.ImageUrl = request.ImageUrl;
 
         var updated = await _repository.UpdateAsync(lot);
         _logger.LogInformation("Lot {LotId} updated by Manager={ManagerId}", lotId, managerId);
@@ -258,8 +257,7 @@ public class ParkingLotService : IParkingLotService
                 TotalSpots = x.Lot.TotalSpots,
                 IsOpen = x.Lot.IsOpen,
                 OpenTime = x.Lot.OpenTime.ToString("HH:mm"),
-                CloseTime = x.Lot.CloseTime.ToString("HH:mm"),
-                ImageUrl = x.Lot.ImageUrl
+                CloseTime = x.Lot.CloseTime.ToString("HH:mm")
             })
             .ToList();
     }
@@ -295,7 +293,6 @@ public class ParkingLotService : IParkingLotService
         IsOpen = l.IsOpen,
         OpenTime = l.OpenTime.ToString("HH:mm"),
         CloseTime = l.CloseTime.ToString("HH:mm"),
-        ImageUrl = l.ImageUrl,
         ApprovalStatus = l.ApprovalStatus,
         RejectionReason = l.RejectionReason,
         ApprovedAt = l.ApprovedAt,

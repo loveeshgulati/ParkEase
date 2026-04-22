@@ -1,6 +1,4 @@
-namespace ParkEase.ParkingLot.Events;
-
-// Published by ParkingLot-Service
+namespace ParkEase.ParkingLot.Events.Published;
 
 public class LotDeletedEvent
 {

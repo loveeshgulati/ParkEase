@@ -11,8 +11,17 @@ using ParkEase.ParkingLot.Middleware;
 using ParkEase.ParkingLot.Repositories;
 using ParkEase.ParkingLot.Sagas;
 using ParkEase.ParkingLot.Services;
+using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
+
+// ── Serilog ───────────────────────────────────────────────────────────────────
+Log.Logger = new LoggerConfiguration()
+    .ReadFrom.Configuration(builder.Configuration)
+    .Enrich.FromLogContext()
+    .WriteTo.Console()
+    .CreateLogger();
+builder.Host.UseSerilog();
 
 // ── PostgreSQL + EF Core ──────────────────────────────────────────────────────
 builder.Services.AddDbContext<ParkingLotDbContext>(options =>
@@ -148,6 +157,7 @@ if (app.Environment.IsDevelopment())
     });
 }
 
+app.UseSerilogRequestLogging();
 app.UseCors("AllowAll");
 app.UseHttpsRedirection();
 app.UseAuthentication();

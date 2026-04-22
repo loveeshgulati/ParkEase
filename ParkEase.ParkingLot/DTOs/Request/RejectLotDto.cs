@@ -1,8 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace ParkEase.ParkingLot.DTOs;
-
-// Request DTO
+namespace ParkEase.ParkingLot.DTOs.Request;
 
 public class RejectLotDto
 {
