@@ -42,8 +42,6 @@ ParkEase.Auth/
 │   └── AdminService.cs
 ├── appsettings.json
 ├── appsettings.Development.json
-├── docker-compose.yml
-├── Dockerfile
 └── ParkEase.Auth.csproj
 ```
 
@@ -110,27 +108,19 @@ Password: Admin@123
 
 ## Running Locally
 
-### Option 1 — Docker Compose (Recommended)
-```bash
-docker-compose up --build
-```
-- Auth Service → http://localhost:5001
-- Swagger UI   → http://localhost:5001
-- RabbitMQ UI  → http://localhost:15672
+### Prerequisites
+- PostgreSQL database running locally or accessible
+- RabbitMQ server running locally
 
-### Option 2 — dotnet run
+### Setup
 ```bash
-# Start postgres + rabbitmq first
-docker run -d --name postgres -p 5432:5432 -e POSTGRES_PASSWORD=yourpassword -e POSTGRES_DB=parkease_auth postgres:16
-docker run -d --name rabbitmq -p 5672:5672 -p 15672:15672 rabbitmq:3-management
-
 # Run migrations
-dotnet ef migrations add InitialCreate --output-dir Migrations
 dotnet ef database update
 
-# Run service
+# Start the service
 dotnet run
 ```
+- Auth Service → http://localhost:7003 (Swagger available)
 
 ---
 

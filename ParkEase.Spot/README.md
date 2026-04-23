@@ -34,8 +34,6 @@ ParkEase.Spot/
 │   └── SpotService.cs
 ├── appsettings.json
 ├── appsettings.Development.json
-├── docker-compose.yml
-├── Dockerfile
 └── ParkEase.Spot.csproj
 ```
 
@@ -118,19 +116,15 @@ RESERVED  → AVAILABLE (on cancellation)
 ## Running Locally
 
 ```bash
-# Start dependencies
-docker run -d --name rabbitmq -p 5672:5672 -p 15672:15672 rabbitmq:3-management
-docker run -d --name postgres -p 5432:5432 -e POSTGRES_PASSWORD=yourpassword -e POSTGRES_DB=parkease_spot postgres:16
-
+# Start dependencies (ensure PostgreSQL and RabbitMQ are running locally)
 # Run migrations
-dotnet ef migrations add InitialCreate --output-dir Migrations
 dotnet ef database update
 
-# Run
+# Start the service
 dotnet run
 ```
 
-Swagger UI → http://localhost:5004
+Swagger UI → http://localhost:5002
 
 ---
 
