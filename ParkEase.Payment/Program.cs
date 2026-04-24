@@ -27,9 +27,17 @@ builder.Host.UseSerilog();
 builder.Services.AddDbContext<PaymentDbContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-// ── Repository + Service ──────────────────────────────────────────────────────
+// ── Repository + Services ─────────────────────────────────────────────────────
 builder.Services.AddScoped<IPaymentRepository, PaymentRepository>();
 builder.Services.AddScoped<IPaymentService, PaymentService>();
+builder.Services.AddScoped<IRazorpayService, RazorpayService>();
+
+// Named HttpClient used by RazorpayService to call the Razorpay REST API
+builder.Services.AddHttpClient("Razorpay", client =>
+{
+    client.BaseAddress = new Uri("https://api.razorpay.com/");
+    client.DefaultRequestHeaders.Add("Accept", "application/json");
+});
 
 // ── JWT Authentication ────────────────────────────────────────────────────────
 var key = Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Secret"]!);
@@ -84,7 +92,7 @@ builder.Services.AddSwaggerGen(c =>
     {
         Title = "ParkEase Payment Service",
         Version = "v1",
-        Description = "Payment processing microservice for ParkEase"
+        Description = "Payment processing microservice for ParkEase (Razorpay integration)"
     });
 
     c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme

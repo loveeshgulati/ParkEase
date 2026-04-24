@@ -12,8 +12,8 @@ using ParkEase.Payment.Data;
 namespace ParkEase.Payment.Migrations
 {
     [DbContext(typeof(PaymentDbContext))]
-    [Migration("20260423162650_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20260424061259_AddRazorpayColumns")]
+    partial class AddRazorpayColumns
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -68,6 +68,14 @@ namespace ParkEase.Payment.Migrations
                         .HasColumnType("timestamp with time zone")
                         .HasColumnName("paid_at");
 
+                    b.Property<string>("RazorpayOrderId")
+                        .HasColumnType("text")
+                        .HasColumnName("razorpay_order_id");
+
+                    b.Property<string>("RazorpayPaymentId")
+                        .HasColumnType("text")
+                        .HasColumnName("razorpay_payment_id");
+
                     b.Property<double?>("RefundAmount")
                         .HasColumnType("double precision")
                         .HasColumnName("refund_amount");
@@ -88,10 +96,6 @@ namespace ParkEase.Payment.Migrations
                         .HasDefaultValue("PENDING")
                         .HasColumnName("status");
 
-                    b.Property<string>("TransactionId")
-                        .HasColumnType("text")
-                        .HasColumnName("transaction_id");
-
                     b.Property<int>("UserId")
                         .HasColumnType("integer")
                         .HasColumnName("user_id");
@@ -99,6 +103,10 @@ namespace ParkEase.Payment.Migrations
                     b.HasKey("PaymentId");
 
                     b.HasIndex("BookingId");
+
+                    b.HasIndex("RazorpayOrderId");
+
+                    b.HasIndex("RazorpayPaymentId");
 
                     b.HasIndex("Status");
 

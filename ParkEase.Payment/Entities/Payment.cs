@@ -13,7 +13,10 @@ public class Payment
     // CARD | UPI | WALLET | CASH
     public string Mode { get; set; } = string.Empty;
 
-    public string? TransactionId { get; set; }
+    // Razorpay-specific fields (replaces TransactionId)
+    public string? RazorpayOrderId { get; set; }
+    public string? RazorpayPaymentId { get; set; }
+
     public string Currency { get; set; } = "INR";
     public string? Description { get; set; }
     public DateTime? PaidAt { get; set; }

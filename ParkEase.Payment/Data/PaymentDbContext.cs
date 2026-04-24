@@ -25,7 +25,11 @@ public class PaymentDbContext : DbContext
             entity.Property(p => p.Status).HasColumnName("status")
                 .HasMaxLength(20).HasDefaultValue("PENDING");
             entity.Property(p => p.Mode).HasColumnName("mode").HasMaxLength(20).IsRequired();
-            entity.Property(p => p.TransactionId).HasColumnName("transaction_id");
+
+            // Razorpay fields (replaces transaction_id)
+            entity.Property(p => p.RazorpayOrderId).HasColumnName("razorpay_order_id");
+            entity.Property(p => p.RazorpayPaymentId).HasColumnName("razorpay_payment_id");
+
             entity.Property(p => p.Currency).HasColumnName("currency")
                 .HasMaxLength(10).HasDefaultValue("INR");
             entity.Property(p => p.Description).HasColumnName("description");
@@ -38,6 +42,8 @@ public class PaymentDbContext : DbContext
             entity.HasIndex(p => p.BookingId);
             entity.HasIndex(p => p.UserId);
             entity.HasIndex(p => p.Status);
+            entity.HasIndex(p => p.RazorpayOrderId);
+            entity.HasIndex(p => p.RazorpayPaymentId);
         });
     }
 }

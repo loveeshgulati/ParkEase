@@ -20,13 +20,52 @@ public class PaymentController : ControllerBase
         ILogger<PaymentController> logger)
     {
         _paymentService = paymentService;
-        _logger = logger;
+        _logger         = logger;
     }
 
     // ═══════════════════════════════════════════════════════════════════════════
-    // DRIVER
+    // RAZORPAY — Order creation
     // ═══════════════════════════════════════════════════════════════════════════
 
+    /// <summary>
+    /// Step 1 of the payment flow.
+    /// Creates a Razorpay order and returns the orderId + key to the frontend.
+    /// The frontend passes these to the Razorpay Checkout widget.
+    /// </summary>
+    // POST /api/v1/payments/create-order
+    [HttpPost("create-order")]
+    [Authorize(Roles = "DRIVER")]
+    public async Task<IActionResult> CreateRazorpayOrder(
+        [FromBody] CreateRazorpayOrderDto request)
+    {
+        try
+        {
+            var result = await _paymentService.CreateRazorpayOrderAsync(request);
+            return Ok(ApiResponse<RazorpayOrderResponseDto>.Ok(result,
+                $"Razorpay order created: {result.OrderId}"));
+        }
+        catch (InvalidOperationException ex)
+        {
+            _logger.LogError(ex, "Failed to create Razorpay order");
+            return StatusCode(502, ApiResponse<object>.Fail(
+                "Unable to create Razorpay order. Please try again."));
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Unexpected error creating Razorpay order");
+            return StatusCode(500, ApiResponse<object>.Fail("Internal server error."));
+        }
+    }
+
+    // ═══════════════════════════════════════════════════════════════════════════
+    // DRIVER — Payment processing (Step 2 of payment flow)
+    // ═══════════════════════════════════════════════════════════════════════════
+
+    /// <summary>
+    /// Step 2 of the payment flow.
+    /// Called after the Razorpay Checkout widget succeeds.
+    /// Verifies the Razorpay signature and records the payment in the database.
+    /// </summary>
     // POST /api/v1/payments/process
     [HttpPost("process")]
     [Authorize(Roles = "DRIVER")]
@@ -37,11 +76,23 @@ public class PaymentController : ControllerBase
             var result = await _paymentService.ProcessPaymentAsync(
                 GetCurrentUserId(), request);
             return StatusCode(201, ApiResponse<PaymentDto>.Ok(result,
-                $"Payment of ₹{result.Amount} processed successfully"));
+                $"Payment of ₹{result.Amount} verified and processed successfully"));
         }
         catch (InvalidOperationException ex)
         {
-            return BadRequest(ApiResponse<object>.Fail(ex.Message));
+            // Covers both signature failure and double-payment
+            _logger.LogWarning(ex, "ProcessPayment failed for BookingId={BookingId}",
+                request.BookingId);
+
+            // 402 Payment Required is semantically appropriate for failed payment
+            return ex.Message.Contains("signature")
+                ? StatusCode(402, ApiResponse<object>.Fail(ex.Message))
+                : BadRequest(ApiResponse<object>.Fail(ex.Message));
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Unexpected error processing payment");
+            return StatusCode(500, ApiResponse<object>.Fail("Internal server error."));
         }
     }
 
@@ -157,10 +208,9 @@ public class PaymentController : ControllerBase
         [FromQuery] DateTime? to)
     {
         var fromDate = from ?? DateTime.UtcNow.AddMonths(-1);
-        var toDate = to ?? DateTime.UtcNow;
+        var toDate   = to   ?? DateTime.UtcNow;
 
-        var result = await _paymentService.GetRevenueByLotAsync(
-            lotId, fromDate, toDate);
+        var result = await _paymentService.GetRevenueByLotAsync(lotId, fromDate, toDate);
         return Ok(ApiResponse<RevenueDto>.Ok(result,
             $"Revenue: ₹{result.TotalRevenue}"));
     }
@@ -187,7 +237,7 @@ public class PaymentController : ControllerBase
         [FromQuery] DateTime? to)
     {
         var fromDate = from ?? DateTime.UtcNow.AddMonths(-1);
-        var toDate = to ?? DateTime.UtcNow;
+        var toDate   = to   ?? DateTime.UtcNow;
 
         var result = await _paymentService.GetPlatformRevenueAsync(fromDate, toDate);
         return Ok(ApiResponse<PlatformRevenueDto>.Ok(result,

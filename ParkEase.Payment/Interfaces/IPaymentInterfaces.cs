@@ -17,6 +17,9 @@ public interface IPaymentRepository
 
 public interface IPaymentService
 {
+    // ── Razorpay order creation ───────────────────────────────────────────────
+    Task<RazorpayOrderResponseDto> CreateRazorpayOrderAsync(CreateRazorpayOrderDto request);
+
     // ── Driver actions ────────────────────────────────────────────────────────
     Task<PaymentDto> ProcessPaymentAsync(int userId, ProcessPaymentDto request);
     Task<PaymentDto> GetPaymentByIdAsync(int paymentId, int userId, string role);

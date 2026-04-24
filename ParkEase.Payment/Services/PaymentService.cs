@@ -9,22 +9,49 @@ namespace ParkEase.Payment.Services;
 public class PaymentService : IPaymentService
 {
     private readonly IPaymentRepository _repository;
+    private readonly IRazorpayService _razorpayService;
     private readonly IPublishEndpoint _publishEndpoint;
+    private readonly IConfiguration _configuration;
     private readonly ILogger<PaymentService> _logger;
 
     private static readonly string[] ValidModes = { "CARD", "UPI", "WALLET", "CASH" };
 
     public PaymentService(
         IPaymentRepository repository,
+        IRazorpayService razorpayService,
         IPublishEndpoint publishEndpoint,
+        IConfiguration configuration,
         ILogger<PaymentService> logger)
     {
-        _repository = repository;
+        _repository      = repository;
+        _razorpayService = razorpayService;
         _publishEndpoint = publishEndpoint;
-        _logger = logger;
+        _configuration   = configuration;
+        _logger          = logger;
     }
 
-    // ── Process Payment ───────────────────────────────────────────────────────
+    // ── Create Razorpay Order ─────────────────────────────────────────────────
+
+    public async Task<RazorpayOrderResponseDto> CreateRazorpayOrderAsync(
+        CreateRazorpayOrderDto request)
+    {
+        _logger.LogInformation(
+            "Creating Razorpay order for ₹{Amount}", request.Amount);
+
+        var orderId = await _razorpayService.CreateOrderAsync(
+            request.Amount, request.Receipt);
+
+        return new RazorpayOrderResponseDto
+        {
+            OrderId  = orderId,
+            Key      = _configuration["Razorpay:KeyId"]!,
+            Amount   = request.Amount,
+            Currency = "INR"
+        };
+    }
+
+    // ── Process Payment (with Razorpay signature verification) ───────────────
+
     public async Task<PaymentDto> ProcessPaymentAsync(
         int userId, ProcessPaymentDto request)
     {
@@ -33,24 +60,69 @@ public class PaymentService : IPaymentService
             throw new InvalidOperationException(
                 $"Invalid payment mode. Must be: {string.Join(", ", ValidModes)}");
 
-        // Check if payment already exists for this booking
+        // ── Step 1: Verify Razorpay signature ─────────────────────────────────
+        _logger.LogInformation(
+            "Verifying Razorpay signature for OrderId={OrderId} PaymentId={PaymentId}",
+            request.RazorpayOrderId, request.RazorpayPaymentId);
+
+        var isSignatureValid = _razorpayService.VerifySignature(
+            request.RazorpayOrderId,
+            request.RazorpayPaymentId,
+            request.RazorpaySignature);
+
+        if (!isSignatureValid)
+        {
+            _logger.LogWarning(
+                "Payment verification FAILED for BookingId={BookingId}. Invalid signature.",
+                request.BookingId);
+
+            // Persist a FAILED record so audit trail is intact
+            var failedPayment = new PaymentEntity
+            {
+                BookingId        = request.BookingId,
+                UserId           = userId,
+                Amount           = request.Amount,
+                Mode             = mode,
+                RazorpayOrderId  = request.RazorpayOrderId,
+                RazorpayPaymentId = request.RazorpayPaymentId,
+                Status           = "FAILED",
+                Currency         = "INR",
+                Description      = "Payment failed: invalid Razorpay signature",
+                CreatedAt        = DateTime.UtcNow
+            };
+            var saved = await _repository.CreateAsync(failedPayment);
+
+            await _publishEndpoint.Publish(new PaymentFailedEvent
+            {
+                BookingId  = saved.BookingId,
+                UserId     = saved.UserId,
+                Amount     = saved.Amount,
+                Reason     = "Invalid Razorpay signature",
+                FailedAt   = DateTime.UtcNow
+            });
+
+            throw new InvalidOperationException(
+                "Payment verification failed: Razorpay signature is invalid.");
+        }
+
+        // ── Step 2: Check for existing payment for this booking ────────────────
         var existing = await _repository.FindByBookingIdAsync(request.BookingId);
 
         PaymentEntity payment;
 
         if (existing != null)
         {
-            // Update existing PENDING record
             if (existing.Status == "PAID")
                 throw new InvalidOperationException(
                     "Payment already processed for this booking.");
 
-            existing.Mode = mode;
-            existing.TransactionId = request.TransactionId
-                ?? GenerateTransactionId();
-            existing.Status = "PAID";
-            existing.PaidAt = DateTime.UtcNow;
-            existing.Description = request.Description ?? existing.Description;
+            // Update existing PENDING/FAILED record with new Razorpay details
+            existing.Mode              = mode;
+            existing.RazorpayOrderId   = request.RazorpayOrderId;
+            existing.RazorpayPaymentId = request.RazorpayPaymentId;
+            existing.Status            = "PAID";
+            existing.PaidAt            = DateTime.UtcNow;
+            existing.Description       = request.Description ?? existing.Description;
             payment = await _repository.UpdateAsync(existing);
         }
         else
@@ -58,35 +130,38 @@ public class PaymentService : IPaymentService
             // Create new payment record
             payment = new PaymentEntity
             {
-                BookingId = request.BookingId,
-                UserId = userId,
-                Amount = request.Amount,
-                Mode = mode,
-                TransactionId = request.TransactionId ?? GenerateTransactionId(),
-                Status = "PAID",
-                Currency = "INR",
-                Description = request.Description
+                BookingId         = request.BookingId,
+                UserId            = userId,
+                Amount            = request.Amount,
+                Mode              = mode,
+                RazorpayOrderId   = request.RazorpayOrderId,
+                RazorpayPaymentId = request.RazorpayPaymentId,
+                Status            = "PAID",
+                Currency          = "INR",
+                Description       = request.Description
                     ?? $"Parking fee for Booking #{request.BookingId}",
-                PaidAt = DateTime.UtcNow,
+                PaidAt    = DateTime.UtcNow,
                 CreatedAt = DateTime.UtcNow
             };
             payment = await _repository.CreateAsync(payment);
         }
 
+        // ── Step 3: Publish success event ─────────────────────────────────────
         await _publishEndpoint.Publish(new PaymentProcessedEvent
         {
-            PaymentId = payment.PaymentId,
-            BookingId = payment.BookingId,
-            UserId = payment.UserId,
-            Amount = payment.Amount,
-            Mode = payment.Mode,
-            TransactionId = payment.TransactionId,
-            PaidAt = payment.PaidAt!.Value
+            PaymentId         = payment.PaymentId,
+            BookingId         = payment.BookingId,
+            UserId            = payment.UserId,
+            Amount            = payment.Amount,
+            Mode              = payment.Mode,
+            TransactionId     = payment.RazorpayPaymentId,   // keep event contract compatible
+            PaidAt            = payment.PaidAt!.Value
         });
 
         _logger.LogInformation(
-            "Payment {PaymentId} processed. Amount=₹{Amount} Mode={Mode}",
-            payment.PaymentId, payment.Amount, payment.Mode);
+            "Payment {PaymentId} verified and processed. Amount=₹{Amount} Mode={Mode} " +
+            "RazorpayPaymentId={RazorpayPaymentId}",
+            payment.PaymentId, payment.Amount, payment.Mode, payment.RazorpayPaymentId);
 
         return MapToDto(payment);
     }
@@ -145,21 +220,21 @@ public class PaymentService : IPaymentService
 
         var refundAmt = request.RefundAmount ?? payment.Amount;
 
-        payment.Status = "REFUNDED";
+        payment.Status       = "REFUNDED";
         payment.RefundAmount = refundAmt;
         payment.RefundReason = request.Reason;
-        payment.RefundedAt = DateTime.UtcNow;
+        payment.RefundedAt   = DateTime.UtcNow;
 
         var updated = await _repository.UpdateAsync(payment);
 
         await _publishEndpoint.Publish(new RefundProcessedEvent
         {
-            PaymentId = payment.PaymentId,
-            BookingId = payment.BookingId,
-            UserId = payment.UserId,
+            PaymentId    = payment.PaymentId,
+            BookingId    = payment.BookingId,
+            UserId       = payment.UserId,
             RefundAmount = refundAmt,
-            Reason = request.Reason,
-            RefundedAt = payment.RefundedAt!.Value
+            Reason       = request.Reason,
+            RefundedAt   = payment.RefundedAt!.Value
         });
 
         _logger.LogInformation(
@@ -180,14 +255,14 @@ public class PaymentService : IPaymentService
             throw new UnauthorizedAccessException(
                 "You can only view your own receipts.");
 
-        // Receipt as formatted text (PDF generation can be added later with QuestPDF)
         var receipt = $"""
             ==========================================
             ParkEase — Payment Receipt
             ==========================================
-            Receipt No  : {payment.TransactionId}
-            Payment ID  : {payment.PaymentId}
-            Booking ID  : {payment.BookingId}
+            Razorpay Payment ID : {payment.RazorpayPaymentId ?? "N/A"}
+            Razorpay Order ID   : {payment.RazorpayOrderId   ?? "N/A"}
+            Payment ID          : {payment.PaymentId}
+            Booking ID          : {payment.BookingId}
             ──────────────────────────────────────────
             Amount Paid : ₹{payment.Amount}
             Mode        : {payment.Mode}
@@ -207,8 +282,6 @@ public class PaymentService : IPaymentService
     public async Task<RevenueDto> GetRevenueByLotAsync(
         int lotId, DateTime from, DateTime to)
     {
-        // Revenue aggregation via LINQ over payments
-        // In production: join with bookings table which has lotId
         var allPayments = await _repository.GetAllAsync();
         var lotPayments = allPayments
             .Where(p => p.Status == "PAID"
@@ -218,11 +291,11 @@ public class PaymentService : IPaymentService
 
         return new RevenueDto
         {
-            LotId = lotId,
-            TotalRevenue = lotPayments.Sum(p => p.Amount),
+            LotId            = lotId,
+            TotalRevenue     = lotPayments.Sum(p => p.Amount),
             TotalTransactions = lotPayments.Count,
-            FromDate = from,
-            ToDate = to
+            FromDate         = from,
+            ToDate           = to
         };
     }
 
@@ -239,10 +312,10 @@ public class PaymentService : IPaymentService
 
         return new PlatformRevenueDto
         {
-            TotalRevenue = paid.Sum(p => p.Amount),
+            TotalRevenue      = paid.Sum(p => p.Amount),
             TotalTransactions = paid.Count,
-            FromDate = from,
-            ToDate = to
+            FromDate          = from,
+            ToDate            = to
         };
     }
 
@@ -253,25 +326,23 @@ public class PaymentService : IPaymentService
         return payments.Select(MapToDto).ToList();
     }
 
-    // ── Helpers ───────────────────────────────────────────────────────────────
-    private static string GenerateTransactionId() =>
-        $"TXN{DateTime.UtcNow:yyyyMMddHHmmss}{Random.Shared.Next(1000, 9999)}";
-
+    // ── Mapper ────────────────────────────────────────────────────────────────
     public static PaymentDto MapToDto(PaymentEntity p) => new()
     {
-        PaymentId = p.PaymentId,
-        BookingId = p.BookingId,
-        UserId = p.UserId,
-        Amount = p.Amount,
-        Status = p.Status,
-        Mode = p.Mode,
-        TransactionId = p.TransactionId,
-        Currency = p.Currency,
-        Description = p.Description,
-        PaidAt = p.PaidAt,
-        RefundedAt = p.RefundedAt,
-        RefundAmount = p.RefundAmount,
-        RefundReason = p.RefundReason,
-        CreatedAt = p.CreatedAt
+        PaymentId         = p.PaymentId,
+        BookingId         = p.BookingId,
+        UserId            = p.UserId,
+        Amount            = p.Amount,
+        Status            = p.Status,
+        Mode              = p.Mode,
+        RazorpayOrderId   = p.RazorpayOrderId,
+        RazorpayPaymentId = p.RazorpayPaymentId,
+        Currency          = p.Currency,
+        Description       = p.Description,
+        PaidAt            = p.PaidAt,
+        RefundedAt        = p.RefundedAt,
+        RefundAmount      = p.RefundAmount,
+        RefundReason      = p.RefundReason,
+        CreatedAt         = p.CreatedAt
     };
 }
