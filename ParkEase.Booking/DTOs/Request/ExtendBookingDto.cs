@@ -4,5 +4,6 @@ namespace ParkEase.Booking.DTOs.Request;
 
 public class ExtendBookingDto
 {
-    [Required] public DateTime NewEndTime { get; set; }
+    [Required(ErrorMessage = "NewEndTime is required.")]
+    public DateTime NewEndTime { get; set; }
 }
