@@ -8,7 +8,7 @@ public class SendNotificationDto
     [Required] public string Title { get; set; } = string.Empty;
     [Required] public string Message { get; set; } = string.Empty;
     [Required] public string Type { get; set; } = string.Empty;
-    public string Channel { get; set; } = "APP";
     public int? RelatedId { get; set; }
     public string? RelatedType { get; set; }
 }
+

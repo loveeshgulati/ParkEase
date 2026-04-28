@@ -1,4 +1,4 @@
-namespace ParkEase.Notification.Events.Booking;
+namespace ParkEase.Booking.Events.Published;
 
 public class BookingCheckedInEvent
 {
@@ -8,3 +8,4 @@ public class BookingCheckedInEvent
     public int SpotId { get; set; }
     public DateTime CheckInTime { get; set; }
 }
+

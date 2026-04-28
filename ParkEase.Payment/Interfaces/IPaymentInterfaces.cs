@@ -18,6 +18,7 @@ public interface IPaymentRepository
 public interface IPaymentService
 {
     // ── Driver actions ────────────────────────────────────────────────────────
+    Task<RazorpayOrderDto> CreateOrderAsync(CreateOrderDto request);
     Task<PaymentDto> ProcessPaymentAsync(int userId, ProcessPaymentDto request);
     Task<PaymentDto> GetPaymentByIdAsync(int paymentId, int userId, string role);
     Task<PaymentDto> GetPaymentByBookingIdAsync(int bookingId, int userId, string role);

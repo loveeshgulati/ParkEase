@@ -1,4 +1,4 @@
-namespace ParkEase.Notification.Events.Booking;
+namespace ParkEase.Booking.Events.Published;
 
 public class BookingExpiredEvent
 {
@@ -7,3 +7,4 @@ public class BookingExpiredEvent
     public int LotId { get; set; }
     public DateTime ExpiredAt { get; set; }
 }
+

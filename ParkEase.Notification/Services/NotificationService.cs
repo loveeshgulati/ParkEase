@@ -33,7 +33,6 @@ public class NotificationService : INotificationService
             Title = request.Title,
             Message = request.Message,
             Type = request.Type,
-            Channel = request.Channel,
             RelatedId = request.RelatedId,
             RelatedType = request.RelatedType,
             IsRead = false,
@@ -77,8 +76,7 @@ public class NotificationService : INotificationService
             RecipientId = id,
             Title = request.Title,
             Message = request.Message,
-            Type = "PROMO",
-            Channel = "APP"
+            Type = "PROMO"
         }));
 
         await Task.WhenAll(tasks);
@@ -154,7 +152,6 @@ public class NotificationService : INotificationService
         Title = n.Title,
         Message = n.Message,
         Type = n.Type,
-        Channel = n.Channel,
         RelatedId = n.RelatedId,
         RelatedType = n.RelatedType,
         IsRead = n.IsRead,

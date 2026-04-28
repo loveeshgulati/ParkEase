@@ -1,6 +1,6 @@
 using MassTransit;
 using ParkEase.Notification.DTOs.Requests;
-using ParkEase.Notification.Events.Auth;
+using ParkEase.Auth.Events.Published;
 using ParkEase.Notification.Interfaces;
 
 namespace ParkEase.Notification.Consumers.Auth;
@@ -18,8 +18,8 @@ public class DriverReactivatedConsumer : IConsumer<DriverReactivatedEvent>
             RecipientId = e.DriverId,
             Title = "Account Reactivated ✅",
             Message = "Your account has been reactivated. Welcome back!",
-            Type = "APPROVAL",
-            Channel = "APP"
+            Type = "APPROVAL"
         });
     }
 }
+

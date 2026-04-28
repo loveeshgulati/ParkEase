@@ -1,4 +1,4 @@
-namespace ParkEase.Notification.Events.Payment;
+namespace ParkEase.Payment.Events.Published;
 
 public class RefundProcessedEvent
 {
@@ -9,3 +9,4 @@ public class RefundProcessedEvent
     public string Reason { get; set; } = string.Empty;
     public DateTime RefundedAt { get; set; }
 }
+

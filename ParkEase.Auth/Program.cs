@@ -20,7 +20,6 @@ builder.Services.AddDbContext<AuthDbContext>(options =>
 
 // ── Repositories ──────────────────────────────────────────────────────────────
 builder.Services.AddScoped<IUserRepository, UserRepository>();
-builder.Services.AddScoped<IAuditLogRepository, AuditLogRepository>();
 
 // ── Services ──────────────────────────────────────────────────────────────────
 builder.Services.AddScoped<IAuthService, AuthService>();
@@ -145,7 +144,7 @@ app.UseSwaggerUI(c =>
 
 app.UseMiddleware<GlobalExceptionMiddleware>();
 app.UseCors("AllowAll");
-app.UseHttpsRedirection();
+//app.UseHttpsRedirection();
 app.UseAuthentication();
 app.UseAuthorization();
 app.UseMiddleware<JwtMiddleware>();

@@ -1,6 +1,6 @@
 using MassTransit;
 using ParkEase.Notification.DTOs.Requests;
-using ParkEase.Notification.Events.ParkingLot;
+using ParkEase.ParkingLot.Events.Published;
 using ParkEase.Notification.Interfaces;
 
 namespace ParkEase.Notification.Consumers.ParkingLot;
@@ -20,8 +20,8 @@ public class LotRejectedConsumer : IConsumer<LotRejectedEvent>
             Message = $"Your lot '{e.LotName}' was rejected. Reason: {e.Reason}",
             Type = "REJECTION",
             RelatedId = e.LotId,
-            RelatedType = "LOT",
-            Channel = "APP"
+            RelatedType = "LOT"
         });
     }
 }
+

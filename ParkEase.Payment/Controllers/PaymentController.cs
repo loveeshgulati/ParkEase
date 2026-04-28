@@ -27,6 +27,23 @@ public class PaymentController : ControllerBase
     // DRIVER
     // ═══════════════════════════════════════════════════════════════════════════
 
+    // POST /api/v1/payments/create-order
+    [HttpPost("create-order")]
+    [Authorize(Roles = "DRIVER")]
+    public async Task<IActionResult> CreateOrder([FromBody] CreateOrderDto request)
+    {
+        try
+        {
+            var result = await _paymentService.CreateOrderAsync(request);
+            return Ok(ApiResponse<RazorpayOrderDto>.Ok(result,
+                "Payment order created successfully"));
+        }
+        catch (InvalidOperationException ex)
+        {
+            return BadRequest(ApiResponse<object>.Fail(ex.Message));
+        }
+    }
+
     // POST /api/v1/payments/process
     [HttpPost("process")]
     [Authorize(Roles = "DRIVER")]

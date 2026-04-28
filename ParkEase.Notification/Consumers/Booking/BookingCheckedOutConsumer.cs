@@ -1,6 +1,6 @@
 using MassTransit;
 using ParkEase.Notification.DTOs.Requests;
-using ParkEase.Notification.Events.Booking;
+using ParkEase.Booking.Events.Published;
 using ParkEase.Notification.Interfaces;
 
 namespace ParkEase.Notification.Consumers.Booking;
@@ -20,8 +20,8 @@ public class BookingCheckedOutConsumer : IConsumer<BookingCheckedOutEvent>
             Message = $"Booking #{e.BookingId} completed. Total: ₹{e.TotalAmount}. Thank you!",
             Type = "CHECKOUT",
             RelatedId = e.BookingId,
-            RelatedType = "BOOKING",
-            Channel = "APP"
+            RelatedType = "BOOKING"
         });
     }
 }
+

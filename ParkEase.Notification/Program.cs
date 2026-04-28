@@ -93,6 +93,7 @@ builder.Services.AddMassTransit(x =>
     x.AddConsumer<DriverReactivatedConsumer>();
 
     // ParkingLot-service events
+    x.AddConsumer<LotCreatedConsumer>();
     x.AddConsumer<LotApprovedConsumer>();
     x.AddConsumer<LotRejectedConsumer>();
 
@@ -188,12 +189,12 @@ app.UseSwaggerUI(c =>
     c.RoutePrefix = "swagger";
 });
 app.UseMiddleware<GlobalExceptionMiddleware>();
-app.UseHttpsRedirection();
+//app.UseHttpsRedirection();
 app.UseSerilogRequestLogging();
 app.UseCors("AllowAll");
+app.UseMiddleware<JwtMiddleware>();
 app.UseAuthentication();
 app.UseAuthorization();
-app.UseMiddleware<JwtMiddleware>();
 app.MapControllers();
 app.MapHub<NotificationHub>("/hubs/notifications");
 app.MapHealthChecks("/health");

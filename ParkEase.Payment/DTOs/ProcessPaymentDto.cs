@@ -19,4 +19,9 @@ public class ProcessPaymentDto
 
     public string? TransactionId { get; set; }
     public string? Description { get; set; }
+    
+    // Razorpay fields for payment verification
+    public string? RazorpayOrderId { get; set; }
+    public string? RazorpayPaymentId { get; set; }
+    public string? RazorpaySignature { get; set; }
 }

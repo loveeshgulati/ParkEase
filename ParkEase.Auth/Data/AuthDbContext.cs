@@ -23,7 +23,6 @@ public class AuthDbContext : DbContext
     }
 
     public DbSet<User> Users => Set<User>();
-    public DbSet<AuditLog> AuditLogs => Set<AuditLog>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -54,20 +53,5 @@ public class AuthDbContext : DbContext
             entity.HasIndex(u => u.Email).IsUnique();
         });
 
-        modelBuilder.Entity<AuditLog>(entity =>
-        {
-            entity.ToTable("audit_logs");
-            entity.HasKey(a => a.AuditLogId);
-            entity.Property(a => a.AuditLogId).HasColumnName("audit_log_id").UseIdentityColumn();
-            entity.Property(a => a.ActorUserId).HasColumnName("actor_user_id");
-            entity.Property(a => a.Action).HasColumnName("action").HasMaxLength(50).IsRequired();
-            entity.Property(a => a.TargetUserId).HasColumnName("target_user_id");
-            entity.Property(a => a.Before).HasColumnName("before").HasColumnType("jsonb");
-            entity.Property(a => a.After).HasColumnName("after").HasColumnType("jsonb");
-            entity.Property(a => a.IpAddress).HasColumnName("ip_address").HasMaxLength(50);
-            entity.Property(a => a.Timestamp).HasColumnName("timestamp");
-            entity.Property(a => a.Success).HasColumnName("success").HasDefaultValue(true);
-            entity.Property(a => a.FailureReason).HasColumnName("failure_reason");
-        });
     }
 }

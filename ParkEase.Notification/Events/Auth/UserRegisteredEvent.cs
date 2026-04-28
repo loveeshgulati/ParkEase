@@ -1,4 +1,4 @@
-namespace ParkEase.Notification.Events.Auth;
+namespace ParkEase.Auth.Events.Published;
 
 public class UserRegisteredEvent
 {
@@ -8,3 +8,4 @@ public class UserRegisteredEvent
     public string Role { get; set; } = string.Empty;
     public DateTime RegisteredAt { get; set; }
 }
+

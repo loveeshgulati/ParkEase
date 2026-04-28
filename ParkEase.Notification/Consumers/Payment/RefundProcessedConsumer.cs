@@ -1,6 +1,6 @@
 using MassTransit;
 using ParkEase.Notification.DTOs.Requests;
-using ParkEase.Notification.Events.Payment;
+using ParkEase.Payment.Events.Published;
 using ParkEase.Notification.Interfaces;
 
 namespace ParkEase.Notification.Consumers.Payment;
@@ -20,8 +20,8 @@ public class RefundProcessedConsumer : IConsumer<RefundProcessedEvent>
             Message = $"₹{e.RefundAmount} refund processed for Booking #{e.BookingId}.",
             Type = "REFUND",
             RelatedId = e.PaymentId,
-            RelatedType = "PAYMENT",
-            Channel = "APP"
+            RelatedType = "PAYMENT"
         });
     }
 }
+

@@ -1,4 +1,4 @@
-namespace ParkEase.Notification.Events.Booking;
+namespace ParkEase.Booking.Events.Published;
 
 public class BookingCancelledEvent
 {
@@ -10,3 +10,4 @@ public class BookingCancelledEvent
     public double RefundAmount { get; set; }
     public DateTime CancelledAt { get; set; }
 }
+

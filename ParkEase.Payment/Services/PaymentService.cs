@@ -11,17 +11,39 @@ public class PaymentService : IPaymentService
     private readonly IPaymentRepository _repository;
     private readonly IPublishEndpoint _publishEndpoint;
     private readonly ILogger<PaymentService> _logger;
+    private readonly IRazorpayService _razorpayService;
 
     private static readonly string[] ValidModes = { "CARD", "UPI", "WALLET", "CASH" };
 
     public PaymentService(
         IPaymentRepository repository,
         IPublishEndpoint publishEndpoint,
-        ILogger<PaymentService> logger)
+        ILogger<PaymentService> logger,
+        IRazorpayService razorpayService)
     {
         _repository = repository;
         _publishEndpoint = publishEndpoint;
         _logger = logger;
+        _razorpayService = razorpayService;
+    }
+
+    // ── Create Razorpay Order ───────────────────────────────────────────────────
+    public async Task<RazorpayOrderDto> CreateOrderAsync(CreateOrderDto request)
+    {
+        var receipt = $"order_{DateTime.UtcNow:yyyyMMddHHmmss}_{Random.Shared.Next(1000, 9999)}";
+        var order = await _razorpayService.CreateOrderAsync(request.Amount, receipt);
+        
+        return new RazorpayOrderDto
+        {
+            Id = order.Id,
+            Entity = order.Entity,
+            Amount = order.Amount,
+            Currency = order.Currency,
+            Receipt = order.Receipt,
+            Status = order.Status,
+            Attempts = order.Attempts,
+            CreatedAt = order.CreatedAt
+        };
     }
 
     // ── Process Payment ───────────────────────────────────────────────────────
@@ -32,6 +54,20 @@ public class PaymentService : IPaymentService
         if (!ValidModes.Contains(mode))
             throw new InvalidOperationException(
                 $"Invalid payment mode. Must be: {string.Join(", ", ValidModes)}");
+
+        // Verify Razorpay payment signature
+        if (!string.IsNullOrEmpty(request.RazorpayOrderId) && 
+            !string.IsNullOrEmpty(request.RazorpayPaymentId) && 
+            !string.IsNullOrEmpty(request.RazorpaySignature))
+        {
+            var isValid = await _razorpayService.VerifyPaymentAsync(
+                request.RazorpayOrderId, 
+                request.RazorpayPaymentId, 
+                request.RazorpaySignature);
+            
+            if (!isValid)
+                throw new InvalidOperationException("Invalid payment signature. Payment verification failed.");
+        }
 
         // Check if payment already exists for this booking
         var existing = await _repository.FindByBookingIdAsync(request.BookingId);

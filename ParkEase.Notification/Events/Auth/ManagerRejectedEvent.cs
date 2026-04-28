@@ -1,4 +1,4 @@
-namespace ParkEase.Notification.Events.Auth;
+namespace ParkEase.Auth.Events.Published;
 
 public class ManagerRejectedEvent
 {
@@ -7,3 +7,4 @@ public class ManagerRejectedEvent
     public string Reason { get; set; } = string.Empty;
     public DateTime RejectedAt { get; set; }
 }
+

@@ -1,4 +1,4 @@
-namespace ParkEase.Notification.Events.Booking;
+namespace ParkEase.Booking.Events.Published;
 
 public class BookingExtendedEvent
 {
@@ -7,3 +7,4 @@ public class BookingExtendedEvent
     public DateTime NewEndTime { get; set; }
     public DateTime ExtendedAt { get; set; }
 }
+
