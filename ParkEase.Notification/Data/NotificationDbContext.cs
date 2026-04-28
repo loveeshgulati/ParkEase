@@ -28,7 +28,7 @@ public class NotificationDbContext : DbContext
                 .HasColumnName("message").IsRequired();
             entity.Property(n => n.Type)
                 .HasColumnName("type").HasMaxLength(30).IsRequired();
-            entity.Property(n => n.Channel)
+            entity.Property<string>("Channel")
                 .HasColumnName("channel").HasMaxLength(10).HasDefaultValue("APP");
             entity.Property(n => n.RelatedId).HasColumnName("related_id");
             entity.Property(n => n.RelatedType)

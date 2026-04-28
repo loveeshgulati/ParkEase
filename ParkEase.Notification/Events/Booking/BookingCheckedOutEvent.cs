@@ -1,4 +1,4 @@
-namespace ParkEase.Notification.Events.Booking;
+namespace ParkEase.Booking.Events.Published;
 
 public class BookingCheckedOutEvent
 {
@@ -8,3 +8,4 @@ public class BookingCheckedOutEvent
     public double TotalAmount { get; set; }
     public DateTime CheckOutTime { get; set; }
 }
+

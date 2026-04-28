@@ -1,4 +1,4 @@
-namespace ParkEase.Notification.Events.Auth;
+namespace ParkEase.Auth.Events.Published;
 
 public class ManagerApprovedEvent
 {
@@ -8,3 +8,4 @@ public class ManagerApprovedEvent
     public int ApprovedByAdminId { get; set; }
     public DateTime ApprovedAt { get; set; }
 }
+

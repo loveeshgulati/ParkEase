@@ -1,4 +1,4 @@
-namespace ParkEase.Notification.Events.Payment;
+namespace ParkEase.Payment.Events.Published;
 
 public class PaymentProcessedEvent
 {
@@ -10,3 +10,4 @@ public class PaymentProcessedEvent
     public string? TransactionId { get; set; }
     public DateTime PaidAt { get; set; }
 }
+

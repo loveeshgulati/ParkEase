@@ -78,8 +78,8 @@ public class BookingService : IBookingService
             VehicleType = request.VehicleType.ToUpper(),
             BookingType = bookingType,
             Status = "RESERVED",
-            StartTime = request.StartTime,
-            EndTime = request.EndTime,
+            StartTime = request.StartTime.Kind == DateTimeKind.Unspecified ? DateTime.SpecifyKind(request.StartTime, DateTimeKind.Utc) : request.StartTime.ToUniversalTime(),
+            EndTime = request.EndTime.Kind == DateTimeKind.Unspecified ? DateTime.SpecifyKind(request.EndTime, DateTimeKind.Utc) : request.EndTime.ToUniversalTime(),
             TotalAmount = 0,
             CreatedAt = DateTime.UtcNow
         };

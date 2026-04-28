@@ -1,6 +1,6 @@
 using MassTransit;
 using ParkEase.Notification.DTOs.Requests;
-using ParkEase.Notification.Events.Auth;
+using ParkEase.Auth.Events.Published;
 using ParkEase.Notification.Interfaces;
 
 namespace ParkEase.Notification.Consumers.Auth;
@@ -18,8 +18,8 @@ public class ManagerApprovedConsumer : IConsumer<ManagerApprovedEvent>
             RecipientId = e.ManagerId,
             Title = "Account Approved ✅",
             Message = "Your manager account has been approved. You can now create parking lots.",
-            Type = "APPROVAL",
-            Channel = "APP"
+            Type = "APPROVAL"
         });
     }
 }
+

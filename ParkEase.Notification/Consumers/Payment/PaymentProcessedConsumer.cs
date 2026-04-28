@@ -1,6 +1,6 @@
 using MassTransit;
 using ParkEase.Notification.DTOs.Requests;
-using ParkEase.Notification.Events.Payment;
+using ParkEase.Payment.Events.Published;
 using ParkEase.Notification.Interfaces;
 
 namespace ParkEase.Notification.Consumers.Payment;
@@ -20,8 +20,8 @@ public class PaymentProcessedConsumer : IConsumer<PaymentProcessedEvent>
             Message = $"₹{e.Amount} paid via {e.Mode}. TxnId: {e.TransactionId}",
             Type = "PAYMENT",
             RelatedId = e.PaymentId,
-            RelatedType = "PAYMENT",
-            Channel = "APP"
+            RelatedType = "PAYMENT"
         });
     }
 }
+

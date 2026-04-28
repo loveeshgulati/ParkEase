@@ -27,6 +27,9 @@ builder.Host.UseSerilog();
 builder.Services.AddDbContext<PaymentDbContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
 
+// ── HttpClient for Razorpay ─────────────────────────────────────────────────────
+builder.Services.AddHttpClient<IRazorpayService, RazorpayService>();
+
 // ── Repository + Service ──────────────────────────────────────────────────────
 builder.Services.AddScoped<IPaymentRepository, PaymentRepository>();
 builder.Services.AddScoped<IPaymentService, PaymentService>();

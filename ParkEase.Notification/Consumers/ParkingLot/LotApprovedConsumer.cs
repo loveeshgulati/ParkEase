@@ -1,6 +1,6 @@
 using MassTransit;
 using ParkEase.Notification.DTOs.Requests;
-using ParkEase.Notification.Events.ParkingLot;
+using ParkEase.ParkingLot.Events.Published;
 using ParkEase.Notification.Interfaces;
 
 namespace ParkEase.Notification.Consumers.ParkingLot;
@@ -20,8 +20,8 @@ public class LotApprovedConsumer : IConsumer<LotApprovedEvent>
             Message = $"Your lot '{e.LotName}' has been approved. You can now add spots and open it.",
             Type = "APPROVAL",
             RelatedId = e.LotId,
-            RelatedType = "LOT",
-            Channel = "APP"
+            RelatedType = "LOT"
         });
     }
 }
+

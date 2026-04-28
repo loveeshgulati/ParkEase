@@ -1,6 +1,6 @@
 using MassTransit;
 using ParkEase.Notification.DTOs.Requests;
-using ParkEase.Notification.Events.Booking;
+using ParkEase.Booking.Events.Published;
 using ParkEase.Notification.Interfaces;
 
 namespace ParkEase.Notification.Consumers.Booking;
@@ -20,8 +20,8 @@ public class BookingExtendedConsumer : IConsumer<BookingExtendedEvent>
             Message = $"Booking #{e.BookingId} extended to {e.NewEndTime:dd MMM HH:mm}.",
             Type = "BOOKING",
             RelatedId = e.BookingId,
-            RelatedType = "BOOKING",
-            Channel = "APP"
+            RelatedType = "BOOKING"
         });
     }
 }
+

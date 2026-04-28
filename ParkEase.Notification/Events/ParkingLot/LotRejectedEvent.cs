@@ -1,4 +1,4 @@
-namespace ParkEase.Notification.Events.ParkingLot;
+namespace ParkEase.ParkingLot.Events.Published;
 
 public class LotRejectedEvent
 {
@@ -8,3 +8,4 @@ public class LotRejectedEvent
     public string Reason { get; set; } = string.Empty;
     public DateTime RejectedAt { get; set; }
 }
+

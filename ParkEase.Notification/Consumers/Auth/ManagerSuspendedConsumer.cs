@@ -1,6 +1,6 @@
 using MassTransit;
 using ParkEase.Notification.DTOs.Requests;
-using ParkEase.Notification.Events.Auth;
+using ParkEase.Auth.Events.Published;
 using ParkEase.Notification.Interfaces;
 
 namespace ParkEase.Notification.Consumers.Auth;
@@ -18,8 +18,8 @@ public class ManagerSuspendedConsumer : IConsumer<ManagerSuspendedEvent>
             RecipientId = e.ManagerId,
             Title = "Account Suspended",
             Message = $"Your account has been suspended. Reason: {e.Reason}. Contact support.",
-            Type = "SUSPENSION",
-            Channel = "APP"
+            Type = "SUSPENSION"
         });
     }
 }
+

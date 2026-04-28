@@ -20,3 +20,27 @@ public class PaymentDto
     public string? RefundReason { get; set; }
     public DateTime CreatedAt { get; set; }
 }
+
+/// <summary>
+/// DTO for creating Razorpay order
+/// </summary>
+public class CreateOrderDto
+{
+    public decimal Amount { get; set; }
+    public string Receipt { get; set; } = string.Empty;
+}
+
+/// <summary>
+/// DTO for Razorpay order response
+/// </summary>
+public class RazorpayOrderDto
+{
+    public string Id { get; set; } = string.Empty;
+    public string Entity { get; set; } = string.Empty;
+    public int Amount { get; set; }
+    public string Currency { get; set; } = string.Empty;
+    public string Receipt { get; set; } = string.Empty;
+    public string Status { get; set; } = string.Empty;
+    public int Attempts { get; set; }
+    public DateTime CreatedAt { get; set; }
+}

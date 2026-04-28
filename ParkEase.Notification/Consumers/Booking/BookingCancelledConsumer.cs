@@ -1,6 +1,6 @@
 using MassTransit;
 using ParkEase.Notification.DTOs.Requests;
-using ParkEase.Notification.Events.Booking;
+using ParkEase.Booking.Events.Published;
 using ParkEase.Notification.Interfaces;
 
 namespace ParkEase.Notification.Consumers.Booking;
@@ -24,8 +24,8 @@ public class BookingCancelledConsumer : IConsumer<BookingCancelledEvent>
             Message = $"Booking #{e.BookingId} has been cancelled.{refundMsg}",
             Type = "BOOKING",
             RelatedId = e.BookingId,
-            RelatedType = "BOOKING",
-            Channel = "APP"
+            RelatedType = "BOOKING"
         });
     }
 }
+

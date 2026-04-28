@@ -1,6 +1,6 @@
 using MassTransit;
 using ParkEase.Notification.DTOs.Requests;
-using ParkEase.Notification.Events.Auth;
+using ParkEase.Auth.Events.Published;
 using ParkEase.Notification.Interfaces;
 
 namespace ParkEase.Notification.Consumers.Auth;
@@ -18,8 +18,8 @@ public class ManagerRejectedConsumer : IConsumer<ManagerRejectedEvent>
             RecipientId = e.ManagerId,
             Title = "Account Application Rejected",
             Message = $"Your manager application was rejected. Reason: {e.Reason}",
-            Type = "REJECTION",
-            Channel = "APP"
+            Type = "REJECTION"
         });
     }
 }
+

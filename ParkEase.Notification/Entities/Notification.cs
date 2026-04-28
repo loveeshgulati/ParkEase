@@ -11,9 +11,6 @@ public class Notification
     // REFUND | APPROVAL | REJECTION | SUSPENSION | WELCOME | PROMO
     public string Type { get; set; } = string.Empty;
 
-    // APP | EMAIL | SMS
-    public string Channel { get; set; } = "APP";
-
     public int? RelatedId { get; set; }
     public string? RelatedType { get; set; }
     public bool IsRead { get; set; } = false;

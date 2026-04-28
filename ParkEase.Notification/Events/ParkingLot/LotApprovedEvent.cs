@@ -1,4 +1,4 @@
-namespace ParkEase.Notification.Events.ParkingLot;
+namespace ParkEase.ParkingLot.Events.Published;
 
 public class LotApprovedEvent
 {
@@ -7,3 +7,4 @@ public class LotApprovedEvent
     public string LotName { get; set; } = string.Empty;
     public DateTime ApprovedAt { get; set; }
 }
+
