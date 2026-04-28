@@ -4,7 +4,7 @@ services:
     name: parkease-rabbitmq
     runtime: docker
     dockerContext: .
-    dockerFilePath: Dockerfile.rabbitmq
+    dockerfilePath: Dockerfile.rabbitmq
     envVars:
       - key: RABBITMQ_DEFAULT_USER
         value: guest
@@ -16,7 +16,7 @@ services:
     name: parkease-auth
     runtime: docker
     dockerContext: .
-    dockerFilePath: ParkEase.Auth/Dockerfile
+    dockerfilePath: ParkEase.Auth/Dockerfile
     envVars:
       - key: ASPNETCORE_ENVIRONMENT
         value: Production
@@ -30,7 +30,7 @@ services:
     name: parkease-booking
     runtime: docker
     dockerContext: .
-    dockerFilePath: ParkEase.Booking/Dockerfile
+    dockerfilePath: ParkEase.Booking/Dockerfile
     envVars:
       - key: ASPNETCORE_ENVIRONMENT
         value: Production
@@ -46,7 +46,7 @@ services:
     name: parkease-notification
     runtime: docker
     dockerContext: .
-    dockerFilePath: ParkEase.Notification/Dockerfile
+    dockerfilePath: ParkEase.Notification/Dockerfile
     envVars:
       - key: ASPNETCORE_ENVIRONMENT
         value: Production
@@ -60,7 +60,7 @@ services:
     name: parkease-parkinglot
     runtime: docker
     dockerContext: .
-    dockerFilePath: ParkEase.ParkingLot/Dockerfile
+    dockerfilePath: ParkEase.ParkingLot/Dockerfile
     envVars:
       - key: ASPNETCORE_ENVIRONMENT
         value: Production
@@ -74,7 +74,7 @@ services:
     name: parkease-payment
     runtime: docker
     dockerContext: .
-    dockerFilePath: ParkEase.Payment/Dockerfile
+    dockerfilePath: ParkEase.Payment/Dockerfile
     envVars:
       - key: ASPNETCORE_ENVIRONMENT
         value: Production
@@ -88,7 +88,7 @@ services:
     name: parkease-spot
     runtime: docker
     dockerContext: .
-    dockerFilePath: ParkEase.Spot/Dockerfile
+    dockerfilePath: ParkEase.Spot/Dockerfile
     envVars:
       - key: ASPNETCORE_ENVIRONMENT
         value: Production
@@ -102,7 +102,7 @@ services:
     name: parkease-vehicle
     runtime: docker
     dockerContext: .
-    dockerFilePath: ParkEase.Vehicle/Dockerfile
+    dockerfilePath: ParkEase.Vehicle/Dockerfile
     envVars:
       - key: ASPNETCORE_ENVIRONMENT
         value: Production
