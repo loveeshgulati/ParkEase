@@ -10,11 +10,11 @@ services:
     envVars:
       - key: ASPNETCORE_ENVIRONMENT
         value: Production
-      - key: Jwt__Secret
+      - key: JWT_SECRET
         value: ParkEase_SuperSecret_JWT_Key_MinLength32Chars!
-      - key: Jwt__Issuer
+      - key: JWT_ISSUER
         value: ParkEase.Auth
-      - key: Jwt__Audience
+      - key: JWT_AUDIENCE
         value: ParkEase.Client
       - key: RabbitMQ__Host
         value: shrimp.rmq.cloudamqp.com
@@ -38,11 +38,11 @@ services:
     envVars:
       - key: ASPNETCORE_ENVIRONMENT
         value: Production
-      - key: Jwt__Secret
+      - key: JWT_SECRET
         value: ParkEase_SuperSecret_JWT_Key_MinLength32Chars!
-      - key: Jwt__Issuer
+      - key: JWT_ISSUER
         value: ParkEase.Auth
-      - key: Jwt__Audience
+      - key: JWT_AUDIENCE
         value: ParkEase.Client
       - key: RabbitMQ__Host
         value: shrimp.rmq.cloudamqp.com
@@ -68,11 +68,11 @@ services:
     envVars:
       - key: ASPNETCORE_ENVIRONMENT
         value: Production
-      - key: Jwt__Secret
+      - key: JWT_SECRET
         value: ParkEase_SuperSecret_JWT_Key_MinLength32Chars!
-      - key: Jwt__Issuer
+      - key: JWT_ISSUER
         value: ParkEase.Auth
-      - key: Jwt__Audience
+      - key: JWT_AUDIENCE
         value: ParkEase.Client
       - key: RabbitMQ__Host
         value: shrimp.rmq.cloudamqp.com
@@ -96,11 +96,11 @@ services:
     envVars:
       - key: ASPNETCORE_ENVIRONMENT
         value: Production
-      - key: Jwt__Secret
+      - key: JWT_SECRET
         value: ParkEase_SuperSecret_JWT_Key_MinLength32Chars!
-      - key: Jwt__Issuer
+      - key: JWT_ISSUER
         value: ParkEase.Auth
-      - key: Jwt__Audience
+      - key: JWT_AUDIENCE
         value: ParkEase.Client
       - key: RabbitMQ__Host
         value: shrimp.rmq.cloudamqp.com
@@ -124,11 +124,11 @@ services:
     envVars:
       - key: ASPNETCORE_ENVIRONMENT
         value: Production
-      - key: Jwt__Secret
+      - key: JWT_SECRET
         value: ParkEase_SuperSecret_JWT_Key_MinLength32Chars!
-      - key: Jwt__Issuer
+      - key: JWT_ISSUER
         value: ParkEase.Auth
-      - key: Jwt__Audience
+      - key: JWT_AUDIENCE
         value: ParkEase.Client
       - key: RabbitMQ__Host
         value: shrimp.rmq.cloudamqp.com
@@ -152,11 +152,11 @@ services:
     envVars:
       - key: ASPNETCORE_ENVIRONMENT
         value: Production
-      - key: Jwt__Secret
+      - key: JWT_SECRET
         value: ParkEase_SuperSecret_JWT_Key_MinLength32Chars!
-      - key: Jwt__Issuer
+      - key: JWT_ISSUER
         value: ParkEase.Auth
-      - key: Jwt__Audience
+      - key: JWT_AUDIENCE
         value: ParkEase.Client
       - key: RabbitMQ__Host
         value: shrimp.rmq.cloudamqp.com
@@ -180,11 +180,11 @@ services:
     envVars:
       - key: ASPNETCORE_ENVIRONMENT
         value: Production
-      - key: Jwt__Secret
+      - key: JWT_SECRET
         value: ParkEase_SuperSecret_JWT_Key_MinLength32Chars!
-      - key: Jwt__Issuer
+      - key: JWT_ISSUER
         value: ParkEase.Auth
-      - key: Jwt__Audience
+      - key: JWT_AUDIENCE
         value: ParkEase.Client
       - key: RabbitMQ__Host
         value: shrimp.rmq.cloudamqp.com

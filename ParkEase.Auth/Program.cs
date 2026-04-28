@@ -26,7 +26,7 @@ builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<IAdminService, AdminService>();
 
 // ── JWT Authentication ────────────────────────────────────────────────────────
-var jwtSecret = builder.Configuration["Jwt:Secret"]!;
+var jwtSecret = builder.Configuration["JWT_SECRET"] ?? builder.Configuration["Jwt:Secret"]!;
 Console.WriteLine($"DEBUG: JWT Secret is configured. Length: {jwtSecret.Length}");
 var key = Encoding.UTF8.GetBytes(jwtSecret);
 
@@ -42,9 +42,9 @@ builder.Services.AddAuthentication(options =>
         ValidateIssuerSigningKey = true,
         IssuerSigningKey = new SymmetricSecurityKey(key),
         ValidateIssuer = true,
-        ValidIssuer = builder.Configuration["Jwt:Issuer"],
+        ValidIssuer = builder.Configuration["JWT_ISSUER"] ?? builder.Configuration["Jwt:Issuer"],
         ValidateAudience = true,
-        ValidAudience = builder.Configuration["Jwt:Audience"],
+        ValidAudience = builder.Configuration["JWT_AUDIENCE"] ?? builder.Configuration["Jwt:Audience"],
         ValidateLifetime = true,
         ClockSkew = TimeSpan.Zero,
         RoleClaimType = System.Security.Claims.ClaimTypes.Role
