@@ -195,7 +195,7 @@ app.UseCors("AllowAll");
 app.UseMiddleware<JwtMiddleware>();
 app.UseAuthentication();
 app.UseAuthorization();
-app.MapControllers();
+app.MapGet("/", () => Results.Redirect("/swagger"));`napp.MapGet("/", () => Results.Redirect("/swagger"));`napp.MapControllers();
 app.MapHub<NotificationHub>("/hubs/notifications");
 app.MapHealthChecks("/health");
 

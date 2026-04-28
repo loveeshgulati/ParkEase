@@ -6,6 +6,7 @@ services:
     runtime: docker
     dockerContext: .
     dockerfilePath: ParkEase.Auth/Dockerfile
+    healthCheckPath: /health
     envVars:
       - key: ASPNETCORE_ENVIRONMENT
         value: Production
@@ -27,6 +28,7 @@ services:
     runtime: docker
     dockerContext: .
     dockerfilePath: ParkEase.Booking/Dockerfile
+    healthCheckPath: /health
     envVars:
       - key: ASPNETCORE_ENVIRONMENT
         value: Production
@@ -50,6 +52,7 @@ services:
     runtime: docker
     dockerContext: .
     dockerfilePath: ParkEase.Notification/Dockerfile
+    healthCheckPath: /health
     envVars:
       - key: ASPNETCORE_ENVIRONMENT
         value: Production
@@ -71,6 +74,7 @@ services:
     runtime: docker
     dockerContext: .
     dockerfilePath: ParkEase.ParkingLot/Dockerfile
+    healthCheckPath: /health
     envVars:
       - key: ASPNETCORE_ENVIRONMENT
         value: Production
@@ -92,6 +96,7 @@ services:
     runtime: docker
     dockerContext: .
     dockerfilePath: ParkEase.Payment/Dockerfile
+    healthCheckPath: /health
     envVars:
       - key: ASPNETCORE_ENVIRONMENT
         value: Production
