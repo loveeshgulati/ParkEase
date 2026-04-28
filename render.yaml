@@ -1,19 +1,8 @@
 services:
-  # RabbitMQ (Private Service)
-  - type: pserv
-    name: parkease-rabbitmq
-    runtime: docker
-    dockerContext: .
-    dockerfilePath: Dockerfile.rabbitmq
-    envVars:
-      - key: RABBITMQ_DEFAULT_USER
-        value: guest
-      - key: RABBITMQ_DEFAULT_PASS
-        value: guest
-
   # Auth Service
   - type: web
     name: parkease-auth
+    plan: free
     runtime: docker
     dockerContext: .
     dockerfilePath: ParkEase.Auth/Dockerfile
@@ -21,13 +10,14 @@ services:
       - key: ASPNETCORE_ENVIRONMENT
         value: Production
       - key: RabbitMQ__Host
-        value: parkease-rabbitmq
+        sync: false # User should provide external RabbitMQ host (e.g. from CloudAMQP)
       - key: ConnectionStrings__DefaultConnection
         value: Host=dpg-d7is8kvaqgkc73a4d3f0-a.virginia-postgres.render.com;Port=5432;Database=parkease_auth;Username=parkease_yfo2_user;Password=EVSwWebkrsxGPZiLjqGsnYxh8eEcFn0W;SSL Mode=Require;TrustServerCertificate=true
 
   # Booking Service
   - type: web
     name: parkease-booking
+    plan: free
     runtime: docker
     dockerContext: .
     dockerfilePath: ParkEase.Booking/Dockerfile
@@ -35,7 +25,7 @@ services:
       - key: ASPNETCORE_ENVIRONMENT
         value: Production
       - key: RabbitMQ__Host
-        value: parkease-rabbitmq
+        sync: false
       - key: ConnectionStrings__DefaultConnection
         value: Host=dpg-d7is8kvaqgkc73a4d3f0-a.virginia-postgres.render.com;Port=5432;Database=parkease_booking;Username=parkease_yfo2_user;Password=EVSwWebkrsxGPZiLjqGsnYxh8eEcFn0W;SSL Mode=Require;TrustServerCertificate=true
       - key: ServiceUrls__SpotService
@@ -44,6 +34,7 @@ services:
   # Notification Service
   - type: web
     name: parkease-notification
+    plan: free
     runtime: docker
     dockerContext: .
     dockerfilePath: ParkEase.Notification/Dockerfile
@@ -51,13 +42,14 @@ services:
       - key: ASPNETCORE_ENVIRONMENT
         value: Production
       - key: RabbitMQ__Host
-        value: parkease-rabbitmq
+        sync: false
       - key: ConnectionStrings__DefaultConnection
         value: Host=dpg-d7is8kvaqgkc73a4d3f0-a.virginia-postgres.render.com;Port=5432;Database=parkease_notification;Username=parkease_yfo2_user;Password=EVSwWebkrsxGPZiLjqGsnYxh8eEcFn0W;SSL Mode=Require;TrustServerCertificate=true
 
   # ParkingLot Service
   - type: web
     name: parkease-parkinglot
+    plan: free
     runtime: docker
     dockerContext: .
     dockerfilePath: ParkEase.ParkingLot/Dockerfile
@@ -65,13 +57,14 @@ services:
       - key: ASPNETCORE_ENVIRONMENT
         value: Production
       - key: RabbitMQ__Host
-        value: parkease-rabbitmq
+        sync: false
       - key: ConnectionStrings__DefaultConnection
         value: Host=dpg-d7is8kvaqgkc73a4d3f0-a.virginia-postgres.render.com;Port=5432;Database=parkease_parkinglot;Username=parkease_yfo2_user;Password=EVSwWebkrsxGPZiLjqGsnYxh8eEcFn0W;SSL Mode=Require;TrustServerCertificate=true
 
   # Payment Service
   - type: web
     name: parkease-payment
+    plan: free
     runtime: docker
     dockerContext: .
     dockerfilePath: ParkEase.Payment/Dockerfile
@@ -79,13 +72,14 @@ services:
       - key: ASPNETCORE_ENVIRONMENT
         value: Production
       - key: RabbitMQ__Host
-        value: parkease-rabbitmq
+        sync: false
       - key: ConnectionStrings__DefaultConnection
         value: Host=dpg-d7is8kvaqgkc73a4d3f0-a.virginia-postgres.render.com;Port=5432;Database=parkease_payment;Username=parkease_yfo2_user;Password=EVSwWebkrsxGPZiLjqGsnYxh8eEcFn0W;SSL Mode=Require;TrustServerCertificate=true
 
   # Spot Service
   - type: web
     name: parkease-spot
+    plan: free
     runtime: docker
     dockerContext: .
     dockerfilePath: ParkEase.Spot/Dockerfile
@@ -93,13 +87,14 @@ services:
       - key: ASPNETCORE_ENVIRONMENT
         value: Production
       - key: RabbitMQ__Host
-        value: parkease-rabbitmq
+        sync: false
       - key: ConnectionStrings__DefaultConnection
         value: Host=dpg-d7is8kvaqgkc73a4d3f0-a.virginia-postgres.render.com;Port=5432;Database=parkease_spot;Username=parkease_yfo2_user;Password=EVSwWebkrsxGPZiLjqGsnYxh8eEcFn0W;SSL Mode=Require;TrustServerCertificate=true
 
   # Vehicle Service
   - type: web
     name: parkease-vehicle
+    plan: free
     runtime: docker
     dockerContext: .
     dockerfilePath: ParkEase.Vehicle/Dockerfile
@@ -107,6 +102,6 @@ services:
       - key: ASPNETCORE_ENVIRONMENT
         value: Production
       - key: RabbitMQ__Host
-        value: parkease-rabbitmq
+        sync: false
       - key: ConnectionStrings__DefaultConnection
         value: Host=dpg-d7is8kvaqgkc73a4d3f0-a.virginia-postgres.render.com;Port=5432;Database=parkease_vehicle;Username=parkease_yfo2_user;Password=EVSwWebkrsxGPZiLjqGsnYxh8eEcFn0W;SSL Mode=Require;TrustServerCertificate=true
