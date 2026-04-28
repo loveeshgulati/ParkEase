@@ -10,7 +10,13 @@ services:
       - key: ASPNETCORE_ENVIRONMENT
         value: Production
       - key: RabbitMQ__Host
-        sync: false # User should provide external RabbitMQ host (e.g. from CloudAMQP)
+        value: shrimp.rmq.cloudamqp.com
+      - key: RabbitMQ__Username
+        value: uqfenpdj
+      - key: RabbitMQ__Password
+        value: cHciJ4wVhs-QytxK9p6i6FnqxHyAwGRY
+      - key: RabbitMQ__VirtualHost
+        value: uqfenpdj
       - key: ConnectionStrings__DefaultConnection
         value: Host=dpg-d7is8kvaqgkc73a4d3f0-a.virginia-postgres.render.com;Port=5432;Database=parkease_auth;Username=parkease_yfo2_user;Password=EVSwWebkrsxGPZiLjqGsnYxh8eEcFn0W;SSL Mode=Require;TrustServerCertificate=true
 
@@ -25,7 +31,13 @@ services:
       - key: ASPNETCORE_ENVIRONMENT
         value: Production
       - key: RabbitMQ__Host
-        sync: false
+        value: shrimp.rmq.cloudamqp.com
+      - key: RabbitMQ__Username
+        value: uqfenpdj
+      - key: RabbitMQ__Password
+        value: cHciJ4wVhs-QytxK9p6i6FnqxHyAwGRY
+      - key: RabbitMQ__VirtualHost
+        value: uqfenpdj
       - key: ConnectionStrings__DefaultConnection
         value: Host=dpg-d7is8kvaqgkc73a4d3f0-a.virginia-postgres.render.com;Port=5432;Database=parkease_booking;Username=parkease_yfo2_user;Password=EVSwWebkrsxGPZiLjqGsnYxh8eEcFn0W;SSL Mode=Require;TrustServerCertificate=true
       - key: ServiceUrls__SpotService
@@ -42,7 +54,13 @@ services:
       - key: ASPNETCORE_ENVIRONMENT
         value: Production
       - key: RabbitMQ__Host
-        sync: false
+        value: shrimp.rmq.cloudamqp.com
+      - key: RabbitMQ__Username
+        value: uqfenpdj
+      - key: RabbitMQ__Password
+        value: cHciJ4wVhs-QytxK9p6i6FnqxHyAwGRY
+      - key: RabbitMQ__VirtualHost
+        value: uqfenpdj
       - key: ConnectionStrings__DefaultConnection
         value: Host=dpg-d7is8kvaqgkc73a4d3f0-a.virginia-postgres.render.com;Port=5432;Database=parkease_notification;Username=parkease_yfo2_user;Password=EVSwWebkrsxGPZiLjqGsnYxh8eEcFn0W;SSL Mode=Require;TrustServerCertificate=true
 
@@ -57,7 +75,13 @@ services:
       - key: ASPNETCORE_ENVIRONMENT
         value: Production
       - key: RabbitMQ__Host
-        sync: false
+        value: shrimp.rmq.cloudamqp.com
+      - key: RabbitMQ__Username
+        value: uqfenpdj
+      - key: RabbitMQ__Password
+        value: cHciJ4wVhs-QytxK9p6i6FnqxHyAwGRY
+      - key: RabbitMQ__VirtualHost
+        value: uqfenpdj
       - key: ConnectionStrings__DefaultConnection
         value: Host=dpg-d7is8kvaqgkc73a4d3f0-a.virginia-postgres.render.com;Port=5432;Database=parkease_parkinglot;Username=parkease_yfo2_user;Password=EVSwWebkrsxGPZiLjqGsnYxh8eEcFn0W;SSL Mode=Require;TrustServerCertificate=true
 
@@ -72,7 +96,13 @@ services:
       - key: ASPNETCORE_ENVIRONMENT
         value: Production
       - key: RabbitMQ__Host
-        sync: false
+        value: shrimp.rmq.cloudamqp.com
+      - key: RabbitMQ__Username
+        value: uqfenpdj
+      - key: RabbitMQ__Password
+        value: cHciJ4wVhs-QytxK9p6i6FnqxHyAwGRY
+      - key: RabbitMQ__VirtualHost
+        value: uqfenpdj
       - key: ConnectionStrings__DefaultConnection
         value: Host=dpg-d7is8kvaqgkc73a4d3f0-a.virginia-postgres.render.com;Port=5432;Database=parkease_payment;Username=parkease_yfo2_user;Password=EVSwWebkrsxGPZiLjqGsnYxh8eEcFn0W;SSL Mode=Require;TrustServerCertificate=true
 
@@ -87,7 +117,13 @@ services:
       - key: ASPNETCORE_ENVIRONMENT
         value: Production
       - key: RabbitMQ__Host
-        sync: false
+        value: shrimp.rmq.cloudamqp.com
+      - key: RabbitMQ__Username
+        value: uqfenpdj
+      - key: RabbitMQ__Password
+        value: cHciJ4wVhs-QytxK9p6i6FnqxHyAwGRY
+      - key: RabbitMQ__VirtualHost
+        value: uqfenpdj
       - key: ConnectionStrings__DefaultConnection
         value: Host=dpg-d7is8kvaqgkc73a4d3f0-a.virginia-postgres.render.com;Port=5432;Database=parkease_spot;Username=parkease_yfo2_user;Password=EVSwWebkrsxGPZiLjqGsnYxh8eEcFn0W;SSL Mode=Require;TrustServerCertificate=true
 
@@ -102,6 +138,12 @@ services:
       - key: ASPNETCORE_ENVIRONMENT
         value: Production
       - key: RabbitMQ__Host
-        sync: false
+        value: shrimp.rmq.cloudamqp.com
+      - key: RabbitMQ__Username
+        value: uqfenpdj
+      - key: RabbitMQ__Password
+        value: cHciJ4wVhs-QytxK9p6i6FnqxHyAwGRY
+      - key: RabbitMQ__VirtualHost
+        value: uqfenpdj
       - key: ConnectionStrings__DefaultConnection
         value: Host=dpg-d7is8kvaqgkc73a4d3f0-a.virginia-postgres.render.com;Port=5432;Database=parkease_vehicle;Username=parkease_yfo2_user;Password=EVSwWebkrsxGPZiLjqGsnYxh8eEcFn0W;SSL Mode=Require;TrustServerCertificate=true
