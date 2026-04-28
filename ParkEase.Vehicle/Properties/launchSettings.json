@@ -1,0 +1,37 @@
+{
+  "profiles": {
+    "ParkEase.Vehicle": {
+      "commandName": "Project",
+      "dotnetRunMessages": true,
+      "launchBrowser": false,
+      "applicationUrl": "http://localhost:7004",
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        "ConnectionStrings__DefaultConnection": "Host=dpg-d7is8kvaqgkc73a4d3f0-a.virginia-postgres.render.com;Port=5432;Database=parkease_vehicle;Username=parkease_yfo2_user;Password=EVSwWebkrsxGPZiLjqGsnYxh8eEcFn0W;SSL Mode=Require;Trust Server Certificate=true"
+      }
+    },
+    "Development": {
+      "commandName": "Project",
+      "dotnetRunMessages": true,
+      "launchBrowser": false,
+      "applicationUrl": "http://localhost:7004",
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        "ConnectionStrings__DefaultConnection": "Host=dpg-d7is8kvaqgkc73a4d3f0-a.virginia-postgres.render.com;Port=5432;Database=parkease_vehicle;Username=parkease_yfo2_user;Password=EVSwWebkrsxGPZiLjqGsnYxh8eEcFn0W;SSL Mode=Require;Trust Server Certificate=true",
+        "RABBITMQ__HOST": "localhost",
+        "RABBITMQ__USERNAME": "guest", 
+        "RABBITMQ__PASSWORD": "guest"
+      }
+    },
+    "NoRabbitMQ": {
+      "commandName": "Project",
+      "dotnetRunMessages": true,
+      "launchBrowser": false,
+      "applicationUrl": "http://localhost:7004",
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        "ConnectionStrings__DefaultConnection": "Host=dpg-d7is8kvaqgkc73a4d3f0-a.virginia-postgres.render.com;Port=5432;Database=parkease_vehicle;Username=parkease_yfo2_user;Password=EVSwWebkrsxGPZiLjqGsnYxh8eEcFn0W;SSL Mode=Require;Trust Server Certificate=true"
+      }
+    }
+  }
+}

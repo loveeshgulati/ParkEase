@@ -1,0 +1,21 @@
+{
+  "profiles": {
+    "ParkEase.Booking": {
+      "commandName": "Project",
+      "dotnetRunMessages": true,
+      "launchBrowser": false,
+      "applicationUrl": "http://localhost:5001",
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        "ConnectionStrings__DefaultConnection": "Host=dpg-d7is8kvaqgkc73a4d3f0-a.virginia-postgres.render.com;Port=5432;Database=parkease_booking;Username=parkease_yfo2_user;Password=EVSwWebkrsxGPZiLjqGsnYxh8eEcFn0W;SSL Mode=Require;Trust Server Certificate=true",
+        "Jwt__Secret": "ParkEase_SuperSecret_JWT_Key_MinLength32Chars!",
+        "Jwt__Issuer": "ParkEase.Auth",
+        "Jwt__Audience": "ParkEase.Client",
+        "RabbitMQ__Host": "localhost",
+        "RabbitMQ__Username": "guest",
+        "RabbitMQ__Password": "guest",
+        "ServiceUrls__SpotService": "http://localhost:5002"
+      }
+    }
+  }
+}
