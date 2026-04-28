@@ -1,6 +1,5 @@
 using MassTransit;
 using ParkEase.Auth.DTOs;
-using ParkEase.Auth.Entities;
 using ParkEase.Auth.Events;
 using ParkEase.Auth.Interfaces;
 
@@ -9,18 +8,15 @@ namespace ParkEase.Auth.Services;
 public class AdminService : IAdminService
 {
     private readonly IUserRepository _userRepository;
-    private readonly IAuditLogRepository _auditLogRepository;
     private readonly IPublishEndpoint _publishEndpoint;
     private readonly ILogger<AdminService> _logger;
 
     public AdminService(
         IUserRepository userRepository,
-        IAuditLogRepository auditLogRepository,
         IPublishEndpoint publishEndpoint,
         ILogger<AdminService> logger)
     {
         _userRepository = userRepository;
-        _auditLogRepository = auditLogRepository;
         _publishEndpoint = publishEndpoint;
         _logger = logger;
     }
@@ -81,27 +77,12 @@ public class AdminService : IAdminService
         if (manager.Status != "PENDING_APPROVAL")
             throw new InvalidOperationException($"Manager is not in PENDING_APPROVAL status.");
 
-        var before = System.Text.Json.JsonSerializer.Serialize(
-            new { manager.Status, manager.IsActive });
-
         manager.Status = "ACTIVE";
         manager.IsActive = true;
         manager.ApprovedAt = DateTime.UtcNow;
         manager.ApprovedByAdminId = adminId;
 
         await _userRepository.UpdateAsync(manager);
-
-        await _auditLogRepository.CreateAsync(new AuditLog
-        {
-            ActorUserId = adminId,
-            Action = "MANAGER_APPROVED",
-            TargetUserId = managerId.ToString(),
-            Before = before,
-            After = System.Text.Json.JsonSerializer.Serialize(
-                new { Status = "ACTIVE", IsActive = true }),
-            Timestamp = DateTime.UtcNow,
-            Success = true
-        });
 
         await _publishEndpoint.Publish(new ManagerApprovedEvent
         {
@@ -123,25 +104,11 @@ public class AdminService : IAdminService
         if (manager.Role != "MANAGER")
             throw new InvalidOperationException($"User {managerId} is not a manager.");
 
-        var before = System.Text.Json.JsonSerializer.Serialize(new { manager.Status });
-
         manager.Status = "REJECTED";
         manager.IsActive = false;
         manager.RejectionReason = reason;
 
         await _userRepository.UpdateAsync(manager);
-
-        await _auditLogRepository.CreateAsync(new AuditLog
-        {
-            ActorUserId = adminId,
-            Action = "MANAGER_REJECTED",
-            TargetUserId = managerId.ToString(),
-            Before = before,
-            After = System.Text.Json.JsonSerializer.Serialize(
-                new { Status = "REJECTED", Reason = reason }),
-            Timestamp = DateTime.UtcNow,
-            Success = true
-        });
 
         await _publishEndpoint.Publish(new ManagerRejectedEvent
         {
@@ -159,17 +126,12 @@ public class AdminService : IAdminService
     {
         var manager = await GetAndValidateUserAsync(managerId, "MANAGER");
 
-        var before = System.Text.Json.JsonSerializer.Serialize(new { manager.Status });
-
         manager.Status = "SUSPENDED";
         manager.IsActive = false;
         manager.RefreshToken = null;
         manager.RefreshTokenExpiry = null;
 
         await _userRepository.UpdateAsync(manager);
-
-        await LogAuditAsync(adminId, "MANAGER_SUSPENDED", managerId,
-            before, System.Text.Json.JsonSerializer.Serialize(new { Status = "SUSPENDED", Reason = reason }));
 
         await _publishEndpoint.Publish(new ManagerSuspendedEvent
         {
@@ -186,15 +148,10 @@ public class AdminService : IAdminService
     {
         var manager = await GetAndValidateUserAsync(managerId, "MANAGER");
 
-        var before = System.Text.Json.JsonSerializer.Serialize(new { manager.Status });
-
         manager.Status = "ACTIVE";
         manager.IsActive = true;
 
         await _userRepository.UpdateAsync(manager);
-
-        await LogAuditAsync(adminId, "MANAGER_REACTIVATED", managerId,
-            before, System.Text.Json.JsonSerializer.Serialize(new { Status = "ACTIVE" }));
 
         await _publishEndpoint.Publish(new ManagerReactivatedEvent
         {
@@ -211,9 +168,6 @@ public class AdminService : IAdminService
         var manager = await GetAndValidateUserAsync(managerId, "MANAGER");
 
         await _userRepository.DeleteByUserIdAsync(managerId);
-
-        await LogAuditAsync(adminId, "MANAGER_DELETED", managerId,
-            System.Text.Json.JsonSerializer.Serialize(new { manager.Email, manager.Status }), null);
 
         await _publishEndpoint.Publish(new ManagerDeletedEvent
         {
@@ -258,17 +212,12 @@ public class AdminService : IAdminService
     {
         var driver = await GetAndValidateUserAsync(driverId, "DRIVER");
 
-        var before = System.Text.Json.JsonSerializer.Serialize(new { driver.Status });
-
         driver.Status = "SUSPENDED";
         driver.IsActive = false;
         driver.RefreshToken = null;
         driver.RefreshTokenExpiry = null;
 
         await _userRepository.UpdateAsync(driver);
-
-        await LogAuditAsync(adminId, "DRIVER_SUSPENDED", driverId,
-            before, System.Text.Json.JsonSerializer.Serialize(new { Status = "SUSPENDED", Reason = reason }));
 
         await _publishEndpoint.Publish(new DriverSuspendedEvent
         {
@@ -285,15 +234,10 @@ public class AdminService : IAdminService
     {
         var driver = await GetAndValidateUserAsync(driverId, "DRIVER");
 
-        var before = System.Text.Json.JsonSerializer.Serialize(new { driver.Status });
-
         driver.Status = "ACTIVE";
         driver.IsActive = true;
 
         await _userRepository.UpdateAsync(driver);
-
-        await LogAuditAsync(adminId, "DRIVER_REACTIVATED", driverId,
-            before, System.Text.Json.JsonSerializer.Serialize(new { Status = "ACTIVE" }));
 
         await _publishEndpoint.Publish(new DriverReactivatedEvent
         {
@@ -310,9 +254,6 @@ public class AdminService : IAdminService
         var driver = await GetAndValidateUserAsync(driverId, "DRIVER");
 
         await _userRepository.DeleteByUserIdAsync(driverId);
-
-        await LogAuditAsync(adminId, "DRIVER_DELETED", driverId,
-            System.Text.Json.JsonSerializer.Serialize(new { driver.Email, driver.Status }), null);
 
         await _publishEndpoint.Publish(new DriverDeletedEvent
         {
@@ -350,20 +291,5 @@ public class AdminService : IAdminService
             throw new InvalidOperationException($"User {userId} is not a {expectedRole}.");
 
         return user;
-    }
-
-    private async Task LogAuditAsync(int actorId, string action, int targetId,
-        string? before, string? after)
-    {
-        await _auditLogRepository.CreateAsync(new AuditLog
-        {
-            ActorUserId = actorId,
-            Action = action,
-            TargetUserId = targetId.ToString(),
-            Before = before,
-            After = after,
-            Timestamp = DateTime.UtcNow,
-            Success = true
-        });
     }
 }
