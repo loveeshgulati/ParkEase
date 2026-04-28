@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -12,6 +12,27 @@ namespace ParkEase.Auth.Migrations
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.CreateTable(
+                name: "audit_logs",
+                columns: table => new
+                {
+                    audit_log_id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    actor_user_id = table.Column<int>(type: "integer", nullable: true),
+                    action = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false),
+                    target_user_id = table.Column<string>(type: "text", nullable: true),
+                    before = table.Column<string>(type: "jsonb", nullable: true),
+                    after = table.Column<string>(type: "jsonb", nullable: true),
+                    ip_address = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: true),
+                    timestamp = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    success = table.Column<bool>(type: "boolean", nullable: false, defaultValue: true),
+                    failure_reason = table.Column<string>(type: "text", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_audit_logs", x => x.audit_log_id);
+                });
+
             migrationBuilder.CreateTable(
                 name: "users",
                 columns: table => new
@@ -51,6 +72,9 @@ namespace ParkEase.Auth.Migrations
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropTable(
+                name: "audit_logs");
+
             migrationBuilder.DropTable(
                 name: "users");
         }

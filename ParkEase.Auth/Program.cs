@@ -11,8 +11,17 @@ using ParkEase.Auth.Middleware;
 using ParkEase.Auth.Repositories;
 using ParkEase.Auth.Sagas;
 using ParkEase.Auth.Services;
+using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
+
+// ── Serilog ───────────────────────────────────────────────────────────────────
+Log.Logger = new LoggerConfiguration()
+    .ReadFrom.Configuration(builder.Configuration)
+    .Enrich.FromLogContext()
+    .WriteTo.Console()
+    .CreateLogger();
+builder.Host.UseSerilog();
 
 // ── PostgreSQL + EF Core ──────────────────────────────────────────────────────
 builder.Services.AddDbContext<AuthDbContext>(options =>
@@ -20,6 +29,7 @@ builder.Services.AddDbContext<AuthDbContext>(options =>
 
 // ── Repositories ──────────────────────────────────────────────────────────────
 builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<IAuditLogRepository, AuditLogRepository>();
 
 // ── Services ──────────────────────────────────────────────────────────────────
 builder.Services.AddScoped<IAuthService, AuthService>();
@@ -135,16 +145,19 @@ var app = builder.Build();
 DatabaseSeeder.SeedDatabase(app.Services);
 
 // ── Middleware Pipeline ───────────────────────────────────────────────────────
-app.UseSwagger();
-app.UseSwaggerUI(c =>
+if (app.Environment.IsDevelopment())
 {
-    c.SwaggerEndpoint("/swagger/v1/swagger.json", "ParkEase Auth Service v1");
-    c.RoutePrefix = "swagger";
-});
+    app.UseSwagger();
+    app.UseSwaggerUI(c =>
+    {
+        c.SwaggerEndpoint("/swagger/v1/swagger.json", "ParkEase Auth Service v1");
+        c.RoutePrefix = string.Empty;
+    });
+}
 
-app.UseMiddleware<GlobalExceptionMiddleware>();
+app.UseSerilogRequestLogging();
 app.UseCors("AllowAll");
-//app.UseHttpsRedirection();
+app.UseHttpsRedirection();
 app.UseAuthentication();
 app.UseAuthorization();
 app.UseMiddleware<JwtMiddleware>();

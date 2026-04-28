@@ -14,17 +14,20 @@ namespace ParkEase.Auth.Services;
 public class AuthService : IAuthService
 {
     private readonly IUserRepository _userRepository;
+    private readonly IAuditLogRepository _auditLogRepository;
     private readonly IPublishEndpoint _publishEndpoint;
     private readonly IConfiguration _configuration;
     private readonly ILogger<AuthService> _logger;
 
     public AuthService(
         IUserRepository userRepository,
+        IAuditLogRepository auditLogRepository,
         IPublishEndpoint publishEndpoint,
         IConfiguration configuration,
         ILogger<AuthService> logger)
     {
         _userRepository = userRepository;
+        _auditLogRepository = auditLogRepository;
         _publishEndpoint = publishEndpoint;
         _configuration = configuration;
         _logger = logger;
@@ -59,6 +62,17 @@ public class AuthService : IAuthService
         };
 
         var created = await _userRepository.CreateAsync(user);
+
+        await _auditLogRepository.CreateAsync(new AuditLog
+        {
+            ActorUserId = created.UserId,
+            Action = "REGISTER",
+            TargetUserId = created.UserId.ToString(),
+            After = System.Text.Json.JsonSerializer.Serialize(
+                new { created.Email, created.Role, created.Status }),
+            Timestamp = DateTime.UtcNow,
+            Success = true
+        });
 
         // Fire-and-forget welcome notification
         await _publishEndpoint.Publish(new UserRegisteredEvent
@@ -135,6 +149,15 @@ public class AuthService : IAuthService
         user.RefreshTokenExpiry = DateTime.UtcNow.AddDays(7);
         await _userRepository.UpdateAsync(user);
 
+        await _auditLogRepository.CreateAsync(new AuditLog
+        {
+            ActorUserId = user.UserId,
+            Action = "LOGIN",
+            TargetUserId = user.UserId.ToString(),
+            Timestamp = DateTime.UtcNow,
+            Success = true
+        });
+
         return new LoginResponseDto
         {
             UserId = user.UserId,
@@ -156,6 +179,15 @@ public class AuthService : IAuthService
         user.RefreshToken = null;
         user.RefreshTokenExpiry = null;
         await _userRepository.UpdateAsync(user);
+
+        await _auditLogRepository.CreateAsync(new AuditLog
+        {
+            ActorUserId = userId,
+            Action = "LOGOUT",
+            TargetUserId = userId.ToString(),
+            Timestamp = DateTime.UtcNow,
+            Success = true
+        });
     }
 
     // ── Refresh Token ─────────────────────────────────────────────────────────
@@ -223,12 +255,27 @@ public class AuthService : IAuthService
         var user = await _userRepository.FindByUserIdAsync(userId)
             ?? throw new KeyNotFoundException($"User {userId} not found.");
 
+        var before = System.Text.Json.JsonSerializer.Serialize(
+            new { user.FullName, user.Phone, user.VehiclePlate });
+
         if (!string.IsNullOrWhiteSpace(request.FullName)) user.FullName = request.FullName;
         if (!string.IsNullOrWhiteSpace(request.Phone)) user.Phone = request.Phone;
         if (!string.IsNullOrWhiteSpace(request.ProfilePicUrl)) user.ProfilePicUrl = request.ProfilePicUrl;
         if (!string.IsNullOrWhiteSpace(request.VehiclePlate)) user.VehiclePlate = request.VehiclePlate;
 
         await _userRepository.UpdateAsync(user);
+
+        await _auditLogRepository.CreateAsync(new AuditLog
+        {
+            ActorUserId = userId,
+            Action = "PROFILE_UPDATE",
+            TargetUserId = userId.ToString(),
+            Before = before,
+            After = System.Text.Json.JsonSerializer.Serialize(
+                new { user.FullName, user.Phone, user.VehiclePlate }),
+            Timestamp = DateTime.UtcNow,
+            Success = true
+        });
 
         await _publishEndpoint.Publish(new UserProfileUpdatedEvent
         {
@@ -253,6 +300,15 @@ public class AuthService : IAuthService
 
         user.PasswordHash = BCrypt.Net.BCrypt.HashPassword(request.NewPassword);
         await _userRepository.UpdateAsync(user);
+
+        await _auditLogRepository.CreateAsync(new AuditLog
+        {
+            ActorUserId = userId,
+            Action = "PASSWORD_CHANGE",
+            TargetUserId = userId.ToString(),
+            Timestamp = DateTime.UtcNow,
+            Success = true
+        });
     }
 
     // ── Deactivate Account ────────────────────────────────────────────────────
@@ -266,6 +322,17 @@ public class AuthService : IAuthService
         user.RefreshToken = null;
         user.RefreshTokenExpiry = null;
         await _userRepository.UpdateAsync(user);
+
+        await _auditLogRepository.CreateAsync(new AuditLog
+        {
+            ActorUserId = userId,
+            Action = "DEACTIVATE",
+            TargetUserId = userId.ToString(),
+            Before = System.Text.Json.JsonSerializer.Serialize(new { IsActive = true }),
+            After = System.Text.Json.JsonSerializer.Serialize(new { IsActive = false }),
+            Timestamp = DateTime.UtcNow,
+            Success = true
+        });
 
         // Triggers AccountDeactivationSaga
         await _publishEndpoint.Publish(new UserDeactivatedEvent

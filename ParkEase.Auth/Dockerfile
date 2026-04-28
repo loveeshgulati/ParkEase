@@ -1,19 +1,20 @@
-FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS base
-WORKDIR /app
-EXPOSE 8080
-
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 WORKDIR /src
-COPY ["ParkEase.Auth/ParkEase.Auth.csproj", "ParkEase.Auth/"]
-RUN dotnet restore "ParkEase.Auth/ParkEase.Auth.csproj"
+
+COPY ParkEase.Auth.csproj .
+RUN dotnet restore
+
 COPY . .
-WORKDIR "/src/ParkEase.Auth"
-RUN dotnet build "ParkEase.Auth.csproj" -c Release -o /app/build
+RUN dotnet publish -c Release -o /app/publish
 
-FROM build AS publish
-RUN dotnet publish "ParkEase.Auth.csproj" -c Release -o /app/publish /p:UseAppHost=false
-
-FROM base AS final
+FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS runtime
 WORKDIR /app
-COPY --from=publish /app/publish .
+
+COPY --from=build /app/publish .
+
+EXPOSE 8080
+
+ENV ASPNETCORE_URLS=http://+:8080
+ENV ASPNETCORE_ENVIRONMENT=Production
+
 ENTRYPOINT ["dotnet", "ParkEase.Auth.dll"]
