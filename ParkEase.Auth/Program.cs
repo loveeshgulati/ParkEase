@@ -26,7 +26,7 @@ builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<IAdminService, AdminService>();
 
 // ── JWT Authentication ────────────────────────────────────────────────────────
-var jwtSecret = builder.Configuration["JWT_SECRET"] ?? builder.Configuration["Jwt:Secret"]!;
+var jwtSecret = (builder.Configuration["JWT_SECRET"] ?? builder.Configuration["Jwt:Secret"]!).Trim();
 Console.WriteLine($"DEBUG: JWT Secret is configured. Length: {jwtSecret.Length}");
 var key = Encoding.UTF8.GetBytes(jwtSecret);
 
@@ -48,6 +48,20 @@ builder.Services.AddAuthentication(options =>
         ValidateLifetime = true,
         ClockSkew = TimeSpan.Zero,
         RoleClaimType = System.Security.Claims.ClaimTypes.Role
+    };
+
+    options.Events = new JwtBearerEvents
+    {
+        OnAuthenticationFailed = context =>
+        {
+            Console.WriteLine($"DEBUG: Authentication failed for path {context.Request.Path}: {context.Exception.Message}");
+            return Task.CompletedTask;
+        },
+        OnTokenValidated = context =>
+        {
+            Console.WriteLine($"DEBUG: Token validated for user {context.Principal?.Identity?.Name}");
+            return Task.CompletedTask;
+        }
     };
 });
 
