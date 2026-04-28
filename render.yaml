@@ -10,6 +10,12 @@ services:
     envVars:
       - key: ASPNETCORE_ENVIRONMENT
         value: Production
+      - key: Jwt__Secret
+        value: ParkEase_SuperSecret_JWT_Key_MinLength32Chars!
+      - key: Jwt__Issuer
+        value: ParkEase.Auth
+      - key: Jwt__Audience
+        value: ParkEase.Client
       - key: JWT_SECRET
         value: ParkEase_SuperSecret_JWT_Key_MinLength32Chars!
       - key: JWT_ISSUER
@@ -38,6 +44,12 @@ services:
     envVars:
       - key: ASPNETCORE_ENVIRONMENT
         value: Production
+      - key: Jwt__Secret
+        value: ParkEase_SuperSecret_JWT_Key_MinLength32Chars!
+      - key: Jwt__Issuer
+        value: ParkEase.Auth
+      - key: Jwt__Audience
+        value: ParkEase.Client
       - key: JWT_SECRET
         value: ParkEase_SuperSecret_JWT_Key_MinLength32Chars!
       - key: JWT_ISSUER
@@ -68,6 +80,12 @@ services:
     envVars:
       - key: ASPNETCORE_ENVIRONMENT
         value: Production
+      - key: Jwt__Secret
+        value: ParkEase_SuperSecret_JWT_Key_MinLength32Chars!
+      - key: Jwt__Issuer
+        value: ParkEase.Auth
+      - key: Jwt__Audience
+        value: ParkEase.Client
       - key: JWT_SECRET
         value: ParkEase_SuperSecret_JWT_Key_MinLength32Chars!
       - key: JWT_ISSUER
@@ -96,6 +114,12 @@ services:
     envVars:
       - key: ASPNETCORE_ENVIRONMENT
         value: Production
+      - key: Jwt__Secret
+        value: ParkEase_SuperSecret_JWT_Key_MinLength32Chars!
+      - key: Jwt__Issuer
+        value: ParkEase.Auth
+      - key: Jwt__Audience
+        value: ParkEase.Client
       - key: JWT_SECRET
         value: ParkEase_SuperSecret_JWT_Key_MinLength32Chars!
       - key: JWT_ISSUER
@@ -124,6 +148,12 @@ services:
     envVars:
       - key: ASPNETCORE_ENVIRONMENT
         value: Production
+      - key: Jwt__Secret
+        value: ParkEase_SuperSecret_JWT_Key_MinLength32Chars!
+      - key: Jwt__Issuer
+        value: ParkEase.Auth
+      - key: Jwt__Audience
+        value: ParkEase.Client
       - key: JWT_SECRET
         value: ParkEase_SuperSecret_JWT_Key_MinLength32Chars!
       - key: JWT_ISSUER
@@ -152,6 +182,12 @@ services:
     envVars:
       - key: ASPNETCORE_ENVIRONMENT
         value: Production
+      - key: Jwt__Secret
+        value: ParkEase_SuperSecret_JWT_Key_MinLength32Chars!
+      - key: Jwt__Issuer
+        value: ParkEase.Auth
+      - key: Jwt__Audience
+        value: ParkEase.Client
       - key: JWT_SECRET
         value: ParkEase_SuperSecret_JWT_Key_MinLength32Chars!
       - key: JWT_ISSUER
@@ -180,6 +216,12 @@ services:
     envVars:
       - key: ASPNETCORE_ENVIRONMENT
         value: Production
+      - key: Jwt__Secret
+        value: ParkEase_SuperSecret_JWT_Key_MinLength32Chars!
+      - key: Jwt__Issuer
+        value: ParkEase.Auth
+      - key: Jwt__Audience
+        value: ParkEase.Client
       - key: JWT_SECRET
         value: ParkEase_SuperSecret_JWT_Key_MinLength32Chars!
       - key: JWT_ISSUER

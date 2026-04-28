@@ -184,16 +184,17 @@ public class AuthService : IAuthService
     {
         try
         {
-            var key = Encoding.UTF8.GetBytes(_configuration["Jwt:Secret"]!);
+            var jwtSecret = _configuration["JWT_SECRET"] ?? _configuration["Jwt:Secret"]!;
+            var key = Encoding.UTF8.GetBytes(jwtSecret);
             var handler = new JwtSecurityTokenHandler();
             handler.ValidateToken(token, new TokenValidationParameters
             {
                 ValidateIssuerSigningKey = true,
                 IssuerSigningKey = new SymmetricSecurityKey(key),
                 ValidateIssuer = true,
-                ValidIssuer = _configuration["Jwt:Issuer"],
+                ValidIssuer = _configuration["JWT_ISSUER"] ?? _configuration["Jwt:Issuer"],
                 ValidateAudience = true,
-                ValidAudience = _configuration["Jwt:Audience"],
+                ValidAudience = _configuration["JWT_AUDIENCE"] ?? _configuration["Jwt:Audience"],
                 ValidateLifetime = true,
                 ClockSkew = TimeSpan.Zero
             }, out _);
@@ -281,7 +282,8 @@ public class AuthService : IAuthService
     // ── Helpers ───────────────────────────────────────────────────────────────
     private (string token, DateTime expiry) GenerateJwtToken(User user)
     {
-        var key = Encoding.UTF8.GetBytes(_configuration["Jwt:Secret"]!);
+        var jwtSecret = _configuration["JWT_SECRET"] ?? _configuration["Jwt:Secret"]!;
+        var key = Encoding.UTF8.GetBytes(jwtSecret);
         var expiry = DateTime.UtcNow.AddHours(24);
 
         var claims = new[]
@@ -295,8 +297,8 @@ public class AuthService : IAuthService
         };
 
         var token = new JwtSecurityToken(
-            issuer: _configuration["Jwt:Issuer"],
-            audience: _configuration["Jwt:Audience"],
+            issuer: _configuration["JWT_ISSUER"] ?? _configuration["Jwt:Issuer"],
+            audience: _configuration["JWT_AUDIENCE"] ?? _configuration["Jwt:Audience"],
             claims: claims,
             expires: expiry,
             signingCredentials: new SigningCredentials(
