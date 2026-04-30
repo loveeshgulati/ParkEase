@@ -36,17 +36,16 @@ public class JwtMiddleware
     {
         try
         {
-            var jwtSecret = (_configuration["JWT_SECRET"] ?? _configuration["Jwt:Secret"]!).Trim();
-            var key = Encoding.UTF8.GetBytes(jwtSecret);
+            var key = Encoding.UTF8.GetBytes(_configuration["Jwt:Secret"]!);
             var handler = new JwtSecurityTokenHandler();
             handler.ValidateToken(token, new TokenValidationParameters
             {
                 ValidateIssuerSigningKey = true,
                 IssuerSigningKey = new SymmetricSecurityKey(key),
                 ValidateIssuer = true,
-                ValidIssuer = _configuration["JWT_ISSUER"] ?? _configuration["Jwt:Issuer"],
+                ValidIssuer = _configuration["Jwt:Issuer"],
                 ValidateAudience = true,
-                ValidAudience = _configuration["JWT_AUDIENCE"] ?? _configuration["Jwt:Audience"],
+                ValidAudience = _configuration["Jwt:Audience"],
                 ValidateLifetime = true,
                 ClockSkew = TimeSpan.Zero
             }, out var validatedToken);
