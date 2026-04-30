@@ -1,0 +1,10 @@
+namespace ParkEase.ParkingLot.Events.Published;
+
+public class LotCreatedEvent
+{
+    public int LotId { get; set; }
+    public int ManagerId { get; set; }
+    public string Name { get; set; } = string.Empty;
+    public string City { get; set; } = string.Empty;
+    public DateTime CreatedAt { get; set; }
+}
