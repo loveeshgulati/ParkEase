@@ -149,7 +149,7 @@ app.UseAuthentication();
 app.UseAuthorization();
 app.UseMiddleware<JwtMiddleware>();
 app.MapGet("/", () => Results.Redirect("/swagger"));
-app.MapControllers();
+app.MapGet("/", () => Results.Redirect("/swagger"));`napp.MapControllers();
 app.MapHealthChecks("/health");
 
 app.Run();
