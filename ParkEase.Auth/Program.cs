@@ -27,7 +27,6 @@ builder.Services.AddScoped<IAdminService, AdminService>();
 
 // ── JWT Authentication ────────────────────────────────────────────────────────
 var jwtSecret = builder.Configuration["Jwt:Secret"]!;
-Console.WriteLine($"DEBUG: JWT Secret is configured. Length: {jwtSecret.Length}");
 var key = Encoding.UTF8.GetBytes(jwtSecret);
 
 builder.Services.AddAuthentication(options =>
