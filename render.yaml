@@ -17,7 +17,7 @@ services:
       - key: ConnectionStrings__DefaultConnection
         value: "Host=dpg-d7is8kvaqgkc73a4d3f0-a.virginia-postgres.render.com;Port=5432;Database=parkease_auth;Username=parkease_yfo2_user;Password=EVSwWebkrsxGPZiLjqGsnYxh8eEcFn0W;SSL Mode=Require;Trust Server Certificate=true"
       - key: Jwt__Secret
-        value: ParkEase_SuperSecret_JWT_Key_MinLength32Chars!
+        value: "ParkEase_SuperSecret_JWT_Key_MinLength32Chars!"
       - key: Jwt__Issuer
         value: ParkEase.Auth
       - key: Jwt__Audience
@@ -51,7 +51,7 @@ services:
       - key: ConnectionStrings__DefaultConnection
         value: "Host=dpg-d7is8kvaqgkc73a4d3f0-a.virginia-postgres.render.com;Port=5432;Database=parkease_booking;Username=parkease_yfo2_user;Password=EVSwWebkrsxGPZiLjqGsnYxh8eEcFn0W;SSL Mode=Require;Trust Server Certificate=true"
       - key: Jwt__Secret
-        value: ParkEase_SuperSecret_JWT_Key_MinLength32Chars!
+        value: "ParkEase_SuperSecret_JWT_Key_MinLength32Chars!"
       - key: Jwt__Issuer
         value: ParkEase.Auth
       - key: Jwt__Audience
@@ -85,7 +85,7 @@ services:
       - key: ConnectionStrings__DefaultConnection
         value: "Host=dpg-d7is8kvaqgkc73a4d3f0-a.virginia-postgres.render.com;Port=5432;Database=parkease_notification;Username=parkease_yfo2_user;Password=EVSwWebkrsxGPZiLjqGsnYxh8eEcFn0W;SSL Mode=Require;Trust Server Certificate=true"
       - key: Jwt__Secret
-        value: ParkEase_SuperSecret_JWT_Key_MinLength32Chars!
+        value: "ParkEase_SuperSecret_JWT_Key_MinLength32Chars!"
       - key: Jwt__Issuer
         value: ParkEase.Auth
       - key: Jwt__Audience
@@ -117,7 +117,7 @@ services:
       - key: ConnectionStrings__DefaultConnection
         value: "Host=dpg-d7is8kvaqgkc73a4d3f0-a.virginia-postgres.render.com;Port=5432;Database=parkease_parkinglot;Username=parkease_yfo2_user;Password=EVSwWebkrsxGPZiLjqGsnYxh8eEcFn0W;SSL Mode=Require;Trust Server Certificate=true"
       - key: Jwt__Secret
-        value: ParkEase_SuperSecret_JWT_Key_MinLength32Chars!
+        value: "ParkEase_SuperSecret_JWT_Key_MinLength32Chars!"
       - key: Jwt__Issuer
         value: ParkEase.Auth
       - key: Jwt__Audience
@@ -149,7 +149,7 @@ services:
       - key: ConnectionStrings__DefaultConnection
         value: "Host=dpg-d7is8kvaqgkc73a4d3f0-a.virginia-postgres.render.com;Port=5432;Database=parkease_payment;Username=parkease_yfo2_user;Password=EVSwWebkrsxGPZiLjqGsnYxh8eEcFn0W;SSL Mode=Require;Trust Server Certificate=true"
       - key: Jwt__Secret
-        value: ParkEase_SuperSecret_JWT_Key_MinLength32Chars!
+        value: "ParkEase_SuperSecret_JWT_Key_MinLength32Chars!"
       - key: Jwt__Issuer
         value: ParkEase.Auth
       - key: Jwt__Audience
@@ -185,7 +185,7 @@ services:
       - key: ConnectionStrings__DefaultConnection
         value: "Host=dpg-d7is8kvaqgkc73a4d3f0-a.virginia-postgres.render.com;Port=5432;Database=parkease_spot;Username=parkease_yfo2_user;Password=EVSwWebkrsxGPZiLjqGsnYxh8eEcFn0W;SSL Mode=Require;Trust Server Certificate=true"
       - key: Jwt__Secret
-        value: ParkEase_SuperSecret_JWT_Key_MinLength32Chars!
+        value: "ParkEase_SuperSecret_JWT_Key_MinLength32Chars!"
       - key: Jwt__Issuer
         value: ParkEase.Auth
       - key: Jwt__Audience
@@ -217,7 +217,7 @@ services:
       - key: ConnectionStrings__DefaultConnection
         value: "Host=dpg-d7is8kvaqgkc73a4d3f0-a.virginia-postgres.render.com;Port=5432;Database=parkease_vehicle;Username=parkease_yfo2_user;Password=EVSwWebkrsxGPZiLjqGsnYxh8eEcFn0W;SSL Mode=Require;Trust Server Certificate=true"
       - key: Jwt__Secret
-        value: ParkEase_SuperSecret_JWT_Key_MinLength32Chars!
+        value: "ParkEase_SuperSecret_JWT_Key_MinLength32Chars!"
       - key: Jwt__Issuer
         value: ParkEase.Auth
       - key: Jwt__Audience
