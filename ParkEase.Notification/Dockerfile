@@ -4,10 +4,9 @@ EXPOSE 8080
 
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 WORKDIR /src
-COPY ["ParkEase.Notification/ParkEase.Notification.csproj", "ParkEase.Notification/"]
-RUN dotnet restore "ParkEase.Notification/ParkEase.Notification.csproj"
-COPY ParkEase.Notification/ ParkEase.Notification/
-WORKDIR "/src/ParkEase.Notification"
+COPY ["ParkEase.Notification.csproj", "."]
+RUN dotnet restore "ParkEase.Notification.csproj"
+COPY . .
 RUN dotnet build "ParkEase.Notification.csproj" -c Release -o /app/build
 
 FROM build AS publish

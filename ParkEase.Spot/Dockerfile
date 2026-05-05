@@ -4,10 +4,9 @@ EXPOSE 8080
 
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 WORKDIR /src
-COPY ["ParkEase.Spot/ParkEase.Spot.csproj", "ParkEase.Spot/"]
-RUN dotnet restore "ParkEase.Spot/ParkEase.Spot.csproj"
-COPY ParkEase.Spot/ ParkEase.Spot/
-WORKDIR "/src/ParkEase.Spot"
+COPY ["ParkEase.Spot.csproj", "."]
+RUN dotnet restore "ParkEase.Spot.csproj"
+COPY . .
 RUN dotnet build "ParkEase.Spot.csproj" -c Release -o /app/build
 
 FROM build AS publish
