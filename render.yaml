@@ -32,6 +32,10 @@ services:
         value: uqfenpdj
       - key: RabbitMQ__Password
         value: cHciJ4wVhs-QytxK9p6i6FnqxHyAwGRY
+      - key: Google__ClientId
+        value: "YOUR_GOOGLE_CLIENT_ID.apps.googleusercontent.com"
+      - key: Google__ClientSecret
+        value: "YOUR_GOOGLE_CLIENT_SECRET"
 
   # ─────────────────────────────────────────────────────────────────
   # Booking Service
