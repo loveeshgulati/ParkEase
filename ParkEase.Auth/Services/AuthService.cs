@@ -2,6 +2,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
+using Google.Apis.Auth;
 using MassTransit;
 using Microsoft.IdentityModel.Tokens;
 using ParkEase.Auth.DTOs;
@@ -276,6 +277,135 @@ public class AuthService : IAuthService
         });
 
         _logger.LogInformation("User {UserId} deactivated. Saga triggered.", userId);
+    }
+
+    // ── Google OAuth ──────────────────────────────────────────────────────────
+    public async Task<LoginResponseDto> GoogleAuthAsync(string idToken, string role)
+    {
+        // 1. Verify the token against Google's public keys
+        GoogleJsonWebSignature.Payload payload;
+        try
+        {
+            var settings = new GoogleJsonWebSignature.ValidationSettings
+            {
+                Audience = new[] { _configuration["Google:ClientId"]! }
+            };
+            payload = await GoogleJsonWebSignature.ValidateAsync(idToken, settings);
+        }
+        catch (InvalidJwtException ex)
+        {
+            throw new UnauthorizedAccessException($"Invalid Google token: {ex.Message}");
+        }
+
+        // 2. Find existing user or create a new one
+        var user = await _userRepository.FindByEmailAsync(payload.Email);
+
+        if (user == null)
+        {
+            // Normalise role
+            var normalisedRole = (role ?? "DRIVER").ToUpper();
+            if (normalisedRole == "ADMIN")
+                throw new InvalidOperationException("Cannot register as Admin.");
+
+            var status = normalisedRole == "MANAGER" ? "PENDING_APPROVAL" : "ACTIVE";
+
+            user = new User
+            {
+                FullName      = payload.Name ?? payload.Email,
+                Email         = payload.Email.ToLower(),
+                PasswordHash  = string.Empty,          // no password for OAuth users
+                Phone         = string.Empty,          // can be filled in later
+                Role          = normalisedRole,
+                Status        = status,
+                IsActive      = normalisedRole != "MANAGER",
+                ProfilePicUrl = payload.Picture,
+                OAuthProvider   = "GOOGLE",
+                OAuthProviderId = payload.Subject,
+                CreatedAt     = DateTime.UtcNow
+            };
+
+            user = await _userRepository.CreateAsync(user);
+
+            // Fire welcome notification
+            await _publishEndpoint.Publish(new UserRegisteredEvent
+            {
+                UserId       = user.UserId,
+                FullName     = user.FullName,
+                Email        = user.Email,
+                Phone        = user.Phone,
+                Role         = user.Role,
+                RegisteredAt = user.CreatedAt
+            });
+
+            if (normalisedRole == "MANAGER")
+            {
+                await _publishEndpoint.Publish(new ManagerSignupRequestedEvent
+                {
+                    ManagerId   = user.UserId,
+                    FullName    = user.FullName,
+                    Email       = user.Email,
+                    Phone       = user.Phone,
+                    RequestedAt = user.CreatedAt
+                });
+            }
+
+            _logger.LogInformation("Google OAuth: New user created {Email} Role={Role}",
+                user.Email, user.Role);
+        }
+        else
+        {
+            // Update OAuth fields if this is the first time the user signs in via Google
+            if (string.IsNullOrEmpty(user.OAuthProvider))
+            {
+                user.OAuthProvider   = "GOOGLE";
+                user.OAuthProviderId = payload.Subject;
+                if (string.IsNullOrEmpty(user.ProfilePicUrl))
+                    user.ProfilePicUrl = payload.Picture;
+            }
+            _logger.LogInformation("Google OAuth: Existing user signed in {Email}", user.Email);
+        }
+
+        // 3. Status checks (applies to both new and existing users)
+        switch (user.Status)
+        {
+            case "PENDING_APPROVAL":
+                // If it's a new user, say "Registration successful", otherwise just standard login error.
+                if (user.CreatedAt >= DateTime.UtcNow.AddSeconds(-5))
+                {
+                    throw new UnauthorizedAccessException(
+                        "Registration successful. Awaiting admin approval.");
+                }
+                throw new UnauthorizedAccessException(
+                    "Your manager account is awaiting admin approval.");
+            case "REJECTED":
+                throw new UnauthorizedAccessException(
+                    $"Your application was rejected. Reason: {user.RejectionReason}");
+            case "SUSPENDED":
+                throw new UnauthorizedAccessException(
+                    "Your account has been suspended. Please contact support.");
+        }
+
+        if (!user.IsActive)
+            throw new UnauthorizedAccessException("Account is deactivated.");
+
+        // 4. Issue ParkEase tokens
+        var (accessToken, expiry) = GenerateJwtToken(user);
+        var refreshToken = GenerateRefreshToken();
+
+        user.RefreshToken       = refreshToken;
+        user.RefreshTokenExpiry = DateTime.UtcNow.AddDays(7);
+        await _userRepository.UpdateAsync(user);
+
+        return new LoginResponseDto
+        {
+            UserId       = user.UserId,
+            FullName     = user.FullName,
+            Email        = user.Email,
+            Role         = user.Role,
+            AccessToken  = accessToken,
+            RefreshToken = refreshToken,
+            TokenExpiry  = expiry
+        };
     }
 
     // ── Helpers ───────────────────────────────────────────────────────────────

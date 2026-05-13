@@ -14,4 +14,5 @@ public interface IAuthService
     Task<UserProfileDto> UpdateProfileAsync(int userId, UpdateProfileDto request);
     Task ChangePasswordAsync(int userId, ChangePasswordDto request);
     Task DeactivateAccountAsync(int userId);
+    Task<LoginResponseDto> GoogleAuthAsync(string idToken, string role);
 }

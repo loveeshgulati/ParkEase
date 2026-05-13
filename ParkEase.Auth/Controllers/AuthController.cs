@@ -52,6 +52,26 @@ public class AuthController : ControllerBase
         }
     }
 
+    // POST /api/v1/auth/google
+    [HttpPost("google")]
+    [AllowAnonymous]
+    public async Task<IActionResult> GoogleAuth([FromBody] GoogleAuthRequestDto request)
+    {
+        try
+        {
+            var result = await _authService.GoogleAuthAsync(request.IdToken, request.Role);
+            return Ok(ApiResponse<LoginResponseDto>.Ok(result, "Google authentication successful"));
+        }
+        catch (UnauthorizedAccessException ex)
+        {
+            return Unauthorized(ApiResponse<object>.Fail(ex.Message));
+        }
+        catch (InvalidOperationException ex)
+        {
+            return Conflict(ApiResponse<object>.Fail(ex.Message));
+        }
+    }
+
     // POST /api/v1/auth/logout
     [HttpPost("logout")]
     [Authorize]
