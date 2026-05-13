@@ -19,5 +19,6 @@ public interface ISpotRepository
     Task<ParkingSpot> UpdateAsync(ParkingSpot spot);
     Task DeleteBySpotIdAsync(int spotId);
     Task DeleteAllByLotIdAsync(int lotId);
+    Task<List<int>> GetDistinctLotIdsAsync();
     Task<bool> ExistsBySpotNumberAndLotAsync(string spotNumber, int lotId);
 }

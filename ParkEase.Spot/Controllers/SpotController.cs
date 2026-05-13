@@ -266,6 +266,16 @@ public class SpotController : ControllerBase
         }
     }
 
+    // POST /api/v1/spots/internal/resync-all
+    // One-time utility: re-syncs spot counts for ALL lots to ParkingLot service
+    [HttpPost("internal/resync-all")]
+    [AllowAnonymous]
+    public async Task<IActionResult> ResyncAllLotCounts()
+    {
+        var count = await _spotService.ResyncAllLotCountsAsync();
+        return Ok(ApiResponse<object>.Ok(null!, $"Spot counts resynced for {count} lots"));
+    }
+
     // ── Helpers ───────────────────────────────────────────────────────────────
     private int GetCurrentUserId()
     {

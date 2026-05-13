@@ -66,6 +66,12 @@ public class SpotRepository : ISpotRepository
         await _context.ParkingSpots
             .AnyAsync(s => s.SpotNumber == spotNumber && s.LotId == lotId);
 
+    public async Task<List<int>> GetDistinctLotIdsAsync() =>
+        await _context.ParkingSpots
+            .Select(s => s.LotId)
+            .Distinct()
+            .ToListAsync();
+
     public async Task<ParkingSpot> CreateAsync(ParkingSpot spot)
     {
         _context.ParkingSpots.Add(spot);

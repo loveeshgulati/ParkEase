@@ -29,4 +29,7 @@ public interface ISpotService
 
     // ── Cascade ───────────────────────────────────────────────────────────────
     Task DeleteAllByLotIdAsync(int lotId);
+
+    // ── Admin utility ─────────────────────────────────────────────────────────
+    Task<int> ResyncAllLotCountsAsync();
 }

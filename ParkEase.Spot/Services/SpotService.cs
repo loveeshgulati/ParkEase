@@ -1,3 +1,5 @@
+using System.Text;
+using System.Text.Json;
 using MassTransit;
 using ParkEase.Spot.DTOs.Request;
 using ParkEase.Spot.DTOs.Response;
@@ -12,6 +14,8 @@ public class SpotService : ISpotService
     private readonly ISpotRepository _repository;
     private readonly IPublishEndpoint _publishEndpoint;
     private readonly ILogger<SpotService> _logger;
+    private readonly IHttpClientFactory _httpClientFactory;
+    private readonly string _parkingLotBaseUrl;
 
     private static readonly string[] ValidSpotTypes =
         { "COMPACT", "STANDARD", "LARGE", "MOTORBIKE", "EV" };
@@ -22,11 +26,15 @@ public class SpotService : ISpotService
     public SpotService(
         ISpotRepository repository,
         IPublishEndpoint publishEndpoint,
-        ILogger<SpotService> logger)
+        ILogger<SpotService> logger,
+        IHttpClientFactory httpClientFactory,
+        IConfiguration configuration)
     {
         _repository = repository;
         _publishEndpoint = publishEndpoint;
         _logger = logger;
+        _httpClientFactory = httpClientFactory;
+        _parkingLotBaseUrl = configuration["ServiceUrls:ParkingLotService"] ?? "http://localhost:5003";
     }
 
     // ── Add Single Spot (Manager) ─────────────────────────────────────────────
@@ -336,11 +344,22 @@ public class SpotService : ISpotService
         return MapToDto(updated);
     }
 
-    // ── Cascade Delete ────────────────────────────────────────────────────────
+    // ── Cascade Delete ───────────────────────────────────────────────────────────────
     public async Task DeleteAllByLotIdAsync(int lotId)
     {
         await _repository.DeleteAllByLotIdAsync(lotId);
         _logger.LogInformation("All spots deleted for Lot {LotId}", lotId);
+    }
+
+    // ── Resync All Lot Counts ─────────────────────────────────────────────────────────
+    public async Task<int> ResyncAllLotCountsAsync()
+    {
+        var lotIds = await _repository.GetDistinctLotIdsAsync();
+        foreach (var lotId in lotIds)
+            await SyncLotSpotCountsAsync(lotId);
+
+        _logger.LogInformation("Resynced spot counts for {Count} lots", lotIds.Count);
+        return lotIds.Count;
     }
 
     // ── Private Helpers ───────────────────────────────────────────────────────
@@ -364,12 +383,41 @@ public class SpotService : ISpotService
         var total = await _repository.CountByLotIdAsync(lotId);
         var available = await _repository.CountByLotIdAndStatusAsync(lotId, "AVAILABLE");
 
-        await _publishEndpoint.Publish(new LotSpotCountUpdatedEvent
+        // Direct HTTP call to ParkingLot service — more reliable than RabbitMQ for this sync
+        try
         {
-            LotId = lotId,
-            TotalSpots = total,
-            AvailableSpots = available
-        });
+            var client = _httpClientFactory.CreateClient();
+            var payload = JsonSerializer.Serialize(new { lotId, totalSpots = total, availableSpots = available });
+            var content = new StringContent(payload, Encoding.UTF8, "application/json");
+            var response = await client.PutAsync(
+                $"{_parkingLotBaseUrl}/api/v1/lots/internal/sync-spots", content);
+
+            if (!response.IsSuccessStatusCode)
+                _logger.LogWarning("Spot count sync HTTP call failed for Lot {LotId}: {Status}",
+                    lotId, response.StatusCode);
+            else
+                _logger.LogInformation("Lot {LotId} spot counts synced via HTTP: Total={Total} Available={Available}",
+                    lotId, total, available);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Failed to sync spot counts for Lot {LotId} via HTTP", lotId);
+        }
+
+        // Also publish RabbitMQ event (for other consumers, best-effort)
+        try
+        {
+            await _publishEndpoint.Publish(new LotSpotCountUpdatedEvent
+            {
+                LotId = lotId,
+                TotalSpots = total,
+                AvailableSpots = available
+            });
+        }
+        catch (Exception ex)
+        {
+            _logger.LogWarning(ex, "RabbitMQ publish failed for LotSpotCountUpdatedEvent Lot {LotId} (non-critical)", lotId);
+        }
     }
 
     public static SpotDto MapToDto(ParkingSpot s) => new()

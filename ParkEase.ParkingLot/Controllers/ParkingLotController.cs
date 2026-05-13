@@ -246,6 +246,28 @@ public class ParkingLotController : ControllerBase
             $"{result.Count} lots for manager {managerId}"));
     }
 
+    // ═══════════════════════════════════════════════════════════════════════════
+    // INTERNAL — Called by Spot service directly (no auth, internal network only)
+    // ═══════════════════════════════════════════════════════════════════════════
+
+    // PUT /api/v1/lots/internal/sync-spots
+    [HttpPut("internal/sync-spots")]
+    [AllowAnonymous]
+    public async Task<IActionResult> SyncSpotCounts([FromBody] SyncSpotCountsDto request)
+    {
+        try
+        {
+            await _lotService.UpdateSpotCountsAsync(
+                request.LotId, request.TotalSpots, request.AvailableSpots);
+            return Ok(ApiResponse<object>.Ok(null!,
+                $"Lot {request.LotId} spot counts synced: Total={request.TotalSpots} Available={request.AvailableSpots}"));
+        }
+        catch (KeyNotFoundException ex)
+        {
+            return NotFound(ApiResponse<object>.Fail(ex.Message));
+        }
+    }
+
     // ── Helpers ───────────────────────────────────────────────────────────────
     private int GetCurrentUserId()
     {

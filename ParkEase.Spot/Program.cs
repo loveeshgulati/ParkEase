@@ -27,6 +27,7 @@ builder.Services.AddDbContext<SpotDbContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 // ── Repository + Service ──────────────────────────────────────────────────────
+builder.Services.AddHttpClient();
 builder.Services.AddScoped<ISpotRepository, SpotRepository>();
 builder.Services.AddScoped<ISpotService, SpotService>();
 
