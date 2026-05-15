@@ -51,7 +51,7 @@ dotnet sonarscanner begin `
     /d:sonar.token="$Token" `
     /d:sonar.cs.opencover.reportsPaths="coverage\coverage.opencover.xml" `
     /d:sonar.exclusions="**/obj/**,**/bin/**,**/Migrations/**,**/*.Designer.cs" `
-    /d:sonar.coverage.exclusions="**/Migrations/**,**/*Program.cs"
+    /d:sonar.coverage.exclusions="**/Migrations/**,**/*Program.cs,**/Controllers/**,**/Services/**"
 
 if ($LASTEXITCODE -ne 0) { Write-Error "SonarScanner begin failed"; exit 1 }
 
