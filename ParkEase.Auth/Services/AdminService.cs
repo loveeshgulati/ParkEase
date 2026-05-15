@@ -11,6 +11,10 @@ public class AdminService : IAdminService
     private readonly IPublishEndpoint _publishEndpoint;
     private readonly ILogger<AdminService> _logger;
 
+    private const string RoleManager = "MANAGER";
+    private const string RoleDriver = "DRIVER";
+    private const string StatusPendingApproval = "PENDING_APPROVAL";
+
     public AdminService(
         IUserRepository userRepository,
         IPublishEndpoint publishEndpoint,
@@ -26,7 +30,7 @@ public class AdminService : IAdminService
     public async Task<List<PendingManagerDto>> GetPendingManagersAsync()
     {
         var managers = await _userRepository
-            .FindAllByRoleAndStatusAsync("MANAGER", "PENDING_APPROVAL");
+            .FindAllByRoleAndStatusAsync(RoleManager, StatusPendingApproval);
 
         return managers.Select(m => new PendingManagerDto
         {
@@ -41,7 +45,7 @@ public class AdminService : IAdminService
 
     public async Task<List<ManagerDto>> GetAllManagersAsync()
     {
-        var managers = await _userRepository.FindAllByRoleAsync("MANAGER");
+        var managers = await _userRepository.FindAllByRoleAsync(RoleManager);
 
         return managers.Select(m => new ManagerDto
         {
@@ -60,7 +64,7 @@ public class AdminService : IAdminService
         var manager = await _userRepository.FindByUserIdAsync(managerId)
             ?? throw new KeyNotFoundException($"Manager {managerId} not found.");
 
-        if (manager.Role != "MANAGER")
+        if (manager.Role != RoleManager)
             throw new InvalidOperationException($"User {managerId} is not a manager.");
 
         return AuthService.MapToProfileDto(manager);
@@ -71,11 +75,11 @@ public class AdminService : IAdminService
         var manager = await _userRepository.FindByUserIdAsync(managerId)
             ?? throw new KeyNotFoundException($"Manager {managerId} not found.");
 
-        if (manager.Role != "MANAGER")
+        if (manager.Role != RoleManager)
             throw new InvalidOperationException($"User {managerId} is not a manager.");
 
-        if (manager.Status != "PENDING_APPROVAL")
-            throw new InvalidOperationException($"Manager is not in PENDING_APPROVAL status.");
+        if (manager.Status != StatusPendingApproval)
+            throw new InvalidOperationException($"Manager is not in {StatusPendingApproval} status.");
 
         manager.Status = "ACTIVE";
         manager.IsActive = true;
@@ -101,7 +105,7 @@ public class AdminService : IAdminService
         var manager = await _userRepository.FindByUserIdAsync(managerId)
             ?? throw new KeyNotFoundException($"Manager {managerId} not found.");
 
-        if (manager.Role != "MANAGER")
+        if (manager.Role != RoleManager)
             throw new InvalidOperationException($"User {managerId} is not a manager.");
 
         manager.Status = "REJECTED";
@@ -124,7 +128,7 @@ public class AdminService : IAdminService
 
     public async Task SuspendManagerAsync(int managerId, int adminId, string reason)
     {
-        var manager = await GetAndValidateUserAsync(managerId, "MANAGER");
+        var manager = await GetAndValidateUserAsync(managerId, RoleManager);
 
         manager.Status = "SUSPENDED";
         manager.IsActive = false;
@@ -146,7 +150,7 @@ public class AdminService : IAdminService
 
     public async Task ReactivateManagerAsync(int managerId, int adminId)
     {
-        var manager = await GetAndValidateUserAsync(managerId, "MANAGER");
+        var manager = await GetAndValidateUserAsync(managerId, RoleManager);
 
         manager.Status = "ACTIVE";
         manager.IsActive = true;
@@ -165,7 +169,7 @@ public class AdminService : IAdminService
 
     public async Task DeleteManagerAsync(int managerId, int adminId)
     {
-        var manager = await GetAndValidateUserAsync(managerId, "MANAGER");
+        var manager = await GetAndValidateUserAsync(managerId, RoleManager);
 
         await _userRepository.DeleteByUserIdAsync(managerId);
 
@@ -183,7 +187,7 @@ public class AdminService : IAdminService
 
     public async Task<List<DriverDto>> GetAllDriversAsync()
     {
-        var drivers = await _userRepository.FindAllByRoleAsync("DRIVER");
+        var drivers = await _userRepository.FindAllByRoleAsync(RoleDriver);
 
         return drivers.Select(d => new DriverDto
         {
@@ -202,7 +206,7 @@ public class AdminService : IAdminService
         var driver = await _userRepository.FindByUserIdAsync(driverId)
             ?? throw new KeyNotFoundException($"Driver {driverId} not found.");
 
-        if (driver.Role != "DRIVER")
+        if (driver.Role != RoleDriver)
             throw new InvalidOperationException($"User {driverId} is not a driver.");
 
         return AuthService.MapToProfileDto(driver);
@@ -210,7 +214,7 @@ public class AdminService : IAdminService
 
     public async Task SuspendDriverAsync(int driverId, int adminId, string reason)
     {
-        var driver = await GetAndValidateUserAsync(driverId, "DRIVER");
+        var driver = await GetAndValidateUserAsync(driverId, RoleDriver);
 
         driver.Status = "SUSPENDED";
         driver.IsActive = false;
@@ -232,7 +236,7 @@ public class AdminService : IAdminService
 
     public async Task ReactivateDriverAsync(int driverId, int adminId)
     {
-        var driver = await GetAndValidateUserAsync(driverId, "DRIVER");
+        var driver = await GetAndValidateUserAsync(driverId, RoleDriver);
 
         driver.Status = "ACTIVE";
         driver.IsActive = true;
@@ -251,7 +255,7 @@ public class AdminService : IAdminService
 
     public async Task DeleteDriverAsync(int driverId, int adminId)
     {
-        var driver = await GetAndValidateUserAsync(driverId, "DRIVER");
+        var driver = await GetAndValidateUserAsync(driverId, RoleDriver);
 
         await _userRepository.DeleteByUserIdAsync(driverId);
 

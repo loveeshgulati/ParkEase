@@ -7,6 +7,10 @@ public class GlobalExceptionMiddleware
 {
     private readonly RequestDelegate _next;
     private readonly ILogger<GlobalExceptionMiddleware> _logger;
+    private static readonly JsonSerializerOptions _jsonOptions = new()
+    {
+        PropertyNamingPolicy = JsonNamingPolicy.CamelCase
+    };
 
     public GlobalExceptionMiddleware(RequestDelegate next, ILogger<GlobalExceptionMiddleware> logger)
     {
@@ -63,9 +67,6 @@ public class GlobalExceptionMiddleware
             statusCode = (int)statusCode
         };
 
-        return context.Response.WriteAsync(JsonSerializer.Serialize(response, new JsonSerializerOptions
-        {
-            PropertyNamingPolicy = JsonNamingPolicy.CamelCase
-        }));
+        return context.Response.WriteAsync(JsonSerializer.Serialize(response, _jsonOptions));
     }
 }

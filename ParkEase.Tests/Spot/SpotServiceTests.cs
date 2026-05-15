@@ -1,4 +1,5 @@
 using MassTransit;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging.Abstractions;
 using Moq;
 using NUnit.Framework;
@@ -12,9 +13,11 @@ namespace ParkEase.Tests.Spot;
 [TestFixture]
 public class SpotServiceTests
 {
-    private Mock<ISpotRepository>  _repo = null!;
-    private Mock<IPublishEndpoint> _bus  = null!;
-    private SpotService            _sut  = null!;
+    private Mock<ISpotRepository>   _repo            = null!;
+    private Mock<IPublishEndpoint>  _bus             = null!;
+    private Mock<IHttpClientFactory> _httpClientFactory = null!;
+    private Mock<IConfiguration>    _configuration   = null!;
+    private SpotService             _sut             = null!;
 
     private static ParkingSpot MakeSpot(int spotId, int lotId, string status = "AVAILABLE") =>
         new()
@@ -35,7 +38,23 @@ public class SpotServiceTests
             .Returns(Task.CompletedTask);
         _repo.Setup(r => r.CountByLotIdAsync(It.IsAny<int>())).ReturnsAsync(5);
         _repo.Setup(r => r.CountByLotIdAndStatusAsync(It.IsAny<int>(), It.IsAny<string>())).ReturnsAsync(3);
-        _sut = new SpotService(_repo.Object, _bus.Object, NullLogger<SpotService>.Instance);
+
+        // Mock IHttpClientFactory — returns a default HttpClient (HTTP calls are non-critical in tests)
+        _httpClientFactory = new Mock<IHttpClientFactory>();
+        _httpClientFactory.Setup(f => f.CreateClient(It.IsAny<string>()))
+            .Returns(new HttpClient { BaseAddress = new Uri("http://localhost:5003") });
+
+        // Mock IConfiguration for ServiceUrls:ParkingLotService
+        _configuration = new Mock<IConfiguration>();
+        _configuration.Setup(c => c["ServiceUrls:ParkingLotService"])
+            .Returns("http://localhost:5003");
+
+        _sut = new SpotService(
+            _repo.Object,
+            _bus.Object,
+            NullLogger<SpotService>.Instance,
+            _httpClientFactory.Object,
+            _configuration.Object);
     }
 
     [Test]

@@ -3,7 +3,7 @@ using ParkEase.Auth.Data;
 
 namespace ParkEase.Auth.Data;
 
-public class DatabaseSeeder
+public static class DatabaseSeeder
 {
     public static void SeedDatabase(IServiceProvider serviceProvider)
     {

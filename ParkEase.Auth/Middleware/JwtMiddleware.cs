@@ -17,7 +17,7 @@ public class JwtMiddleware
 
     public async Task InvokeAsync(HttpContext context)
     {
-        var authHeader = context.Request.Headers["Authorization"].FirstOrDefault();
+        var authHeader = context.Request.Headers.Authorization.FirstOrDefault();
         var token = authHeader?.StartsWith("Bearer ", StringComparison.OrdinalIgnoreCase) == true
             ? authHeader["Bearer ".Length..].Trim()
             : authHeader?.Trim();
@@ -50,6 +50,10 @@ public class JwtMiddleware
             context.Items["UserId"] = int.Parse(
                 jwtToken.Claims.First(c => c.Type == "userId").Value);
         }
-        catch { }
+        catch
+        {
+            // Do nothing if token validation fails
+            // user is not attached to context so request won't have access to secure routes
+        }
     }
 }

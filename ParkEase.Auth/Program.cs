@@ -74,7 +74,7 @@ builder.Services.AddMassTransit(x =>
                  builder.Configuration["RabbitMQ:VHost"] ?? "/", h =>
         {
             h.Username(builder.Configuration["RabbitMQ:Username"]!);
-            h.Password(builder.Configuration["RabbitMQ:Password"]!);
+            h.Password(builder.Configuration["RabbitMQ:Pass"]!);
         });
 
         cfg.ConfigureEndpoints(context);
@@ -145,11 +145,10 @@ app.UseSwaggerUI(c =>
 
 app.UseMiddleware<GlobalExceptionMiddleware>();
 app.UseCors("AllowAll");
-//app.UseHttpsRedirection();
 app.UseAuthentication();
 app.UseAuthorization();
 app.UseMiddleware<JwtMiddleware>();
 app.MapControllers();
 app.MapHealthChecks("/health");
 
-app.Run();
+await app.RunAsync();

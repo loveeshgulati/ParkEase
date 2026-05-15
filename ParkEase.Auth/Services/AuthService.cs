@@ -19,6 +19,14 @@ public class AuthService : IAuthService
     private readonly IConfiguration _configuration;
     private readonly ILogger<AuthService> _logger;
 
+    private const string RoleManager = "MANAGER";
+    private const string RoleAdmin = "ADMIN";
+    private const string RoleDriver = "DRIVER";
+    private const string StatusPendingApproval = "PENDING_APPROVAL";
+    private const string StatusActive = "ACTIVE";
+    private const string StatusRejected = "REJECTED";
+    private const string StatusSuspended = "SUSPENDED";
+
     public AuthService(
         IUserRepository userRepository,
         IPublishEndpoint publishEndpoint,
@@ -38,14 +46,14 @@ public class AuthService : IAuthService
             throw new InvalidOperationException($"Email '{request.Email}' is already registered.");
 
         // Prevent registering as ADMIN via API
-        if (request.Role.ToUpper() == "ADMIN")
+        if (string.Equals(request.Role, RoleAdmin, StringComparison.OrdinalIgnoreCase))
             throw new InvalidOperationException("Cannot register as Admin.");
 
         var role = request.Role.ToUpper();
 
         // Drivers get ACTIVE immediately
         // Managers get PENDING_APPROVAL
-        var status = role == "MANAGER" ? "PENDING_APPROVAL" : "ACTIVE";
+        var status = role == RoleManager ? StatusPendingApproval : StatusActive;
 
         var user = new User
         {
@@ -55,7 +63,7 @@ public class AuthService : IAuthService
             Phone = request.Phone,
             Role = role,
             Status = status,
-            IsActive = role != "MANAGER",
+            IsActive = role != RoleManager,
             CreatedAt = DateTime.UtcNow
         };
 
@@ -73,7 +81,7 @@ public class AuthService : IAuthService
         });
 
         // If manager — notify admin of pending request
-        if (role == "MANAGER")
+        if (role == RoleManager)
         {
             await _publishEndpoint.Publish(new ManagerSignupRequestedEvent
             {
@@ -85,7 +93,7 @@ public class AuthService : IAuthService
             });
         }
 
-        var message = role == "MANAGER"
+        var message = role == RoleManager
             ? "Registration successful. Awaiting admin approval."
             : "Registration successful.";
 
@@ -112,22 +120,7 @@ public class AuthService : IAuthService
         if (!BCrypt.Net.BCrypt.Verify(request.Password, user.PasswordHash))
             throw new UnauthorizedAccessException("Invalid email or password.");
 
-        // Status checks
-        switch (user.Status)
-        {
-            case "PENDING_APPROVAL":
-                throw new UnauthorizedAccessException(
-                    "Your manager account is awaiting admin approval.");
-            case "REJECTED":
-                throw new UnauthorizedAccessException(
-                    $"Your application was rejected. Reason: {user.RejectionReason}");
-            case "SUSPENDED":
-                throw new UnauthorizedAccessException(
-                    "Your account has been suspended. Please contact support.");
-        }
-
-        if (!user.IsActive)
-            throw new UnauthorizedAccessException("Account is deactivated.");
+        CheckUserStatus(user, isNewRegistration: false);
 
         var (accessToken, expiry) = GenerateJwtToken(user);
         var refreshToken = GenerateRefreshToken();
@@ -263,7 +256,7 @@ public class AuthService : IAuthService
             ?? throw new KeyNotFoundException($"User {userId} not found.");
 
         user.IsActive = false;
-        user.Status = "SUSPENDED";
+        user.Status = StatusSuspended;
         user.RefreshToken = null;
         user.RefreshTokenExpiry = null;
         await _userRepository.UpdateAsync(user);
@@ -303,11 +296,11 @@ public class AuthService : IAuthService
         if (user == null)
         {
             // Normalise role
-            var normalisedRole = (role ?? "DRIVER").ToUpper();
-            if (normalisedRole == "ADMIN")
+            var normalisedRole = (role ?? RoleDriver).ToUpper();
+            if (normalisedRole == RoleAdmin)
                 throw new InvalidOperationException("Cannot register as Admin.");
 
-            var status = normalisedRole == "MANAGER" ? "PENDING_APPROVAL" : "ACTIVE";
+            var status = normalisedRole == RoleManager ? StatusPendingApproval : StatusActive;
 
             user = new User
             {
@@ -317,7 +310,7 @@ public class AuthService : IAuthService
                 Phone         = string.Empty,          // can be filled in later
                 Role          = normalisedRole,
                 Status        = status,
-                IsActive      = normalisedRole != "MANAGER",
+                IsActive      = normalisedRole != RoleManager,
                 ProfilePicUrl = payload.Picture,
                 OAuthProvider   = "GOOGLE",
                 OAuthProviderId = payload.Subject,
@@ -337,7 +330,7 @@ public class AuthService : IAuthService
                 RegisteredAt = user.CreatedAt
             });
 
-            if (normalisedRole == "MANAGER")
+            if (normalisedRole == RoleManager)
             {
                 await _publishEndpoint.Publish(new ManagerSignupRequestedEvent
                 {
@@ -366,27 +359,8 @@ public class AuthService : IAuthService
         }
 
         // 3. Status checks (applies to both new and existing users)
-        switch (user.Status)
-        {
-            case "PENDING_APPROVAL":
-                // If it's a new user, say "Registration successful", otherwise just standard login error.
-                if (user.CreatedAt >= DateTime.UtcNow.AddSeconds(-5))
-                {
-                    throw new UnauthorizedAccessException(
-                        "Registration successful. Awaiting admin approval.");
-                }
-                throw new UnauthorizedAccessException(
-                    "Your manager account is awaiting admin approval.");
-            case "REJECTED":
-                throw new UnauthorizedAccessException(
-                    $"Your application was rejected. Reason: {user.RejectionReason}");
-            case "SUSPENDED":
-                throw new UnauthorizedAccessException(
-                    "Your account has been suspended. Please contact support.");
-        }
-
-        if (!user.IsActive)
-            throw new UnauthorizedAccessException("Account is deactivated.");
+        bool isNewUser = user.CreatedAt >= DateTime.UtcNow.AddSeconds(-5);
+        CheckUserStatus(user, isNewUser);
 
         // 4. Issue ParkEase tokens
         var (accessToken, expiry) = GenerateJwtToken(user);
@@ -409,6 +383,24 @@ public class AuthService : IAuthService
     }
 
     // ── Helpers ───────────────────────────────────────────────────────────────
+    private static void CheckUserStatus(User user, bool isNewRegistration)
+    {
+        switch (user.Status)
+        {
+            case StatusPendingApproval:
+                if (isNewRegistration)
+                    throw new UnauthorizedAccessException("Registration successful. Awaiting admin approval.");
+                throw new UnauthorizedAccessException("Your manager account is awaiting admin approval.");
+            case StatusRejected:
+                throw new UnauthorizedAccessException($"Your application was rejected. Reason: {user.RejectionReason}");
+            case StatusSuspended:
+                throw new UnauthorizedAccessException("Your account has been suspended. Please contact support.");
+        }
+
+        if (!user.IsActive)
+            throw new UnauthorizedAccessException("Account is deactivated.");
+    }
+
     private (string token, DateTime expiry) GenerateJwtToken(User user)
     {
         var key = Encoding.UTF8.GetBytes(_configuration["Jwt:Secret"]!);

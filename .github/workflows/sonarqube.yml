@@ -1,0 +1,56 @@
+name: SonarQube Analysis - Backend
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  sonarqube:
+    name: SonarQube Scan (.NET)
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # Required for SonarQube blame info
+
+      - name: Setup .NET 8
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.0.x'
+
+      - name: Install dotnet-sonarscanner
+        run: dotnet tool install --global dotnet-sonarscanner
+
+      - name: Restore dependencies
+        run: dotnet restore ParkEase.sln
+
+      - name: Begin SonarQube analysis
+        run: |
+          dotnet sonarscanner begin \
+            /k:"parkease-backend" \
+            /d:sonar.host.url="${{ secrets.SONAR_HOST_URL }}" \
+            /d:sonar.login="${{ secrets.SONAR_TOKEN_BACKEND }}" \
+            /d:sonar.cs.opencover.reportsPaths="coverage/coverage.opencover.xml" \
+            /d:sonar.exclusions="**/obj/**,**/bin/**,**/Migrations/**,**/*.Designer.cs" \
+            /d:sonar.coverage.exclusions="**/Migrations/**,**/*Program.cs"
+
+      - name: Build solution
+        run: dotnet build ParkEase.sln --no-incremental -c Release
+
+      - name: Run tests with coverage
+        run: |
+          dotnet test ParkEase.Tests/ParkEase.Tests.csproj \
+            --no-build \
+            --configuration Release \
+            --collect:"XPlat Code Coverage" \
+            --results-directory ./coverage \
+            -- DataCollectionRunSettings.DataCollectors.DataCollector.Configuration.Format=opencover
+          # Flatten coverage file to expected path
+          find ./coverage -name "coverage.opencover.xml" -exec cp {} ./coverage/coverage.opencover.xml \;
+
+      - name: End SonarQube analysis
+        run: dotnet sonarscanner end /d:sonar.login="${{ secrets.SONAR_TOKEN_BACKEND }}"

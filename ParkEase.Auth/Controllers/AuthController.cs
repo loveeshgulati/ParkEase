@@ -12,12 +12,10 @@ namespace ParkEase.Auth.Controllers;
 public class AuthController : ControllerBase
 {
     private readonly IAuthService _authService;
-    private readonly ILogger<AuthController> _logger;
 
-    public AuthController(IAuthService authService, ILogger<AuthController> logger)
+    public AuthController(IAuthService authService)
     {
         _authService = authService;
-        _logger = logger;
     }
 
     // POST /api/v1/auth/register
@@ -147,7 +145,7 @@ public class AuthController : ControllerBase
     public async Task<IActionResult> ValidateToken(
         [FromHeader(Name = "Authorization")] string authorization)
     {
-        var token = authorization?.Split(" ").Last();
+        var token = authorization?.Split(" ")[^1];
         if (string.IsNullOrEmpty(token))
             return Ok(ApiResponse<bool>.Ok(false, "No token provided"));
 

@@ -13,12 +13,10 @@ namespace ParkEase.Auth.Controllers;
 public class AdminController : ControllerBase
 {
     private readonly IAdminService _adminService;
-    private readonly ILogger<AdminController> _logger;
 
-    public AdminController(IAdminService adminService, ILogger<AdminController> logger)
+    public AdminController(IAdminService adminService)
     {
         _adminService = adminService;
-        _logger = logger;
     }
 
     // ═══════════════════════════════════════════════════════════════════════════

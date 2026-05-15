@@ -420,3 +420,8 @@ FodyWeavers.xsd
 
 # macOS
 .DS_Store
+
+# SonarQube
+.sonarqube/
+coverage/
+.sonar/

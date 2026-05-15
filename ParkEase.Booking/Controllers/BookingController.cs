@@ -15,14 +15,11 @@ namespace ParkEase.Booking.Controllers;
 public class BookingController : ControllerBase
 {
     private readonly IBookingService _bookingService;
-    private readonly ILogger<BookingController> _logger;
 
     public BookingController(
-        IBookingService bookingService,
-        ILogger<BookingController> logger)
+        IBookingService bookingService)
     {
         _bookingService = bookingService;
-        _logger = logger;
     }
 
     // ═══════════════════════════════════════════════════════════════════════════
