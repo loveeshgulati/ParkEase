@@ -30,19 +30,15 @@ jobs:
 
       - name: Validate SonarQube Secrets
         run: |
-          if [ -z "${{ secrets.SONAR_HOST_URL }}" ]; then
-            echo "::error::SONAR_HOST_URL secret is missing. Please set it in GitHub Repository Secrets."
-            exit 1
-          fi
           if [ -z "${{ secrets.SONAR_TOKEN_BACKEND }}" ]; then
-            echo "::error::SONAR_TOKEN_BACKEND secret is missing. Please set it in GitHub Repository Secrets."
+            echo "::error::SONAR_TOKEN_BACKEND secret is missing. Please set it in GitHub Repository Settings > Secrets and variables > Actions."
             exit 1
           fi
 
       - name: Begin SonarQube analysis
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN_BACKEND }}
-          SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
+          SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL || 'https://sonarcloud.io' }}
         run: |
           dotnet sonarscanner begin \
             /k:"parkease-backend" \
