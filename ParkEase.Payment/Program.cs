@@ -123,13 +123,8 @@ builder.Services.AddHealthChecks();
 // ── CORS ──────────────────────────────────────────────────────────────────────
 builder.Services.AddCors(options =>
 {
-    options.AddPolicy("ParkEasePolicy", policy =>
-    {
-        policy.WithOrigins("http://localhost:4200", "https://parkease-frontend.render.com")
-              .AllowAnyMethod()
-              .AllowAnyHeader()
-              .AllowCredentials();
-    });
+    options.AddPolicy("AllowAll", policy =>
+        policy.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
 });
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -152,7 +147,7 @@ app.UseSwaggerUI(c =>
 
 app.UseSerilogRequestLogging();
 app.UseMiddleware<GlobalExceptionMiddleware>();
-app.UseCors("ParkEasePolicy");
+app.UseCors("AllowAll");
 app.UseHttpsRedirection();
 app.UseAuthentication();
 app.UseAuthorization();

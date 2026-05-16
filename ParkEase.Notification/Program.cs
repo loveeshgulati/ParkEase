@@ -166,13 +166,11 @@ builder.Services.AddHealthChecks();
 // ── CORS ──────────────────────────────────────────────────────────────────────
 builder.Services.AddCors(options =>
 {
-    options.AddPolicy("ParkEasePolicy", policy =>
-    {
-        policy.WithOrigins("http://localhost:4200", "https://parkease-frontend.render.com")
+    options.AddPolicy("AllowAll", policy =>
+        policy.SetIsOriginAllowed(_ => true)  // allows any origin, works with credentials
               .AllowAnyMethod()
               .AllowAnyHeader()
-              .AllowCredentials();
-    });
+              .AllowCredentials());            // required for SignalR
 });
 // ─────────────────────────────────────────────────────────────────────────────
 var app = builder.Build();
@@ -194,7 +192,7 @@ app.UseSwaggerUI(c =>
 app.UseMiddleware<GlobalExceptionMiddleware>();
 //app.UseHttpsRedirection();
 app.UseSerilogRequestLogging();
-app.UseCors("ParkEasePolicy");
+app.UseCors("AllowAll");
 app.UseMiddleware<JwtMiddleware>();
 app.UseAuthentication();
 app.UseAuthorization();
