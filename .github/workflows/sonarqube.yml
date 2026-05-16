@@ -28,12 +28,26 @@ jobs:
       - name: Restore dependencies
         run: dotnet restore ParkEase.sln
 
+      - name: Validate SonarQube Secrets
+        run: |
+          if [ -z "${{ secrets.SONAR_HOST_URL }}" ]; then
+            echo "::error::SONAR_HOST_URL secret is missing. Please set it in GitHub Repository Secrets."
+            exit 1
+          fi
+          if [ -z "${{ secrets.SONAR_TOKEN_BACKEND }}" ]; then
+            echo "::error::SONAR_TOKEN_BACKEND secret is missing. Please set it in GitHub Repository Secrets."
+            exit 1
+          fi
+
       - name: Begin SonarQube analysis
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN_BACKEND }}
+          SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
         run: |
           dotnet sonarscanner begin \
             /k:"parkease-backend" \
-            /d:sonar.host.url="${{ secrets.SONAR_HOST_URL }}" \
-            /d:sonar.login="${{ secrets.SONAR_TOKEN_BACKEND }}" \
+            /d:sonar.host.url="$SONAR_HOST_URL" \
+            /d:sonar.token="$SONAR_TOKEN" \
             /d:sonar.cs.opencover.reportsPaths="coverage/coverage.opencover.xml" \
             /d:sonar.exclusions="**/obj/**,**/bin/**,**/Migrations/**,**/*.Designer.cs" \
             /d:sonar.coverage.exclusions="**/Migrations/**,**/*Program.cs"
@@ -53,4 +67,6 @@ jobs:
           find ./coverage -name "coverage.opencover.xml" -exec cp {} ./coverage/coverage.opencover.xml \;
 
       - name: End SonarQube analysis
-        run: dotnet sonarscanner end /d:sonar.login="${{ secrets.SONAR_TOKEN_BACKEND }}"
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN_BACKEND }}
+        run: dotnet sonarscanner end /d:sonar.token="$SONAR_TOKEN"
