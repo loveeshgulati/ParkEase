@@ -169,3 +169,77 @@ graph TD
     R --> DB_CTX[Data<br/>NotificationDbContext.cs]
     DB_CTX --> DB[(PostgreSQL<br/>parkease_notification)]
 ```
+---
+
+## Data Architecture (ER Diagram)
+
+The following diagram illustrates the logical relationships between entities across the different microservice databases.
+
+```mermaid
+erDiagram
+    USER ||--o{ VEHICLE : "owns"
+    USER ||--o{ BOOKING : "creates"
+    USER ||--o{ PARKING_LOT : "manages (if Manager)"
+    
+    PARKING_LOT ||--o{ PARKING_SPOT : "contains"
+    PARKING_LOT ||--o{ BOOKING : "hosts"
+    
+    PARKING_SPOT ||--o{ BOOKING : "assigned to"
+    
+    BOOKING ||--|| PAYMENT : "generates"
+    BOOKING ||--o{ NOTIFICATION : "triggers"
+
+    USER {
+        int UserId PK
+        string FullName
+        string Email
+        string Role
+        string Status
+    }
+
+    VEHICLE {
+        int VehicleId PK
+        int OwnerId FK
+        string LicensePlate
+        string VehicleType
+    }
+
+    PARKING_LOT {
+        int LotId PK
+        int ManagerId FK
+        string Name
+        string Status
+        int TotalSpots
+    }
+
+    PARKING_SPOT {
+        int SpotId PK
+        int LotId FK
+        string SpotNumber
+        string SpotType
+        string Status
+    }
+
+    BOOKING {
+        int BookingId PK
+        int UserId FK
+        int LotId FK
+        int SpotId FK
+        string Status
+        datetime CheckInTime
+    }
+
+    PAYMENT {
+        int PaymentId PK
+        int BookingId FK
+        decimal Amount
+        string Status
+    }
+
+    NOTIFICATION {
+        int NotificationId PK
+        int UserId FK
+        string Type
+        string Message
+    }
+```
