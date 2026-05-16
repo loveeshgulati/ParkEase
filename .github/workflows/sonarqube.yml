@@ -39,9 +39,11 @@ jobs:
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN_BACKEND }}
           SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL || 'https://sonarcloud.io' }}
+          SONAR_ORG: ${{ secrets.SONAR_ORGANIZATION }}
         run: |
           dotnet sonarscanner begin \
             /k:"parkease-backend" \
+            /o:"$SONAR_ORG" \
             /d:sonar.host.url="$SONAR_HOST_URL" \
             /d:sonar.token="$SONAR_TOKEN" \
             /d:sonar.cs.opencover.reportsPaths="coverage/coverage.opencover.xml" \
