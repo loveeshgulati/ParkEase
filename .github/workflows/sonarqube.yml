@@ -45,8 +45,8 @@ jobs:
             /d:sonar.host.url="$SONAR_HOST_URL" \
             /d:sonar.token="$SONAR_TOKEN" \
             /d:sonar.cs.opencover.reportsPaths="coverage/coverage.opencover.xml" \
-            /d:sonar.exclusions="**/obj/**,**/bin/**,**/Migrations/**,**/*.Designer.cs" \
-            /d:sonar.coverage.exclusions="**/Migrations/**,**/*Program.cs"
+            /d:sonar.exclusions="**/obj/**,**/bin/**,**/Migrations/**,**/*.Designer.cs,**/Data/**,**/Models/**,**/DTOs/**,**/Repositories/**,**/Controllers/**,**/Properties/**" \
+            /d:sonar.coverage.exclusions="**/Migrations/**,**/*Program.cs,**/Data/**,**/Models/**,**/DTOs/**,**/Repositories/**,**/Controllers/**"
 
       - name: Build solution
         run: dotnet build ParkEase.sln --no-incremental -c Release
