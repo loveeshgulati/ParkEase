@@ -12,6 +12,7 @@ public class SpotDbContext : DbContext
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
+        modelBuilder.HasDefaultSchema("spot");
 
         modelBuilder.Entity<ParkingSpot>(entity =>
         {

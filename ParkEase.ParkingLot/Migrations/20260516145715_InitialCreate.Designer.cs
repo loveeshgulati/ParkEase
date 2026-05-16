@@ -12,7 +12,7 @@ using ParkEase.ParkingLot.Data;
 namespace ParkEase.ParkingLot.Migrations
 {
     [DbContext(typeof(ParkingLotDbContext))]
-    [Migration("20260516105815_InitialCreate")]
+    [Migration("20260516145715_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -20,6 +20,7 @@ namespace ParkEase.ParkingLot.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
+                .HasDefaultSchema("parking")
                 .HasAnnotation("ProductVersion", "8.0.0")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
@@ -124,7 +125,7 @@ namespace ParkEase.ParkingLot.Migrations
 
                     b.HasIndex("ManagerId");
 
-                    b.ToTable("parking_lots", (string)null);
+                    b.ToTable("parking_lots", "parking");
                 });
 #pragma warning restore 612, 618
         }

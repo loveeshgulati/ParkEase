@@ -12,8 +12,12 @@ namespace ParkEase.Vehicle.Migrations
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.EnsureSchema(
+                name: "vehicle");
+
             migrationBuilder.CreateTable(
                 name: "vehicles",
+                schema: "vehicle",
                 columns: table => new
                 {
                     vehicle_id = table.Column<int>(type: "integer", nullable: false)
@@ -35,6 +39,7 @@ namespace ParkEase.Vehicle.Migrations
 
             migrationBuilder.CreateIndex(
                 name: "IX_vehicles_owner_id_license_plate",
+                schema: "vehicle",
                 table: "vehicles",
                 columns: new[] { "owner_id", "license_plate" },
                 unique: true);
@@ -44,7 +49,8 @@ namespace ParkEase.Vehicle.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "vehicles");
+                name: "vehicles",
+                schema: "vehicle");
         }
     }
 }

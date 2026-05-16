@@ -17,6 +17,7 @@ namespace ParkEase.Booking.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
+                .HasDefaultSchema("booking")
                 .HasAnnotation("ProductVersion", "8.0.0")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
@@ -115,7 +116,7 @@ namespace ParkEase.Booking.Migrations
 
                     b.HasIndex("SpotId", "Status");
 
-                    b.ToTable("bookings", (string)null);
+                    b.ToTable("bookings", "booking");
                 });
 #pragma warning restore 612, 618
         }

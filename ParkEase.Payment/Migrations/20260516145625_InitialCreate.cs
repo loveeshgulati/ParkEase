@@ -12,8 +12,12 @@ namespace ParkEase.Payment.Migrations
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.EnsureSchema(
+                name: "payment");
+
             migrationBuilder.CreateTable(
                 name: "payments",
+                schema: "payment",
                 columns: table => new
                 {
                     payment_id = table.Column<int>(type: "integer", nullable: false)
@@ -39,16 +43,19 @@ namespace ParkEase.Payment.Migrations
 
             migrationBuilder.CreateIndex(
                 name: "IX_payments_booking_id",
+                schema: "payment",
                 table: "payments",
                 column: "booking_id");
 
             migrationBuilder.CreateIndex(
                 name: "IX_payments_status",
+                schema: "payment",
                 table: "payments",
                 column: "status");
 
             migrationBuilder.CreateIndex(
                 name: "IX_payments_user_id",
+                schema: "payment",
                 table: "payments",
                 column: "user_id");
         }
@@ -57,7 +64,8 @@ namespace ParkEase.Payment.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "payments");
+                name: "payments",
+                schema: "payment");
         }
     }
 }

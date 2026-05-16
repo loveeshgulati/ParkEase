@@ -12,8 +12,12 @@ namespace ParkEase.Notification.Migrations
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.EnsureSchema(
+                name: "notification");
+
             migrationBuilder.CreateTable(
                 name: "notifications",
+                schema: "notification",
                 columns: table => new
                 {
                     notification_id = table.Column<int>(type: "integer", nullable: false)
@@ -35,11 +39,13 @@ namespace ParkEase.Notification.Migrations
 
             migrationBuilder.CreateIndex(
                 name: "IX_notifications_recipient_id",
+                schema: "notification",
                 table: "notifications",
                 column: "recipient_id");
 
             migrationBuilder.CreateIndex(
                 name: "IX_notifications_recipient_id_is_read",
+                schema: "notification",
                 table: "notifications",
                 columns: new[] { "recipient_id", "is_read" });
         }
@@ -48,7 +54,8 @@ namespace ParkEase.Notification.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "notifications");
+                name: "notifications",
+                schema: "notification");
         }
     }
 }

@@ -12,8 +12,12 @@ namespace ParkEase.Booking.Migrations
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.EnsureSchema(
+                name: "booking");
+
             migrationBuilder.CreateTable(
                 name: "bookings",
+                schema: "booking",
                 columns: table => new
                 {
                     booking_id = table.Column<int>(type: "integer", nullable: false)
@@ -41,26 +45,31 @@ namespace ParkEase.Booking.Migrations
 
             migrationBuilder.CreateIndex(
                 name: "IX_bookings_lot_id",
+                schema: "booking",
                 table: "bookings",
                 column: "lot_id");
 
             migrationBuilder.CreateIndex(
                 name: "IX_bookings_spot_id",
+                schema: "booking",
                 table: "bookings",
                 column: "spot_id");
 
             migrationBuilder.CreateIndex(
                 name: "IX_bookings_spot_id_status",
+                schema: "booking",
                 table: "bookings",
                 columns: new[] { "spot_id", "status" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_bookings_status",
+                schema: "booking",
                 table: "bookings",
                 column: "status");
 
             migrationBuilder.CreateIndex(
                 name: "IX_bookings_user_id",
+                schema: "booking",
                 table: "bookings",
                 column: "user_id");
         }
@@ -69,7 +78,8 @@ namespace ParkEase.Booking.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "bookings");
+                name: "bookings",
+                schema: "booking");
         }
     }
 }

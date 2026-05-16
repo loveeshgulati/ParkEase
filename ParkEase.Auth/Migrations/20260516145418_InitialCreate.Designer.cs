@@ -12,7 +12,7 @@ using ParkEase.Auth.Data;
 namespace ParkEase.Auth.Migrations
 {
     [DbContext(typeof(AuthDbContext))]
-    [Migration("20260516105710_InitialCreate")]
+    [Migration("20260516145418_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -20,6 +20,7 @@ namespace ParkEase.Auth.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
+                .HasDefaultSchema("auth")
                 .HasAnnotation("ProductVersion", "8.0.0")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
@@ -126,7 +127,7 @@ namespace ParkEase.Auth.Migrations
                     b.HasIndex("Email")
                         .IsUnique();
 
-                    b.ToTable("users", (string)null);
+                    b.ToTable("users", "auth");
                 });
 #pragma warning restore 612, 618
         }

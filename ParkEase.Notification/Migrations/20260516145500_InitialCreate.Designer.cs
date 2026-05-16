@@ -12,7 +12,7 @@ using ParkEase.Notification.Data;
 namespace ParkEase.Notification.Migrations
 {
     [DbContext(typeof(NotificationDbContext))]
-    [Migration("20260516105756_InitialCreate")]
+    [Migration("20260516145500_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -20,6 +20,7 @@ namespace ParkEase.Notification.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
+                .HasDefaultSchema("notification")
                 .HasAnnotation("ProductVersion", "8.0.0")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
@@ -87,7 +88,7 @@ namespace ParkEase.Notification.Migrations
 
                     b.HasIndex("RecipientId", "IsRead");
 
-                    b.ToTable("notifications", (string)null);
+                    b.ToTable("notifications", "notification");
                 });
 #pragma warning restore 612, 618
         }

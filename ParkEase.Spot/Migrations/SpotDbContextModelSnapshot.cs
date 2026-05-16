@@ -17,6 +17,7 @@ namespace ParkEase.Spot.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
+                .HasDefaultSchema("spot")
                 .HasAnnotation("ProductVersion", "8.0.0")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
@@ -102,7 +103,7 @@ namespace ParkEase.Spot.Migrations
 
                     b.HasIndex("LotId", "VehicleType");
 
-                    b.ToTable("parking_spots", (string)null);
+                    b.ToTable("parking_spots", "spot");
                 });
 #pragma warning restore 612, 618
         }
