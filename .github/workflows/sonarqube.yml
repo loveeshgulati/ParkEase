@@ -45,9 +45,9 @@ jobs:
             /d:sonar.host.url="$SONAR_HOST_URL" \
             /d:sonar.token="$SONAR_TOKEN" \
             /d:sonar.cs.opencover.reportsPaths="coverage/coverage.opencover.xml" \
-            /d:sonar.exclusions="**/obj/**,**/bin/**,**/Migrations/**,**/*.Designer.cs,**/Data/**,**/Models/**,**/DTOs/**,**/Repositories/**,**/Controllers/**,**/Properties/**,**/*Program.cs,**/*Startup.cs" \
-            /d:sonar.coverage.exclusions="**/Migrations/**,**/*Program.cs,**/Data/**,**/Models/**,**/DTOs/**,**/Repositories/**,**/Controllers/**,**/*Program.cs,**/*Startup.cs" \
-            /d:sonar.cpd.exclusions="**/*Program.cs,**/*Startup.cs,**/Data/**,**/Models/**,**/DTOs/**,**/Repositories/**,**/Controllers/**"
+            /d:sonar.exclusions="**/obj/**,**/bin/**,**/Migrations/**,**/*.Designer.cs,**/Data/**,**/Models/**,**/DTOs/**,**/Repositories/**,**/Controllers/**,**/Properties/**,**/*Program.cs,**/*Startup.cs,**/Middleware/**,**/Consumers/**" \
+            /d:sonar.coverage.exclusions="**/Migrations/**,**/*Program.cs,**/Data/**,**/Models/**,**/DTOs/**,**/Repositories/**,**/Controllers/**,**/*Program.cs,**/*Startup.cs,**/Middleware/**,**/Consumers/**" \
+            /d:sonar.cpd.exclusions="**/*Program.cs,**/*Startup.cs,**/Data/**,**/Models/**,**/DTOs/**,**/Repositories/**,**/Controllers/**,**/Middleware/**,**/Consumers/**"
 
       - name: Build solution
         run: dotnet build ParkEase.sln --no-incremental -c Release
