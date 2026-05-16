@@ -128,6 +128,12 @@ Swagger UI → http://localhost:5002
 
 ---
 
+## Testing & Quality
+- **Unit Tests**: Run `dotnet test` to execute service-specific tests.
+- **SonarQube**: This service is analyzed as part of the backend solution. Use the root `sonar-scan-backend.ps1` script for local analysis or check the GitHub Actions pipeline for CI results.
+
+---
+
 ## Testing Flow
 
 **1. Login as manager → get token**
