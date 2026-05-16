@@ -15,7 +15,7 @@ services:
       - key: ASPNETCORE_URLS
         value: http://+:8080
       - key: ConnectionStrings__DefaultConnection
-        value: "Host=dpg-d7is8kvaqgkc73a4d3f0-a.virginia-postgres.render.com;Port=5432;Database=parkease_auth;Username=parkease_yfo2_user;Password=EVSwWebkrsxGPZiLjqGsnYxh8eEcFn0W;SSL Mode=Require;Trust Server Certificate=true"
+        value: "Host=dpg-d844ild7vvec73eul2s0-a;Port=5432;Database=parkease_lg;Username=parkease_lg_user;Password=jPmVNDg0AoRFLRBxRidE2EYPqMcuAzUf;SSL Mode=Require;Trust Server Certificate=true"
       - key: Jwt__Secret
         value: "ParkEase_SuperSecret_JWT_Key_MinLength32Chars!"
       - key: Jwt__Issuer
@@ -53,7 +53,7 @@ services:
       - key: ASPNETCORE_URLS
         value: http://+:8080
       - key: ConnectionStrings__DefaultConnection
-        value: "Host=dpg-d7is8kvaqgkc73a4d3f0-a.virginia-postgres.render.com;Port=5432;Database=parkease_booking;Username=parkease_yfo2_user;Password=EVSwWebkrsxGPZiLjqGsnYxh8eEcFn0W;SSL Mode=Require;Trust Server Certificate=true"
+        value: "Host=dpg-d844ild7vvec73eul2s0-a;Port=5432;Database=parkease_lg;Username=parkease_lg_user;Password=jPmVNDg0AoRFLRBxRidE2EYPqMcuAzUf;SSL Mode=Require;Trust Server Certificate=true"
       - key: Jwt__Secret
         value: "ParkEase_SuperSecret_JWT_Key_MinLength32Chars!"
       - key: Jwt__Issuer
@@ -87,7 +87,7 @@ services:
       - key: ASPNETCORE_URLS
         value: http://+:8080
       - key: ConnectionStrings__DefaultConnection
-        value: "Host=dpg-d7is8kvaqgkc73a4d3f0-a.virginia-postgres.render.com;Port=5432;Database=parkease_notification;Username=parkease_yfo2_user;Password=EVSwWebkrsxGPZiLjqGsnYxh8eEcFn0W;SSL Mode=Require;Trust Server Certificate=true"
+        value: "Host=dpg-d844ild7vvec73eul2s0-a;Port=5432;Database=parkease_lg;Username=parkease_lg_user;Password=jPmVNDg0AoRFLRBxRidE2EYPqMcuAzUf;SSL Mode=Require;Trust Server Certificate=true"
       - key: Jwt__Secret
         value: "ParkEase_SuperSecret_JWT_Key_MinLength32Chars!"
       - key: Jwt__Issuer
@@ -119,7 +119,7 @@ services:
       - key: ASPNETCORE_URLS
         value: http://+:8080
       - key: ConnectionStrings__DefaultConnection
-        value: "Host=dpg-d7is8kvaqgkc73a4d3f0-a.virginia-postgres.render.com;Port=5432;Database=parkease_parkinglot;Username=parkease_yfo2_user;Password=EVSwWebkrsxGPZiLjqGsnYxh8eEcFn0W;SSL Mode=Require;Trust Server Certificate=true"
+        value: "Host=dpg-d844ild7vvec73eul2s0-a;Port=5432;Database=parkease_lg;Username=parkease_lg_user;Password=jPmVNDg0AoRFLRBxRidE2EYPqMcuAzUf;SSL Mode=Require;Trust Server Certificate=true"
       - key: Jwt__Secret
         value: "ParkEase_SuperSecret_JWT_Key_MinLength32Chars!"
       - key: Jwt__Issuer
@@ -151,7 +151,7 @@ services:
       - key: ASPNETCORE_URLS
         value: http://+:8080
       - key: ConnectionStrings__DefaultConnection
-        value: "Host=dpg-d7is8kvaqgkc73a4d3f0-a.virginia-postgres.render.com;Port=5432;Database=parkease_payment;Username=parkease_yfo2_user;Password=EVSwWebkrsxGPZiLjqGsnYxh8eEcFn0W;SSL Mode=Require;Trust Server Certificate=true"
+        value: "Host=dpg-d844ild7vvec73eul2s0-a;Port=5432;Database=parkease_lg;Username=parkease_lg_user;Password=jPmVNDg0AoRFLRBxRidE2EYPqMcuAzUf;SSL Mode=Require;Trust Server Certificate=true"
       - key: Jwt__Secret
         value: "ParkEase_SuperSecret_JWT_Key_MinLength32Chars!"
       - key: Jwt__Issuer
@@ -187,7 +187,7 @@ services:
       - key: ASPNETCORE_URLS
         value: http://+:8080
       - key: ConnectionStrings__DefaultConnection
-        value: "Host=dpg-d7is8kvaqgkc73a4d3f0-a.virginia-postgres.render.com;Port=5432;Database=parkease_spot;Username=parkease_yfo2_user;Password=EVSwWebkrsxGPZiLjqGsnYxh8eEcFn0W;SSL Mode=Require;Trust Server Certificate=true"
+        value: "Host=dpg-d844ild7vvec73eul2s0-a;Port=5432;Database=parkease_lg;Username=parkease_lg_user;Password=jPmVNDg0AoRFLRBxRidE2EYPqMcuAzUf;SSL Mode=Require;Trust Server Certificate=true"
       - key: Jwt__Secret
         value: "ParkEase_SuperSecret_JWT_Key_MinLength32Chars!"
       - key: Jwt__Issuer
@@ -219,7 +219,7 @@ services:
       - key: ASPNETCORE_URLS
         value: http://+:8080
       - key: ConnectionStrings__DefaultConnection
-        value: "Host=dpg-d7is8kvaqgkc73a4d3f0-a.virginia-postgres.render.com;Port=5432;Database=parkease_vehicle;Username=parkease_yfo2_user;Password=EVSwWebkrsxGPZiLjqGsnYxh8eEcFn0W;SSL Mode=Require;Trust Server Certificate=true"
+        value: "Host=dpg-d844ild7vvec73eul2s0-a;Port=5432;Database=parkease_lg;Username=parkease_lg_user;Password=jPmVNDg0AoRFLRBxRidE2EYPqMcuAzUf;SSL Mode=Require;Trust Server Certificate=true"
       - key: Jwt__Secret
         value: "ParkEase_SuperSecret_JWT_Key_MinLength32Chars!"
       - key: Jwt__Issuer
