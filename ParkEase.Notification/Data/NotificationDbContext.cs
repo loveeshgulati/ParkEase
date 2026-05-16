@@ -13,6 +13,7 @@ public class NotificationDbContext : DbContext
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
+        modelBuilder.HasDefaultSchema("notification");
 
         modelBuilder.Entity<ParkEase.Notification.Entities.Notification>(entity =>
         {

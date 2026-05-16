@@ -26,7 +26,7 @@ builder.Host.UseSerilog();
 
 // ── PostgreSQL + EF Core ──────────────────────────────────────────────────────
 builder.Services.AddDbContext<BookingDbContext>(options =>
-    options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
+    options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection"), x => x.MigrationsHistoryTable("__EFMigrationsHistory_Booking", "booking")));
 
 // ── Repository + Service ──────────────────────────────────────────────────────
 builder.Services.AddScoped<IBookingRepository, BookingRepository>();

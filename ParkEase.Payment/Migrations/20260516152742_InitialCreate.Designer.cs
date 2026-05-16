@@ -12,7 +12,7 @@ using ParkEase.Payment.Data;
 namespace ParkEase.Payment.Migrations
 {
     [DbContext(typeof(PaymentDbContext))]
-    [Migration("20260423162650_InitialCreate")]
+    [Migration("20260516152742_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -20,6 +20,7 @@ namespace ParkEase.Payment.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
+                .HasDefaultSchema("payment")
                 .HasAnnotation("ProductVersion", "8.0.0")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
@@ -104,7 +105,7 @@ namespace ParkEase.Payment.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("payments", (string)null);
+                    b.ToTable("payments", "payment");
                 });
 #pragma warning restore 612, 618
         }

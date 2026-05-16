@@ -15,7 +15,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 // ── PostgreSQL + EF Core ──────────────────────────────────────────────────────
 builder.Services.AddDbContext<VehicleDbContext>(options =>
-    options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
+    options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection"), x => x.MigrationsHistoryTable("__EFMigrationsHistory_Vehicle", "vehicle")));
 
 // ── Repository + Service ──────────────────────────────────────────────────────
 builder.Services.AddScoped<IVehicleRepository, VehicleRepository>();

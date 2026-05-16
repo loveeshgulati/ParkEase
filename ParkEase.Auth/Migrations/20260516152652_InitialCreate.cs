@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -12,8 +12,12 @@ namespace ParkEase.Auth.Migrations
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.EnsureSchema(
+                name: "auth");
+
             migrationBuilder.CreateTable(
                 name: "users",
+                schema: "auth",
                 columns: table => new
                 {
                     user_id = table.Column<int>(type: "integer", nullable: false)
@@ -43,6 +47,7 @@ namespace ParkEase.Auth.Migrations
 
             migrationBuilder.CreateIndex(
                 name: "IX_users_email",
+                schema: "auth",
                 table: "users",
                 column: "email",
                 unique: true);
@@ -52,7 +57,8 @@ namespace ParkEase.Auth.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "users");
+                name: "users",
+                schema: "auth");
         }
     }
 }

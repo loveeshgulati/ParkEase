@@ -17,6 +17,7 @@ namespace ParkEase.Notification.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
+                .HasDefaultSchema("notification")
                 .HasAnnotation("ProductVersion", "8.0.0")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
@@ -32,7 +33,6 @@ namespace ParkEase.Notification.Migrations
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("NotificationId"));
 
                     b.Property<string>("Channel")
-                        .IsRequired()
                         .ValueGeneratedOnAdd()
                         .HasMaxLength(10)
                         .HasColumnType("character varying(10)")
@@ -85,7 +85,7 @@ namespace ParkEase.Notification.Migrations
 
                     b.HasIndex("RecipientId", "IsRead");
 
-                    b.ToTable("notifications", (string)null);
+                    b.ToTable("notifications", "notification");
                 });
 #pragma warning restore 612, 618
         }

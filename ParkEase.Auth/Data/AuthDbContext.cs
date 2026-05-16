@@ -18,7 +18,7 @@ public class AuthDbContext : DbContext
                 .Build();
             
             var connectionString = configuration.GetConnectionString("DefaultConnection");
-            optionsBuilder.UseNpgsql(connectionString);
+            optionsBuilder.UseNpgsql(connectionString, x => x.MigrationsHistoryTable("__EFMigrationsHistory_Auth", "auth"));
         }
     }
 
@@ -27,6 +27,7 @@ public class AuthDbContext : DbContext
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
+        modelBuilder.HasDefaultSchema("auth");
 
         modelBuilder.Entity<User>(entity =>
         {

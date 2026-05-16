@@ -12,6 +12,7 @@ public class ParkingLotDbContext : DbContext
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
+        modelBuilder.HasDefaultSchema("parking");
 
         modelBuilder.Entity<Entities.ParkingLot>(entity =>
         {

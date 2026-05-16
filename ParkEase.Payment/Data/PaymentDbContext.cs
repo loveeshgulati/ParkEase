@@ -13,6 +13,7 @@ public class PaymentDbContext : DbContext
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
+        modelBuilder.HasDefaultSchema("payment");
 
         modelBuilder.Entity<PaymentEntity>(entity =>
         {

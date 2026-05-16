@@ -17,6 +17,7 @@ namespace ParkEase.Vehicle.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
+                .HasDefaultSchema("vehicle")
                 .HasAnnotation("ProductVersion", "8.0.0")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
@@ -86,7 +87,7 @@ namespace ParkEase.Vehicle.Migrations
                     b.HasIndex("OwnerId", "LicensePlate")
                         .IsUnique();
 
-                    b.ToTable("vehicles", (string)null);
+                    b.ToTable("vehicles", "vehicle");
                 });
 #pragma warning restore 612, 618
         }

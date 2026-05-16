@@ -12,6 +12,7 @@ public class VehicleDbContext : DbContext
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
+        modelBuilder.HasDefaultSchema("vehicle");
 
         modelBuilder.Entity<Entities.Vehicle>(entity =>
         {

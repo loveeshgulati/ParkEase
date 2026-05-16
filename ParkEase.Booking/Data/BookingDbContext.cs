@@ -13,6 +13,7 @@ public class BookingDbContext : DbContext
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
+        modelBuilder.HasDefaultSchema("booking");
 
         modelBuilder.Entity<BookingEntity>(entity =>
         {
