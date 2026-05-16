@@ -120,7 +120,13 @@ dotnet ef database update
 # Start the service
 dotnet run
 ```
-- Auth Service → http://localhost:7003 (Swagger available)
+- Auth Service → http://localhost:7002 (Swagger available)
+
+---
+
+## Testing & Quality
+- **Unit Tests**: Run `dotnet test` to execute service-specific tests.
+- **SonarQube**: This service is analyzed as part of the backend solution. Use the root `sonar-scan-backend.ps1` script for local analysis or check the GitHub Actions pipeline for CI results.
 
 ---
 

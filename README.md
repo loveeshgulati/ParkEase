@@ -16,13 +16,13 @@ graph TD
     Client[Angular Frontend]
 
     subgraph "ParkEase Microservices (.NET 8)"
-        Auth[Auth Service<br/>:5001]
-        Vehicle[Vehicle Service<br/>:5002]
+        Auth[Auth Service<br/>:7002]
+        Booking[Booking Service<br/>:5001]
+        Spot[Spot Service<br/>:5002]
         ParkingLot[ParkingLot Service<br/>:5003]
-        Spot[Spot Service<br/>:5004]
-        Booking[Booking Service<br/>:5005]
+        Vehicle[Vehicle Service<br/>:7004]
         Payment[Payment Service<br/>:5006]
-        Notification[Notification Service<br/>:5007]
+        Notification[Notification Service<br/>:5008]
     end
 
     subgraph "Databases (PostgreSQL)"

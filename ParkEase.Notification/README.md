@@ -131,8 +131,15 @@ docker run -d --name postgres -p 5432:5432 -e POSTGRES_PASSWORD=yourpassword -e 
 
 dotnet ef migrations add InitialCreate --output-dir Migrations
 dotnet ef database update
+# Start the service
 dotnet run
 ```
 
 Swagger UI  → http://localhost:5008
 SignalR Hub → ws://localhost:5008/hubs/notifications
+
+---
+
+## Testing & Quality
+- **Unit Tests**: Run `dotnet test` to execute service-specific tests.
+- **SonarQube**: This service is analyzed as part of the backend solution. Use the root `sonar-scan-backend.ps1` script for local analysis or check the GitHub Actions pipeline for CI results.
