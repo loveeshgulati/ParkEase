@@ -1,0 +1,11 @@
+W
+LX:\ParkEase\ParkEase.Tests\obj\Release\net8.0\ParkEase.Tests.AssemblyInfo.csutf-8g
+\X:\ParkEase\ParkEase.Tests\obj\Release\net8.0\.NETCoreApp,Version=v8.0.AssemblyAttributes.csutf-8Y
+NX:\ParkEase\ParkEase.Tests\obj\Release\net8.0\ParkEase.Tests.GlobalUsings.g.csutf-8|
+qC:\Users\ABCD\.nuget\packages\microsoft.net.test.sdk\17.9.0\build\netcoreapp3.1\Microsoft.NET.Test.Sdk.Program.csutf-8B
+9X:\ParkEase\ParkEase.Tests\Vehicle\VehicleServiceTests.csutf-8<
+3X:\ParkEase\ParkEase.Tests\Spot\SpotServiceTests.csutf-8B
+9X:\ParkEase\ParkEase.Tests\Payment\PaymentServiceTests.csutf-8H
+?X:\ParkEase\ParkEase.Tests\ParkingLot\ParkingLotServiceTests.csutf-8B
+9X:\ParkEase\ParkEase.Tests\Booking\BookingServiceTests.csutf-8<
+3X:\ParkEase\ParkEase.Tests\Auth\AuthServiceTests.csutf-8

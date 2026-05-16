@@ -16,7 +16,7 @@ public class AuthDbContextFactory : IDesignTimeDbContextFactory<AuthDbContext>
 
         var optionsBuilder = new DbContextOptionsBuilder<AuthDbContext>();
         var connectionString = configuration.GetConnectionString("DefaultConnection");
-        optionsBuilder.UseNpgsql(connectionString);
+        optionsBuilder.UseNpgsql(connectionString, x => x.MigrationsHistoryTable("__EFMigrationsHistory_Auth"));
 
         return new AuthDbContext(optionsBuilder.Options);
     }

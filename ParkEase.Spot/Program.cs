@@ -24,7 +24,7 @@ builder.Host.UseSerilog();
 
 // ── PostgreSQL + EF Core ──────────────────────────────────────────────────────
 builder.Services.AddDbContext<SpotDbContext>(options =>
-    options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
+    options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection"), x => x.MigrationsHistoryTable("__EFMigrationsHistory_Spot")));
 
 // ── Repository + Service ──────────────────────────────────────────────────────
 builder.Services.AddScoped<ISpotRepository, SpotRepository>();

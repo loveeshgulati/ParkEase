@@ -29,7 +29,7 @@ builder.Host.UseSerilog();
 
 // ── PostgreSQL + EF Core ──────────────────────────────────────────────────────
 builder.Services.AddDbContext<NotificationDbContext>(options =>
-    options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
+    options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection"), x => x.MigrationsHistoryTable("__EFMigrationsHistory_Notification")));
 
 // ── Repository + Service ──────────────────────────────────────────────────────
 builder.Services.AddScoped<INotificationRepository, NotificationRepository>();

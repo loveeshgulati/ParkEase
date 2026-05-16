@@ -25,7 +25,7 @@ builder.Host.UseSerilog();
 
 // ── PostgreSQL + EF Core ──────────────────────────────────────────────────────
 builder.Services.AddDbContext<PaymentDbContext>(options =>
-    options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
+    options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection"), x => x.MigrationsHistoryTable("__EFMigrationsHistory_Payment")));
 
 // ── HttpClient for Razorpay ─────────────────────────────────────────────────────
 builder.Services.AddHttpClient<IRazorpayService, RazorpayService>();

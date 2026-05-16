@@ -1,0 +1,945 @@
+{
+  "$schema": "http://json.schemastore.org/sarif-1.0.0",
+  "version": "1.0.0",
+  "runs": [
+    {
+      "tool": {
+        "name": "Microsoft (R) Visual C# Compiler",
+        "version": "5.3.0.0",
+        "fileVersion": "5.3.0-2.26153.122 (4d3023de605a78ba3e59e50c657eed70f125c68a)",
+        "semanticVersion": "5.3.0",
+        "language": "en-US"
+      },
+      "results": [
+        {
+          "ruleId": "CS8618",
+          "level": "warning",
+          "message": "Non-nullable property 'Id' must contain a non-null value when exiting constructor. Consider adding the 'required' modifier or declaring the property as nullable.",
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///X:/ParkEase/ParkEase.Payment/Services/RazorpayService.cs",
+                "region": {
+                  "startLine": 99,
+                  "startColumn": 19,
+                  "endLine": 99,
+                  "endColumn": 21
+                }
+              }
+            }
+          ],
+          "relatedLocations": [
+            {
+              "physicalLocation": {
+                "uri": "file:///X:/ParkEase/ParkEase.Payment/Services/RazorpayService.cs",
+                "region": {
+                  "startLine": 99,
+                  "startColumn": 19,
+                  "endLine": 99,
+                  "endColumn": 21
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 1
+          }
+        },
+        {
+          "ruleId": "CS8618",
+          "level": "warning",
+          "message": "Non-nullable property 'Entity' must contain a non-null value when exiting constructor. Consider adding the 'required' modifier or declaring the property as nullable.",
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///X:/ParkEase/ParkEase.Payment/Services/RazorpayService.cs",
+                "region": {
+                  "startLine": 100,
+                  "startColumn": 19,
+                  "endLine": 100,
+                  "endColumn": 25
+                }
+              }
+            }
+          ],
+          "relatedLocations": [
+            {
+              "physicalLocation": {
+                "uri": "file:///X:/ParkEase/ParkEase.Payment/Services/RazorpayService.cs",
+                "region": {
+                  "startLine": 100,
+                  "startColumn": 19,
+                  "endLine": 100,
+                  "endColumn": 25
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 1
+          }
+        },
+        {
+          "ruleId": "CS8618",
+          "level": "warning",
+          "message": "Non-nullable property 'Currency' must contain a non-null value when exiting constructor. Consider adding the 'required' modifier or declaring the property as nullable.",
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///X:/ParkEase/ParkEase.Payment/Services/RazorpayService.cs",
+                "region": {
+                  "startLine": 102,
+                  "startColumn": 19,
+                  "endLine": 102,
+                  "endColumn": 27
+                }
+              }
+            }
+          ],
+          "relatedLocations": [
+            {
+              "physicalLocation": {
+                "uri": "file:///X:/ParkEase/ParkEase.Payment/Services/RazorpayService.cs",
+                "region": {
+                  "startLine": 102,
+                  "startColumn": 19,
+                  "endLine": 102,
+                  "endColumn": 27
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 1
+          }
+        },
+        {
+          "ruleId": "CS8618",
+          "level": "warning",
+          "message": "Non-nullable property 'Receipt' must contain a non-null value when exiting constructor. Consider adding the 'required' modifier or declaring the property as nullable.",
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///X:/ParkEase/ParkEase.Payment/Services/RazorpayService.cs",
+                "region": {
+                  "startLine": 103,
+                  "startColumn": 19,
+                  "endLine": 103,
+                  "endColumn": 26
+                }
+              }
+            }
+          ],
+          "relatedLocations": [
+            {
+              "physicalLocation": {
+                "uri": "file:///X:/ParkEase/ParkEase.Payment/Services/RazorpayService.cs",
+                "region": {
+                  "startLine": 103,
+                  "startColumn": 19,
+                  "endLine": 103,
+                  "endColumn": 26
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 1
+          }
+        },
+        {
+          "ruleId": "CS8618",
+          "level": "warning",
+          "message": "Non-nullable property 'Status' must contain a non-null value when exiting constructor. Consider adding the 'required' modifier or declaring the property as nullable.",
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///X:/ParkEase/ParkEase.Payment/Services/RazorpayService.cs",
+                "region": {
+                  "startLine": 104,
+                  "startColumn": 19,
+                  "endLine": 104,
+                  "endColumn": 25
+                }
+              }
+            }
+          ],
+          "relatedLocations": [
+            {
+              "physicalLocation": {
+                "uri": "file:///X:/ParkEase/ParkEase.Payment/Services/RazorpayService.cs",
+                "region": {
+                  "startLine": 104,
+                  "startColumn": 19,
+                  "endLine": 104,
+                  "endColumn": 25
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 1
+          }
+        },
+        {
+          "ruleId": "CS8603",
+          "level": "warning",
+          "message": "Possible null reference return.",
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///X:/ParkEase/ParkEase.Payment/Services/RazorpayService.cs",
+                "region": {
+                  "startLine": 64,
+                  "startColumn": 20,
+                  "endLine": 64,
+                  "endColumn": 25
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 1
+          }
+        },
+        {
+          "ruleId": "CS8604",
+          "level": "warning",
+          "message": "Possible null reference argument for parameter 's' in 'byte[] Encoding.GetBytes(string s)'.",
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///X:/ParkEase/ParkEase.Payment/Services/RazorpayService.cs",
+                "region": {
+                  "startLine": 80,
+                  "startColumn": 97,
+                  "endLine": 80,
+                  "endColumn": 106
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 1
+          }
+        },
+        {
+          "ruleId": "S2068",
+          "level": "warning",
+          "message": "\"password\" detected here, make sure this is not a hard-coded credential.",
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///X:/ParkEase/ParkEase.Payment/appsettings.json",
+                "region": {
+                  "startLine": 3,
+                  "startColumn": 27,
+                  "endLine": 3,
+                  "endColumn": 240
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 1
+          }
+        },
+        {
+          "ruleId": "S2068",
+          "level": "warning",
+          "message": "\"password\" detected here, make sure this is not a hard-coded credential.",
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///X:/ParkEase/ParkEase.Payment/appsettings.json",
+                "region": {
+                  "startLine": 17,
+                  "startColumn": 18,
+                  "endLine": 17,
+                  "endColumn": 23
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 1
+          }
+        },
+        {
+          "ruleId": "S6418",
+          "level": "warning",
+          "message": "\"KeySecret\" detected here, make sure this is not a hard-coded secret.",
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///X:/ParkEase/ParkEase.Payment/appsettings.json",
+                "region": {
+                  "startLine": 12,
+                  "startColumn": 19,
+                  "endLine": 12,
+                  "endColumn": 43
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 1
+          }
+        },
+        {
+          "ruleId": "S4487",
+          "level": "warning",
+          "message": "Remove this unread private field '_logger' or refactor the code to use its value.",
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///X:/ParkEase/ParkEase.Payment/Controllers/PaymentController.cs",
+                "region": {
+                  "startLine": 16,
+                  "startColumn": 49,
+                  "endLine": 16,
+                  "endColumn": 56
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 1
+          }
+        },
+        {
+          "ruleId": "S1192",
+          "level": "warning",
+          "message": "Define a constant instead of using this literal 'DRIVER' 4 times.",
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///X:/ParkEase/ParkEase.Payment/Services/PaymentService.cs",
+                "region": {
+                  "startLine": 137,
+                  "startColumn": 21,
+                  "endLine": 137,
+                  "endColumn": 29
+                }
+              }
+            }
+          ],
+          "relatedLocations": [
+            {
+              "physicalLocation": {
+                "uri": "file:///X:/ParkEase/ParkEase.Payment/Services/PaymentService.cs",
+                "region": {
+                  "startLine": 152,
+                  "startColumn": 21,
+                  "endLine": 152,
+                  "endColumn": 29
+                }
+              }
+            },
+            {
+              "physicalLocation": {
+                "uri": "file:///X:/ParkEase/ParkEase.Payment/Services/PaymentService.cs",
+                "region": {
+                  "startLine": 174,
+                  "startColumn": 21,
+                  "endLine": 174,
+                  "endColumn": 29
+                }
+              }
+            },
+            {
+              "physicalLocation": {
+                "uri": "file:///X:/ParkEase/ParkEase.Payment/Services/PaymentService.cs",
+                "region": {
+                  "startLine": 215,
+                  "startColumn": 21,
+                  "endLine": 215,
+                  "endColumn": 29
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 1,
+            "customProperties": {
+              "0": null,
+              "1": null,
+              "2": null
+            }
+          }
+        },
+        {
+          "ruleId": "S1075",
+          "level": "warning",
+          "message": "Refactor your code not to use hardcoded absolute paths or URIs.",
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///X:/ParkEase/ParkEase.Payment/Services/RazorpayService.cs",
+                "region": {
+                  "startLine": 32,
+                  "startColumn": 43,
+                  "endLine": 32,
+                  "endColumn": 73
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 1
+          }
+        },
+        {
+          "ruleId": "S6964",
+          "level": "warning",
+          "message": "Value type property used as input in a controller action should be nullable, required or annotated with the JsonRequiredAttribute to avoid under-posting.",
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///X:/ParkEase/ParkEase.Payment/DTOs/PaymentDto.cs",
+                "region": {
+                  "startLine": 29,
+                  "startColumn": 20,
+                  "endLine": 29,
+                  "endColumn": 26
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 1
+          }
+        },
+        {
+          "ruleId": "S6964",
+          "level": "warning",
+          "message": "Value type property used as input in a controller action should be nullable, required or annotated with the JsonRequiredAttribute to avoid under-posting.",
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///X:/ParkEase/ParkEase.Payment/DTOs/ProcessPaymentDto.cs",
+                "region": {
+                  "startLine": 10,
+                  "startColumn": 27,
+                  "endLine": 10,
+                  "endColumn": 36
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 1
+          }
+        },
+        {
+          "ruleId": "S2629",
+          "level": "warning",
+          "message": "Don't use string interpolation in logging message templates.",
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///X:/ParkEase/ParkEase.Payment/Services/RazorpayService.cs",
+                "region": {
+                  "startLine": 63,
+                  "startColumn": 36,
+                  "endLine": 63,
+                  "endColumn": 74
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 1
+          }
+        },
+        {
+          "ruleId": "CA1869",
+          "level": "note",
+          "message": "Avoid creating a new 'JsonSerializerOptions' instance for every serialization operation. Cache and reuse instances instead.",
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///X:/ParkEase/ParkEase.Payment/Services/RazorpayService.cs",
+                "region": {
+                  "startLine": 61,
+                  "startColumn": 17,
+                  "endLine": 61,
+                  "endColumn": 81
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 1
+          }
+        },
+        {
+          "ruleId": "CA2254",
+          "level": "note",
+          "message": "The logging message template should not vary between calls to 'LoggerExtensions.LogInformation(ILogger, string?, params object?[])'",
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///X:/ParkEase/ParkEase.Payment/Services/RazorpayService.cs",
+                "region": {
+                  "startLine": 63,
+                  "startColumn": 36,
+                  "endLine": 63,
+                  "endColumn": 74
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 1
+          }
+        },
+        {
+          "ruleId": "S2629",
+          "level": "warning",
+          "message": "Don't use string interpolation in logging message templates.",
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///X:/ParkEase/ParkEase.Payment/Services/RazorpayService.cs",
+                "region": {
+                  "startLine": 85,
+                  "startColumn": 36,
+                  "endLine": 85,
+                  "endColumn": 114
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 1
+          }
+        },
+        {
+          "ruleId": "CA2254",
+          "level": "note",
+          "message": "The logging message template should not vary between calls to 'LoggerExtensions.LogInformation(ILogger, string?, params object?[])'",
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///X:/ParkEase/ParkEase.Payment/Services/RazorpayService.cs",
+                "region": {
+                  "startLine": 85,
+                  "startColumn": 36,
+                  "endLine": 85,
+                  "endColumn": 114
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 1
+          }
+        },
+        {
+          "ruleId": "ASP0015",
+          "level": "note",
+          "message": "The header 'Authorization' can be accessed using the Authorization property",
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///X:/ParkEase/ParkEase.Payment/Middleware/JwtMiddleware.cs",
+                "region": {
+                  "startLine": 20,
+                  "startColumn": 26,
+                  "endLine": 20,
+                  "endColumn": 66
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 1,
+            "customProperties": {
+              "HeaderName": "Authorization",
+              "ResolvedPropertyName": "Authorization"
+            }
+          }
+        },
+        {
+          "ruleId": "S5122",
+          "level": "warning",
+          "message": "Make sure this permissive CORS policy is safe here.",
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///X:/ParkEase/ParkEase.Payment/Program.cs",
+                "region": {
+                  "startLine": 127,
+                  "startColumn": 9,
+                  "endLine": 127,
+                  "endColumn": 32
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 1
+          }
+        },
+        {
+          "ruleId": "S2486",
+          "level": "warning",
+          "message": "Handle the exception or explain in a comment why it can be ignored.",
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///X:/ParkEase/ParkEase.Payment/Middleware/JwtMiddleware.cs",
+                "region": {
+                  "startLine": 53,
+                  "startColumn": 9,
+                  "endLine": 53,
+                  "endColumn": 18
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 1
+          }
+        },
+        {
+          "ruleId": "S108",
+          "level": "warning",
+          "message": "Either remove or fill this block of code.",
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///X:/ParkEase/ParkEase.Payment/Middleware/JwtMiddleware.cs",
+                "region": {
+                  "startLine": 53,
+                  "startColumn": 15,
+                  "endLine": 53,
+                  "endColumn": 18
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 1
+          }
+        },
+        {
+          "ruleId": "S6966",
+          "level": "warning",
+          "message": "Await MigrateAsync instead.",
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///X:/ParkEase/ParkEase.Payment/Program.cs",
+                "region": {
+                  "startLine": 137,
+                  "startColumn": 5,
+                  "endLine": 137,
+                  "endColumn": 26
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 1
+          }
+        },
+        {
+          "ruleId": "S6964",
+          "level": "warning",
+          "message": "Value type property used as input in a controller action should be nullable, required or annotated with the JsonRequiredAttribute to avoid under-posting.",
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///X:/ParkEase/ParkEase.Payment/DTOs/RefundPaymentDto.cs",
+                "region": {
+                  "startLine": 7,
+                  "startColumn": 27,
+                  "endLine": 7,
+                  "endColumn": 36
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 1
+          }
+        },
+        {
+          "ruleId": "CA1869",
+          "level": "note",
+          "message": "Avoid creating a new 'JsonSerializerOptions' instance for every serialization operation. Cache and reuse instances instead.",
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///X:/ParkEase/ParkEase.Payment/Middleware/GlobalExceptionMiddleware.cs",
+                "region": {
+                  "startLine": 66,
+                  "startColumn": 79,
+                  "endLine": 69,
+                  "endColumn": 10
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 1
+          }
+        }
+      ],
+      "rules": {
+        "ASP0015": {
+          "id": "ASP0015",
+          "shortDescription": "Suggest using IHeaderDictionary properties",
+          "defaultLevel": "note",
+          "helpUri": "https://aka.ms/aspnet/analyzers",
+          "properties": {
+            "category": "Usage",
+            "isEnabledByDefault": true
+          }
+        },
+        "CA1869": {
+          "id": "CA1869",
+          "shortDescription": "Cache and reuse 'JsonSerializerOptions' instances",
+          "fullDescription": "Avoid creating a new 'JsonSerializerOptions' instance for every serialization operation. Cache and reuse instances instead. Single use 'JsonSerializerOptions' instances can substantially degrade the performance of your application.",
+          "defaultLevel": "note",
+          "helpUri": "https://learn.microsoft.com/dotnet/fundamentals/code-analysis/quality-rules/ca1869",
+          "properties": {
+            "category": "Performance",
+            "isEnabledByDefault": true,
+            "tags": [
+              "Telemetry",
+              "EnabledRuleInAggressiveMode"
+            ]
+          }
+        },
+        "CA2254": {
+          "id": "CA2254",
+          "shortDescription": "Template should be a static expression",
+          "fullDescription": "The logging message template should not vary between calls.",
+          "defaultLevel": "note",
+          "helpUri": "https://learn.microsoft.com/dotnet/fundamentals/code-analysis/quality-rules/ca2254",
+          "properties": {
+            "category": "Usage",
+            "isEnabledByDefault": true,
+            "tags": [
+              "Telemetry",
+              "EnabledRuleInAggressiveMode"
+            ]
+          }
+        },
+        "CS8603": {
+          "id": "CS8603",
+          "shortDescription": "Possible null reference return.",
+          "defaultLevel": "warning",
+          "helpUri": "https://msdn.microsoft.com/query/roslyn.query?appId=roslyn&k=k(CS8603)",
+          "properties": {
+            "category": "Compiler",
+            "isEnabledByDefault": true,
+            "tags": [
+              "Compiler",
+              "Telemetry"
+            ]
+          }
+        },
+        "CS8604": {
+          "id": "CS8604",
+          "shortDescription": "Possible null reference argument.",
+          "defaultLevel": "warning",
+          "helpUri": "https://msdn.microsoft.com/query/roslyn.query?appId=roslyn&k=k(CS8604)",
+          "properties": {
+            "category": "Compiler",
+            "isEnabledByDefault": true,
+            "tags": [
+              "Compiler",
+              "Telemetry"
+            ]
+          }
+        },
+        "CS8618": {
+          "id": "CS8618",
+          "shortDescription": "Non-nullable field must contain a non-null value when exiting constructor. Consider adding the 'required' modifier or declaring as nullable.",
+          "defaultLevel": "warning",
+          "helpUri": "https://msdn.microsoft.com/query/roslyn.query?appId=roslyn&k=k(CS8618)",
+          "properties": {
+            "category": "Compiler",
+            "isEnabledByDefault": true,
+            "tags": [
+              "Compiler",
+              "Telemetry"
+            ]
+          }
+        },
+        "S1075": {
+          "id": "S1075",
+          "shortDescription": "URIs should not be hardcoded",
+          "fullDescription": "Hard-coding a URI makes it difficult to test a program for a variety of reasons:",
+          "defaultLevel": "warning",
+          "properties": {
+            "category": "Minor Code Smell",
+            "isEnabledByDefault": true,
+            "tags": [
+              "C#",
+              "MainSourceScope",
+              "SonarWay"
+            ]
+          }
+        },
+        "S108": {
+          "id": "S108",
+          "shortDescription": "Nested blocks of code should not be left empty",
+          "fullDescription": "An empty code block is confusing. It will require some effort from maintainers to determine if it is intentional or indicates the implementation is incomplete.",
+          "defaultLevel": "warning",
+          "properties": {
+            "category": "Major Code Smell",
+            "isEnabledByDefault": true,
+            "tags": [
+              "C#",
+              "MainSourceScope",
+              "TestSourceScope",
+              "SonarWay"
+            ]
+          }
+        },
+        "S1192": {
+          "id": "S1192",
+          "shortDescription": "String literals should not be duplicated",
+          "fullDescription": "Duplicated string literals make the process of refactoring complex and error-prone, as any change would need to be propagated on all occurrences.",
+          "defaultLevel": "warning",
+          "properties": {
+            "category": "Minor Code Smell",
+            "isEnabledByDefault": false,
+            "tags": [
+              "C#",
+              "MainSourceScope",
+              "SonarWay"
+            ]
+          }
+        },
+        "S2068": {
+          "id": "S2068",
+          "shortDescription": "Credentials should not be hard-coded",
+          "fullDescription": "Hard-coding credentials in source code or binaries makes it easy for attackers to extract sensitive information, especially in distributed or open-source applications. This practice exposes your application to significant security risks.",
+          "defaultLevel": "warning",
+          "properties": {
+            "category": "Major Vulnerability",
+            "isEnabledByDefault": true,
+            "tags": [
+              "C#",
+              "MainSourceScope",
+              "SonarWay"
+            ]
+          }
+        },
+        "S2486": {
+          "id": "S2486",
+          "shortDescription": "Generic exceptions should not be ignored",
+          "fullDescription": "When exceptions occur, it is usually a bad idea to simply ignore them. Instead, it is better to handle them properly, or at least to log them.",
+          "defaultLevel": "warning",
+          "properties": {
+            "category": "Minor Code Smell",
+            "isEnabledByDefault": true,
+            "tags": [
+              "C#",
+              "MainSourceScope",
+              "SonarWay"
+            ]
+          }
+        },
+        "S2629": {
+          "id": "S2629",
+          "shortDescription": "Logging templates should be constant",
+          "fullDescription": "Logging arguments should not require evaluation in order to avoid unnecessary performance overhead. When passing concatenated strings or string interpolations directly into a logging method, the evaluation of these expressions occurs every time the logging method is called, regardless of the log level. This can lead to inefficient code execution and increased resource consumption.",
+          "defaultLevel": "warning",
+          "properties": {
+            "category": "Major Code Smell",
+            "isEnabledByDefault": true,
+            "tags": [
+              "C#",
+              "MainSourceScope",
+              "SonarWay"
+            ]
+          }
+        },
+        "S4487": {
+          "id": "S4487",
+          "shortDescription": "Unread \"private\" fields should be removed",
+          "fullDescription": "Private fields which are written but never read are a case of \"dead store\". Changing the value of such a field is useless and most probably indicates an error in the code.",
+          "defaultLevel": "warning",
+          "properties": {
+            "category": "Critical Code Smell",
+            "isEnabledByDefault": true,
+            "tags": [
+              "C#",
+              "MainSourceScope",
+              "TestSourceScope",
+              "SonarWay"
+            ]
+          }
+        },
+        "S5122": {
+          "id": "S5122",
+          "shortDescription": "Having a permissive Cross-Origin Resource Sharing policy is security-sensitive",
+          "fullDescription": "Having a permissive Cross-Origin Resource Sharing policy is security-sensitive. It has led in the past to the following vulnerabilities:",
+          "defaultLevel": "warning",
+          "properties": {
+            "category": "Minor Security Hotspot",
+            "isEnabledByDefault": true,
+            "tags": [
+              "C#",
+              "MainSourceScope",
+              "SonarWay"
+            ]
+          }
+        },
+        "S6418": {
+          "id": "S6418",
+          "shortDescription": "Secrets should not be hard-coded",
+          "fullDescription": "Hard-coding secrets in source code or binaries makes it easy for attackers to extract sensitive information, especially in distributed or open-source applications. This practice exposes credentials and tokens, increasing the risk of unauthorized access and data breaches.",
+          "defaultLevel": "warning",
+          "properties": {
+            "category": "Blocker Vulnerability",
+            "isEnabledByDefault": true,
+            "tags": [
+              "C#",
+              "MainSourceScope",
+              "SonarWay"
+            ]
+          }
+        },
+        "S6964": {
+          "id": "S6964",
+          "shortDescription": "Value type property used as input in a controller action should be nullable, required or annotated with the JsonRequiredAttribute to avoid under-posting.",
+          "fullDescription": "\"Under-posting\" refers to a situation where a client sends less data than expected to the server during an HTTP request, for example when the client omits some properties from the request body that the server expects to receive.",
+          "defaultLevel": "warning",
+          "properties": {
+            "category": "Major Code Smell",
+            "isEnabledByDefault": true,
+            "tags": [
+              "C#",
+              "MainSourceScope",
+              "SonarWay"
+            ]
+          }
+        },
+        "S6966": {
+          "id": "S6966",
+          "shortDescription": "Awaitable method should be used",
+          "fullDescription": "In an async method, any blocking operations should be avoided.",
+          "defaultLevel": "warning",
+          "properties": {
+            "category": "Major Code Smell",
+            "isEnabledByDefault": true,
+            "tags": [
+              "C#",
+              "MainSourceScope",
+              "TestSourceScope",
+              "SonarWay"
+            ]
+          }
+        }
+      }
+    }
+  ]
+}

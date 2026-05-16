@@ -25,7 +25,7 @@ builder.Host.UseSerilog();
 
 // ── PostgreSQL + EF Core ──────────────────────────────────────────────────────
 builder.Services.AddDbContext<ParkingLotDbContext>(options =>
-    options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
+    options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection"), x => x.MigrationsHistoryTable("__EFMigrationsHistory_ParkingLot")));
 
 // ── Repository + Service ──────────────────────────────────────────────────────
 builder.Services.AddScoped<IParkingLotRepository, ParkingLotRepository>();

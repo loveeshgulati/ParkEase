@@ -32,7 +32,6 @@ namespace ParkEase.Notification.Migrations
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("NotificationId"));
 
                     b.Property<string>("Channel")
-                        .IsRequired()
                         .ValueGeneratedOnAdd()
                         .HasMaxLength(10)
                         .HasColumnType("character varying(10)")

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ProjectInfo xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://www.sonarsource.com/msbuild/integration/2015/1">
+  <ProjectName>ParkEase.Tests</ProjectName>
+  <ProjectLanguage>C#</ProjectLanguage>
+  <ProjectType>Test</ProjectType>
+  <ProjectGuid>20d9cba9-9ed7-4ef0-b5b1-5e672fb0e6ed</ProjectGuid>
+  <FullPath>X:\ParkEase\ParkEase.Tests\ParkEase.Tests.csproj</FullPath>
+  <IsExcluded>false</IsExcluded>
+  <AnalysisResultFiles>
+    <AnalysisResultFile Id="FilesToAnalyze" Location="X:\ParkEase\.sonarqube\conf\6\FilesToAnalyze.txt" />
+  </AnalysisResultFiles>
+  <AnalysisSettings>
+    <Property Name="sonar.cs.roslyn.reportFilePaths">X:\ParkEase\.sonarqube\out\6\Issues.json</Property>
+    <Property Name="sonar.cs.analyzer.projectOutPaths">X:\ParkEase\.sonarqube\out\6</Property>
+    <Property Name="sonar.cs.scanner.telemetry">X:\ParkEase\.sonarqube\out\6\Telemetry.json</Property>
+  </AnalysisSettings>
+  <Configuration>Release</Configuration>
+  <Platform>AnyCPU</Platform>
+  <TargetFramework>net8.0</TargetFramework>
+</ProjectInfo>

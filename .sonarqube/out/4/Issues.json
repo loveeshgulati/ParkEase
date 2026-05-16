@@ -1,0 +1,902 @@
+{
+  "$schema": "http://json.schemastore.org/sarif-1.0.0",
+  "version": "1.0.0",
+  "runs": [
+    {
+      "tool": {
+        "name": "Microsoft (R) Visual C# Compiler",
+        "version": "5.3.0.0",
+        "fileVersion": "5.3.0-2.26153.122 (4d3023de605a78ba3e59e50c657eed70f125c68a)",
+        "semanticVersion": "5.3.0",
+        "language": "en-US"
+      },
+      "results": [
+        {
+          "ruleId": "S2068",
+          "level": "warning",
+          "message": "\"password\" detected here, make sure this is not a hard-coded credential.",
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///X:/ParkEase/ParkEase.Booking/appsettings.json",
+                "region": {
+                  "startLine": 3,
+                  "startColumn": 27,
+                  "endLine": 3,
+                  "endColumn": 240
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 1
+          }
+        },
+        {
+          "ruleId": "S2068",
+          "level": "warning",
+          "message": "\"password\" detected here, make sure this is not a hard-coded credential.",
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///X:/ParkEase/ParkEase.Booking/appsettings.json",
+                "region": {
+                  "startLine": 13,
+                  "startColumn": 18,
+                  "endLine": 13,
+                  "endColumn": 23
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 1
+          }
+        },
+        {
+          "ruleId": "S2068",
+          "level": "warning",
+          "message": "\"password\" detected here, make sure this is not a hard-coded credential.",
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///X:/ParkEase/ParkEase.Booking/Properties/launchSettings.json",
+                "region": {
+                  "startLine": 10,
+                  "startColumn": 50,
+                  "endLine": 10,
+                  "endColumn": 263
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 1
+          }
+        },
+        {
+          "ruleId": "S2068",
+          "level": "warning",
+          "message": "\"password\" detected here, make sure this is not a hard-coded credential.",
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///X:/ParkEase/ParkEase.Booking/Properties/launchSettings.json",
+                "region": {
+                  "startLine": 16,
+                  "startColumn": 32,
+                  "endLine": 16,
+                  "endColumn": 37
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 1
+          }
+        },
+        {
+          "ruleId": "S3260",
+          "level": "warning",
+          "message": "Private classes which are not derived in the current assembly should be marked as 'sealed'.",
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///X:/ParkEase/ParkEase.Booking/Services/SpotHttpClient.cs",
+                "region": {
+                  "startLine": 104,
+                  "startColumn": 19,
+                  "endLine": 104,
+                  "endColumn": 34
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 1
+          }
+        },
+        {
+          "ruleId": "S3459",
+          "level": "warning",
+          "message": "Remove unassigned auto-property 'Data', or set its value.",
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///X:/ParkEase/ParkEase.Booking/Services/SpotHttpClient.cs",
+                "region": {
+                  "startLine": 107,
+                  "startColumn": 26,
+                  "endLine": 107,
+                  "endColumn": 30
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 1
+          }
+        },
+        {
+          "ruleId": "S1144",
+          "level": "warning",
+          "message": "Remove the unused private set accessor in property 'Data'.",
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///X:/ParkEase/ParkEase.Booking/Services/SpotHttpClient.cs",
+                "region": {
+                  "startLine": 107,
+                  "startColumn": 38,
+                  "endLine": 107,
+                  "endColumn": 41
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 1
+          }
+        },
+        {
+          "ruleId": "S1144",
+          "level": "warning",
+          "message": "Remove the unused private property 'Success'.",
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///X:/ParkEase/ParkEase.Booking/Services/SpotHttpClient.cs",
+                "region": {
+                  "startLine": 106,
+                  "startColumn": 21,
+                  "endLine": 106,
+                  "endColumn": 28
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 1
+          }
+        },
+        {
+          "ruleId": "S1192",
+          "level": "warning",
+          "message": "Define a constant instead of using this literal 'RESERVED' 4 times.",
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///X:/ParkEase/ParkEase.Booking/Services/BookingService.cs",
+                "region": {
+                  "startLine": 80,
+                  "startColumn": 22,
+                  "endLine": 80,
+                  "endColumn": 32
+                }
+              }
+            }
+          ],
+          "relatedLocations": [
+            {
+              "physicalLocation": {
+                "uri": "file:///X:/ParkEase/ParkEase.Booking/Services/BookingService.cs",
+                "region": {
+                  "startLine": 126,
+                  "startColumn": 53,
+                  "endLine": 126,
+                  "endColumn": 63
+                }
+              }
+            },
+            {
+              "physicalLocation": {
+                "uri": "file:///X:/ParkEase/ParkEase.Booking/Services/BookingService.cs",
+                "region": {
+                  "startLine": 161,
+                  "startColumn": 31,
+                  "endLine": 161,
+                  "endColumn": 41
+                }
+              }
+            },
+            {
+              "physicalLocation": {
+                "uri": "file:///X:/ParkEase/ParkEase.Booking/Services/BookingService.cs",
+                "region": {
+                  "startLine": 237,
+                  "startColumn": 31,
+                  "endLine": 237,
+                  "endColumn": 41
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 1,
+            "customProperties": {
+              "0": null,
+              "1": null,
+              "2": null
+            }
+          }
+        },
+        {
+          "ruleId": "S1192",
+          "level": "warning",
+          "message": "Define a constant instead of using this literal 'DRIVER' 4 times.",
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///X:/ParkEase/ParkEase.Booking/Services/BookingService.cs",
+                "region": {
+                  "startLine": 117,
+                  "startColumn": 21,
+                  "endLine": 117,
+                  "endColumn": 29
+                }
+              }
+            }
+          ],
+          "relatedLocations": [
+            {
+              "physicalLocation": {
+                "uri": "file:///X:/ParkEase/ParkEase.Booking/Services/BookingService.cs",
+                "region": {
+                  "startLine": 157,
+                  "startColumn": 21,
+                  "endLine": 157,
+                  "endColumn": 29
+                }
+              }
+            },
+            {
+              "physicalLocation": {
+                "uri": "file:///X:/ParkEase/ParkEase.Booking/Services/BookingService.cs",
+                "region": {
+                  "startLine": 191,
+                  "startColumn": 21,
+                  "endLine": 191,
+                  "endColumn": 29
+                }
+              }
+            },
+            {
+              "physicalLocation": {
+                "uri": "file:///X:/ParkEase/ParkEase.Booking/Services/BookingService.cs",
+                "region": {
+                  "startLine": 279,
+                  "startColumn": 21,
+                  "endLine": 279,
+                  "endColumn": 29
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 1,
+            "customProperties": {
+              "0": null,
+              "1": null,
+              "2": null
+            }
+          }
+        },
+        {
+          "ruleId": "S1192",
+          "level": "warning",
+          "message": "Define a constant instead of using this literal 'ACTIVE' 5 times.",
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///X:/ParkEase/ParkEase.Booking/Services/BookingService.cs",
+                "region": {
+                  "startLine": 165,
+                  "startColumn": 26,
+                  "endLine": 165,
+                  "endColumn": 34
+                }
+              }
+            }
+          ],
+          "relatedLocations": [
+            {
+              "physicalLocation": {
+                "uri": "file:///X:/ParkEase/ParkEase.Booking/Services/BookingService.cs",
+                "region": {
+                  "startLine": 195,
+                  "startColumn": 31,
+                  "endLine": 195,
+                  "endColumn": 39
+                }
+              }
+            },
+            {
+              "physicalLocation": {
+                "uri": "file:///X:/ParkEase/ParkEase.Booking/Services/BookingService.cs",
+                "region": {
+                  "startLine": 237,
+                  "startColumn": 63,
+                  "endLine": 237,
+                  "endColumn": 71
+                }
+              }
+            },
+            {
+              "physicalLocation": {
+                "uri": "file:///X:/ParkEase/ParkEase.Booking/Services/BookingService.cs",
+                "region": {
+                  "startLine": 323,
+                  "startColumn": 75,
+                  "endLine": 323,
+                  "endColumn": 83
+                }
+              }
+            },
+            {
+              "physicalLocation": {
+                "uri": "file:///X:/ParkEase/ParkEase.Booking/Services/BookingService.cs",
+                "region": {
+                  "startLine": 332,
+                  "startColumn": 31,
+                  "endLine": 332,
+                  "endColumn": 39
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 1,
+            "customProperties": {
+              "0": null,
+              "1": null,
+              "2": null,
+              "3": null
+            }
+          }
+        },
+        {
+          "ruleId": "S6964",
+          "level": "warning",
+          "message": "Value type property used as input in a controller action should be nullable, required or annotated with the JsonRequiredAttribute to avoid under-posting.",
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///X:/ParkEase/ParkEase.Booking/DTOs/Request/CreateBookingDto.cs",
+                "region": {
+                  "startLine": 7,
+                  "startColumn": 27,
+                  "endLine": 7,
+                  "endColumn": 32
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 1
+          }
+        },
+        {
+          "ruleId": "S6964",
+          "level": "warning",
+          "message": "Value type property used as input in a controller action should be nullable, required or annotated with the JsonRequiredAttribute to avoid under-posting.",
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///X:/ParkEase/ParkEase.Booking/DTOs/Request/CreateBookingDto.cs",
+                "region": {
+                  "startLine": 8,
+                  "startColumn": 27,
+                  "endLine": 8,
+                  "endColumn": 33
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 1
+          }
+        },
+        {
+          "ruleId": "S6964",
+          "level": "warning",
+          "message": "Value type property used as input in a controller action should be nullable, required or annotated with the JsonRequiredAttribute to avoid under-posting.",
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///X:/ParkEase/ParkEase.Booking/DTOs/Request/CreateBookingDto.cs",
+                "region": {
+                  "startLine": 22,
+                  "startColumn": 32,
+                  "endLine": 22,
+                  "endColumn": 41
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 1
+          }
+        },
+        {
+          "ruleId": "S6964",
+          "level": "warning",
+          "message": "Value type property used as input in a controller action should be nullable, required or annotated with the JsonRequiredAttribute to avoid under-posting.",
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///X:/ParkEase/ParkEase.Booking/DTOs/Request/CreateBookingDto.cs",
+                "region": {
+                  "startLine": 23,
+                  "startColumn": 32,
+                  "endLine": 23,
+                  "endColumn": 39
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 1
+          }
+        },
+        {
+          "ruleId": "ASP0015",
+          "level": "note",
+          "message": "The header 'Authorization' can be accessed using the Authorization property",
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///X:/ParkEase/ParkEase.Booking/Services/SpotHttpClient.cs",
+                "region": {
+                  "startLine": 26,
+                  "startColumn": 54,
+                  "endLine": 26,
+                  "endColumn": 87
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 1,
+            "customProperties": {
+              "HeaderName": "Authorization",
+              "ResolvedPropertyName": "Authorization"
+            }
+          }
+        },
+        {
+          "ruleId": "CA1869",
+          "level": "note",
+          "message": "Avoid creating a new 'JsonSerializerOptions' instance for every serialization operation. Cache and reuse instances instead.",
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///X:/ParkEase/ParkEase.Booking/Services/SpotHttpClient.cs",
+                "region": {
+                  "startLine": 44,
+                  "startColumn": 17,
+                  "endLine": 44,
+                  "endColumn": 81
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 1
+          }
+        },
+        {
+          "ruleId": "S6964",
+          "level": "warning",
+          "message": "Value type property used as input in a controller action should be nullable, required or annotated with the JsonRequiredAttribute to avoid under-posting.",
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///X:/ParkEase/ParkEase.Booking/DTOs/Request/ExtendBookingDto.cs",
+                "region": {
+                  "startLine": 8,
+                  "startColumn": 21,
+                  "endLine": 8,
+                  "endColumn": 31
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 1
+          }
+        },
+        {
+          "ruleId": "S2486",
+          "level": "warning",
+          "message": "Handle the exception or explain in a comment why it can be ignored.",
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///X:/ParkEase/ParkEase.Booking/Middleware/JwtMiddleware.cs",
+                "region": {
+                  "startLine": 53,
+                  "startColumn": 9,
+                  "endLine": 53,
+                  "endColumn": 18
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 1
+          }
+        },
+        {
+          "ruleId": "S108",
+          "level": "warning",
+          "message": "Either remove or fill this block of code.",
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///X:/ParkEase/ParkEase.Booking/Middleware/JwtMiddleware.cs",
+                "region": {
+                  "startLine": 53,
+                  "startColumn": 15,
+                  "endLine": 53,
+                  "endColumn": 18
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 1
+          }
+        },
+        {
+          "ruleId": "ASP0015",
+          "level": "note",
+          "message": "The header 'Authorization' can be accessed using the Authorization property",
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///X:/ParkEase/ParkEase.Booking/Middleware/JwtMiddleware.cs",
+                "region": {
+                  "startLine": 20,
+                  "startColumn": 26,
+                  "endLine": 20,
+                  "endColumn": 66
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 1,
+            "customProperties": {
+              "HeaderName": "Authorization",
+              "ResolvedPropertyName": "Authorization"
+            }
+          }
+        },
+        {
+          "ruleId": "CA1869",
+          "level": "note",
+          "message": "Avoid creating a new 'JsonSerializerOptions' instance for every serialization operation. Cache and reuse instances instead.",
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///X:/ParkEase/ParkEase.Booking/Middleware/GlobalExceptionMiddleware.cs",
+                "region": {
+                  "startLine": 66,
+                  "startColumn": 79,
+                  "endLine": 69,
+                  "endColumn": 10
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 1
+          }
+        },
+        {
+          "ruleId": "CA1860",
+          "level": "note",
+          "message": "Prefer comparing 'Count' to 0 rather than using 'Any()', both for clarity and for performance",
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///X:/ParkEase/ParkEase.Booking/Services/BookingService.cs",
+                "region": {
+                  "startLine": 394,
+                  "startColumn": 13,
+                  "endLine": 394,
+                  "endColumn": 26
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 1,
+            "customProperties": {
+              "DiagnosticPropertyKey": "Count"
+            }
+          }
+        },
+        {
+          "ruleId": "S5122",
+          "level": "warning",
+          "message": "Make sure this permissive CORS policy is safe here.",
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///X:/ParkEase/ParkEase.Booking/Program.cs",
+                "region": {
+                  "startLine": 136,
+                  "startColumn": 9,
+                  "endLine": 136,
+                  "endColumn": 32
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 1
+          }
+        },
+        {
+          "ruleId": "S6966",
+          "level": "warning",
+          "message": "Await MigrateAsync instead.",
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///X:/ParkEase/ParkEase.Booking/Program.cs",
+                "region": {
+                  "startLine": 146,
+                  "startColumn": 5,
+                  "endLine": 146,
+                  "endColumn": 26
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 1
+          }
+        },
+        {
+          "ruleId": "S6966",
+          "level": "warning",
+          "message": "Await RunAsync instead.",
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///X:/ParkEase/ParkEase.Booking/Program.cs",
+                "region": {
+                  "startLine": 167,
+                  "startColumn": 1,
+                  "endLine": 167,
+                  "endColumn": 10
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 1
+          }
+        }
+      ],
+      "rules": {
+        "ASP0015": {
+          "id": "ASP0015",
+          "shortDescription": "Suggest using IHeaderDictionary properties",
+          "defaultLevel": "note",
+          "helpUri": "https://aka.ms/aspnet/analyzers",
+          "properties": {
+            "category": "Usage",
+            "isEnabledByDefault": true
+          }
+        },
+        "CA1860": {
+          "id": "CA1860",
+          "shortDescription": "Avoid using 'Enumerable.Any()' extension method",
+          "fullDescription": "Prefer using 'IsEmpty', 'Count' or 'Length' properties whichever available, rather than calling 'Enumerable.Any()'. The intent is clearer and it is more performant than using 'Enumerable.Any()' extension method.",
+          "defaultLevel": "note",
+          "helpUri": "https://learn.microsoft.com/dotnet/fundamentals/code-analysis/quality-rules/ca1860",
+          "properties": {
+            "category": "Performance",
+            "isEnabledByDefault": true,
+            "tags": [
+              "Telemetry",
+              "EnabledRuleInAggressiveMode"
+            ]
+          }
+        },
+        "CA1869": {
+          "id": "CA1869",
+          "shortDescription": "Cache and reuse 'JsonSerializerOptions' instances",
+          "fullDescription": "Avoid creating a new 'JsonSerializerOptions' instance for every serialization operation. Cache and reuse instances instead. Single use 'JsonSerializerOptions' instances can substantially degrade the performance of your application.",
+          "defaultLevel": "note",
+          "helpUri": "https://learn.microsoft.com/dotnet/fundamentals/code-analysis/quality-rules/ca1869",
+          "properties": {
+            "category": "Performance",
+            "isEnabledByDefault": true,
+            "tags": [
+              "Telemetry",
+              "EnabledRuleInAggressiveMode"
+            ]
+          }
+        },
+        "S108": {
+          "id": "S108",
+          "shortDescription": "Nested blocks of code should not be left empty",
+          "fullDescription": "An empty code block is confusing. It will require some effort from maintainers to determine if it is intentional or indicates the implementation is incomplete.",
+          "defaultLevel": "warning",
+          "properties": {
+            "category": "Major Code Smell",
+            "isEnabledByDefault": true,
+            "tags": [
+              "C#",
+              "MainSourceScope",
+              "TestSourceScope",
+              "SonarWay"
+            ]
+          }
+        },
+        "S1144": {
+          "id": "S1144",
+          "shortDescription": "Unused private types or members should be removed",
+          "fullDescription": "This rule raises an issue when a private/internal type or member is never referenced in the code.",
+          "defaultLevel": "warning",
+          "properties": {
+            "category": "Major Code Smell",
+            "isEnabledByDefault": true,
+            "tags": [
+              "C#",
+              "MainSourceScope",
+              "TestSourceScope",
+              "SonarWay"
+            ]
+          }
+        },
+        "S1192": {
+          "id": "S1192",
+          "shortDescription": "String literals should not be duplicated",
+          "fullDescription": "Duplicated string literals make the process of refactoring complex and error-prone, as any change would need to be propagated on all occurrences.",
+          "defaultLevel": "warning",
+          "properties": {
+            "category": "Minor Code Smell",
+            "isEnabledByDefault": false,
+            "tags": [
+              "C#",
+              "MainSourceScope",
+              "SonarWay"
+            ]
+          }
+        },
+        "S2068": {
+          "id": "S2068",
+          "shortDescription": "Credentials should not be hard-coded",
+          "fullDescription": "Hard-coding credentials in source code or binaries makes it easy for attackers to extract sensitive information, especially in distributed or open-source applications. This practice exposes your application to significant security risks.",
+          "defaultLevel": "warning",
+          "properties": {
+            "category": "Major Vulnerability",
+            "isEnabledByDefault": true,
+            "tags": [
+              "C#",
+              "MainSourceScope",
+              "SonarWay"
+            ]
+          }
+        },
+        "S2486": {
+          "id": "S2486",
+          "shortDescription": "Generic exceptions should not be ignored",
+          "fullDescription": "When exceptions occur, it is usually a bad idea to simply ignore them. Instead, it is better to handle them properly, or at least to log them.",
+          "defaultLevel": "warning",
+          "properties": {
+            "category": "Minor Code Smell",
+            "isEnabledByDefault": true,
+            "tags": [
+              "C#",
+              "MainSourceScope",
+              "SonarWay"
+            ]
+          }
+        },
+        "S3260": {
+          "id": "S3260",
+          "shortDescription": "Non-derived \"private\" classes and records should be \"sealed\"",
+          "fullDescription": "Classes and records with either private or file access modifiers aren’t visible outside of their assemblies or files, so if they’re not extended inside their scope, they should be made explicitly non-extensible with the addition of the sealed keyword.",
+          "defaultLevel": "warning",
+          "properties": {
+            "category": "Minor Code Smell",
+            "isEnabledByDefault": true,
+            "tags": [
+              "C#",
+              "MainSourceScope",
+              "SonarWay"
+            ]
+          }
+        },
+        "S3459": {
+          "id": "S3459",
+          "shortDescription": "Unassigned members should be removed",
+          "fullDescription": "Fields and auto-properties that are never assigned to hold the default values for their types. They are either pointless code or, more likely, mistakes.",
+          "defaultLevel": "warning",
+          "properties": {
+            "category": "Minor Code Smell",
+            "isEnabledByDefault": true,
+            "tags": [
+              "C#",
+              "MainSourceScope",
+              "TestSourceScope",
+              "SonarWay"
+            ]
+          }
+        },
+        "S5122": {
+          "id": "S5122",
+          "shortDescription": "Having a permissive Cross-Origin Resource Sharing policy is security-sensitive",
+          "fullDescription": "Having a permissive Cross-Origin Resource Sharing policy is security-sensitive. It has led in the past to the following vulnerabilities:",
+          "defaultLevel": "warning",
+          "properties": {
+            "category": "Minor Security Hotspot",
+            "isEnabledByDefault": true,
+            "tags": [
+              "C#",
+              "MainSourceScope",
+              "SonarWay"
+            ]
+          }
+        },
+        "S6964": {
+          "id": "S6964",
+          "shortDescription": "Value type property used as input in a controller action should be nullable, required or annotated with the JsonRequiredAttribute to avoid under-posting.",
+          "fullDescription": "\"Under-posting\" refers to a situation where a client sends less data than expected to the server during an HTTP request, for example when the client omits some properties from the request body that the server expects to receive.",
+          "defaultLevel": "warning",
+          "properties": {
+            "category": "Major Code Smell",
+            "isEnabledByDefault": true,
+            "tags": [
+              "C#",
+              "MainSourceScope",
+              "SonarWay"
+            ]
+          }
+        },
+        "S6966": {
+          "id": "S6966",
+          "shortDescription": "Awaitable method should be used",
+          "fullDescription": "In an async method, any blocking operations should be avoided.",
+          "defaultLevel": "warning",
+          "properties": {
+            "category": "Major Code Smell",
+            "isEnabledByDefault": true,
+            "tags": [
+              "C#",
+              "MainSourceScope",
+              "TestSourceScope",
+              "SonarWay"
+            ]
+          }
+        }
+      }
+    }
+  ]
+}
