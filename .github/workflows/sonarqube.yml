@@ -37,15 +37,19 @@ jobs:
 
       - name: Begin SonarQube analysis
         env:
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN_BACKEND }}
+          SONAR_TOKEN_RAW: ${{ secrets.SONAR_TOKEN_BACKEND }}
           SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL || 'https://sonarcloud.io' }}
-          SONAR_ORG: ${{ secrets.SONAR_ORGANIZATION }}
+          SONAR_ORG_RAW: ${{ secrets.SONAR_ORGANIZATION }}
         run: |
+          # Strip accidental newlines/whitespace from secrets
+          CLEAN_TOKEN=$(echo "$SONAR_TOKEN_RAW" | tr -d '\n\r ')
+          CLEAN_ORG=$(echo "$SONAR_ORG_RAW" | tr -d '\n\r ')
+          
           dotnet sonarscanner begin \
             /k:"parkease-backend" \
-            /o:"$SONAR_ORG" \
+            /o:"$CLEAN_ORG" \
             /d:sonar.host.url="$SONAR_HOST_URL" \
-            /d:sonar.token="$SONAR_TOKEN" \
+            /d:sonar.token="$CLEAN_TOKEN" \
             /d:sonar.cs.opencover.reportsPaths="coverage/coverage.opencover.xml" \
             /d:sonar.exclusions="**/obj/**,**/bin/**,**/Migrations/**,**/*.Designer.cs,**/Data/**,**/Models/**,**/DTOs/**,**/Repositories/**,**/Controllers/**,**/Properties/**,**/*Program.cs,**/*Startup.cs,**/Middleware/**,**/Consumers/**" \
             /d:sonar.coverage.exclusions="**/Migrations/**,**/*Program.cs,**/Data/**,**/Models/**,**/DTOs/**,**/Repositories/**,**/Controllers/**,**/*Program.cs,**/*Startup.cs,**/Middleware/**,**/Consumers/**" \
