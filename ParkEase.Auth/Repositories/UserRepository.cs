@@ -12,13 +12,13 @@ public class UserRepository : IUserRepository
     public UserRepository(AuthDbContext context) => _context = context;
 
     public async Task<User?> FindByEmailAsync(string email) =>
-        await _context.Users.FirstOrDefaultAsync(u => string.Equals(u.Email, email, StringComparison.OrdinalIgnoreCase));
+        await _context.Users.FirstOrDefaultAsync(u => u.Email.ToLower() == email.ToLower());
 
     public async Task<User?> FindByUserIdAsync(int userId) =>
         await _context.Users.FindAsync(userId);
 
     public async Task<bool> ExistsByEmailAsync(string email) =>
-        await _context.Users.AnyAsync(u => string.Equals(u.Email, email, StringComparison.OrdinalIgnoreCase));
+        await _context.Users.AnyAsync(u => u.Email.ToLower() == email.ToLower());
 
     public async Task<List<User>> FindAllByRoleAsync(string role) =>
         await _context.Users.Where(u => u.Role == role).ToListAsync();
