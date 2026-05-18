@@ -14,7 +14,7 @@ using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// ── Serilog ───────────────────────────────────────────────────────────────────
+
 Log.Logger = new LoggerConfiguration()
     .ReadFrom.Configuration(builder.Configuration)
     .Enrich.FromLogContext()
@@ -23,18 +23,18 @@ Log.Logger = new LoggerConfiguration()
     .CreateLogger();
 builder.Host.UseSerilog();
 
-// ── PostgreSQL + EF Core ──────────────────────────────────────────────────────
+
 builder.Services.AddDbContext<PaymentDbContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection"), x => x.MigrationsHistoryTable("__EFMigrationsHistory_Payment", "payment")));
 
-// ── HttpClient for Razorpay ─────────────────────────────────────────────────────
+
 builder.Services.AddHttpClient<IRazorpayService, RazorpayService>();
 
-// ── Repository + Service ──────────────────────────────────────────────────────
+
 builder.Services.AddScoped<IPaymentRepository, PaymentRepository>();
 builder.Services.AddScoped<IPaymentService, PaymentService>();
 
-// ── JWT Authentication ────────────────────────────────────────────────────────
+
 var key = Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Secret"]!);
 
 builder.Services.AddAuthentication(options =>
@@ -60,7 +60,7 @@ builder.Services.AddAuthentication(options =>
 
 builder.Services.AddAuthorization();
 
-// ── MassTransit + RabbitMQ ────────────────────────────────────────────────────
+
 builder.Services.AddMassTransit(x =>
 {
     x.AddConsumer<BookingCheckedOutConsumer>();
@@ -79,7 +79,7 @@ builder.Services.AddMassTransit(x =>
     });
 });
 
-// ── Controllers + Swagger ─────────────────────────────────────────────────────
+
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(c =>
@@ -117,27 +117,27 @@ builder.Services.AddSwaggerGen(c =>
     });
 });
 
-// ── Health Checks ─────────────────────────────────────────────────────────────
+
 builder.Services.AddHealthChecks();
 
-// ── CORS ──────────────────────────────────────────────────────────────────────
+
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowAll", policy =>
         policy.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
 });
 
-// ─────────────────────────────────────────────────────────────────────────────
+
 var app = builder.Build();
 
-// ── Auto-migrate ──────────────────────────────────────────────────────────────
+
 using (var scope = app.Services.CreateScope())
 {
     var db = scope.ServiceProvider.GetRequiredService<PaymentDbContext>();
     db.Database.Migrate();
 }
 
-// ── Middleware Pipeline ───────────────────────────────────────────────────────
+
 app.UseSwagger();
 app.UseSwaggerUI(c =>
 {

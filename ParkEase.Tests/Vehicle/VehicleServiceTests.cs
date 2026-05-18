@@ -27,7 +27,7 @@ public class VehicleServiceTests
             _repo.Object, _bus.Object, NullLogger<VehicleService>.Instance);
     }
 
-    // ── Register ──────────────────────────────────────────────────────────────
+    
 
     [Test]
     public async Task RegisterVehicle_ValidRequest_ReturnsVehicleDto()
@@ -61,7 +61,7 @@ public class VehicleServiceTests
             }));
     }
 
-    // ── Get Vehicle ───────────────────────────────────────────────────────────
+    
 
     [Test]
     public async Task GetVehicleById_AdminRole_CanViewAnyVehicle()
@@ -79,7 +79,7 @@ public class VehicleServiceTests
         Assert.That(result.VehicleId, Is.EqualTo(5));
     }
 
-    // ── Delete ────────────────────────────────────────────────────────────────
+    
 
     [Test]
     public async Task DeleteVehicle_OwnerDeletes_CallsRepository()

@@ -15,10 +15,10 @@ public class BookingService : IBookingService
     private readonly IPublishEndpoint _publishEndpoint;
     private readonly ILogger<BookingService> _logger;
 
-    // Grace period for pre-bookings: 30 minutes after start time
+    
     private const int GracePeriodMinutes = 30;
 
-    // Minimum booking charge: 1 hour
+    
     private const double MinimumHours = 1.0;
 
     public BookingService(
@@ -33,17 +33,17 @@ public class BookingService : IBookingService
         _logger = logger;
     }
 
-    // ── Create Booking ────────────────────────────────────────────────────────
+    
     public async Task<BookingDto> CreateBookingAsync(int userId, CreateBookingDto request)
     {
-        // Validate times
+        
         if (request.StartTime >= request.EndTime)
             throw new InvalidOperationException("End time must be after start time.");
 
         if (request.StartTime < DateTime.UtcNow.AddMinutes(-5))
             throw new InvalidOperationException("Start time cannot be in the past.");
 
-        // Get spot info from spot-service
+        
         var spotInfo = await _spotHttpClient.GetSpotAsync(request.SpotId)
             ?? throw new InvalidOperationException(
                 $"Spot {request.SpotId} not found or unavailable.");
@@ -52,7 +52,7 @@ public class BookingService : IBookingService
             throw new InvalidOperationException(
                 $"Spot {request.SpotId} is not available. Status: {spotInfo.Status}");
 
-        // Check for existing active booking on this spot
+        
         var existingBooking = await _repository.FindActiveBySpotIdAsync(request.SpotId);
         if (existingBooking != null)
             throw new InvalidOperationException(
@@ -63,7 +63,7 @@ public class BookingService : IBookingService
             throw new InvalidOperationException(
                 "BookingType must be PRE_BOOKING or WALK_IN.");
 
-        // Reserve spot via spot-service HTTP call
+        
         var reserved = await _spotHttpClient.ReserveSpotAsync(request.SpotId);
         if (!reserved)
             throw new InvalidOperationException(
@@ -86,7 +86,7 @@ public class BookingService : IBookingService
 
         var created = await _repository.CreateAsync(booking);
 
-        // Publish event for notification-service
+        
         await _publishEndpoint.Publish(new BookingCreatedEvent
         {
             BookingId = created.BookingId,
@@ -107,13 +107,13 @@ public class BookingService : IBookingService
         return MapToDto(created);
     }
 
-    // ── Cancel Booking ────────────────────────────────────────────────────────
+    
     public async Task<BookingDto> CancelBookingAsync(
         int bookingId, int userId, string role, string? reason)
     {
         var booking = await GetAndValidateBookingAsync(bookingId);
 
-        // RBAC: driver can only cancel own bookings
+        
         if (role == "DRIVER" && booking.UserId != userId)
             throw new UnauthorizedAccessException(
                 "You can only cancel your own bookings.");
@@ -122,7 +122,7 @@ public class BookingService : IBookingService
             throw new InvalidOperationException(
                 $"Cannot cancel a booking with status: {booking.Status}");
 
-        // Determine refund eligibility
+        
         var isEligibleForRefund = booking.Status == "RESERVED" &&
             booking.BookingType == "PRE_BOOKING";
 
@@ -130,7 +130,7 @@ public class BookingService : IBookingService
         booking.CancellationReason = reason ?? "Cancelled by user";
         var updated = await _repository.UpdateAsync(booking);
 
-        // Release spot back to AVAILABLE
+        
         await _spotHttpClient.ReleaseSpotAsync(booking.SpotId);
 
         await _publishEndpoint.Publish(new BookingCancelledEvent
@@ -149,7 +149,7 @@ public class BookingService : IBookingService
         return MapToDto(updated);
     }
 
-    // ── Check In ──────────────────────────────────────────────────────────────
+    
     public async Task<BookingDto> CheckInAsync(int bookingId, int userId, string role)
     {
         var booking = await GetAndValidateBookingAsync(bookingId);
@@ -166,7 +166,7 @@ public class BookingService : IBookingService
         booking.CheckInTime = DateTime.UtcNow;
         var updated = await _repository.UpdateAsync(booking);
 
-        // Transition spot: RESERVED → OCCUPIED
+        
         await _spotHttpClient.OccupySpotAsync(booking.SpotId);
 
         await _publishEndpoint.Publish(new BookingCheckedInEvent
@@ -183,7 +183,7 @@ public class BookingService : IBookingService
         return MapToDto(updated);
     }
 
-    // ── Check Out ─────────────────────────────────────────────────────────────
+    
     public async Task<BookingDto> CheckOutAsync(int bookingId, int userId, string role)
     {
         var booking = await GetAndValidateBookingAsync(bookingId);
@@ -199,13 +199,13 @@ public class BookingService : IBookingService
         booking.CheckOutTime = DateTime.UtcNow;
         booking.Status = "COMPLETED";
 
-        // Calculate fare
+        
         var fare = await CalculateFareInternalAsync(booking);
         booking.TotalAmount = fare;
 
         var updated = await _repository.UpdateAsync(booking);
 
-        // Release spot: OCCUPIED → AVAILABLE
+        
         await _spotHttpClient.ReleaseSpotAsync(booking.SpotId);
 
         await _publishEndpoint.Publish(new BookingCheckedOutEvent
@@ -224,7 +224,7 @@ public class BookingService : IBookingService
         return MapToDto(updated);
     }
 
-    // ── Extend Booking ────────────────────────────────────────────────────────
+    
     public async Task<BookingDto> ExtendBookingAsync(
         int bookingId, int userId, ExtendBookingDto request)
     {
@@ -242,7 +242,7 @@ public class BookingService : IBookingService
             throw new InvalidOperationException(
                 "New end time must be after current end time.");
 
-        // Check spot is still available for extension
+        
         var spotInfo = await _spotHttpClient.GetSpotAsync(booking.SpotId);
         if (spotInfo == null)
             throw new InvalidOperationException("Spot not found.");
@@ -263,14 +263,14 @@ public class BookingService : IBookingService
         return MapToDto(updated);
     }
 
-    // ── Get My Bookings ───────────────────────────────────────────────────────
+    
     public async Task<List<BookingDto>> GetMyBookingsAsync(int userId)
     {
         var bookings = await _repository.FindByUserIdAsync(userId);
         return bookings.Select(MapToDto).ToList();
     }
 
-    // ── Get Booking By Id ─────────────────────────────────────────────────────
+    
     public async Task<BookingDto> GetBookingByIdAsync(
         int bookingId, int userId, string role)
     {
@@ -283,7 +283,7 @@ public class BookingService : IBookingService
         return MapToDto(booking);
     }
 
-    // ── Calculate Fare ────────────────────────────────────────────────────────
+    
     public async Task<FareCalculationDto> CalculateFareAsync(int bookingId)
     {
         var booking = await GetAndValidateBookingAsync(bookingId);
@@ -308,7 +308,7 @@ public class BookingService : IBookingService
         };
     }
 
-    // ── Get Bookings By Lot (Manager) ─────────────────────────────────────────
+    
     public async Task<List<BookingDto>> GetBookingsByLotAsync(
         int lotId, int managerId, string role)
     {
@@ -316,7 +316,7 @@ public class BookingService : IBookingService
         return bookings.Select(MapToDto).ToList();
     }
 
-    // ── Get Active Bookings By Lot (Manager) ──────────────────────────────────
+    
     public async Task<List<BookingDto>> GetActiveBookingsByLotAsync(
         int lotId, int managerId, string role)
     {
@@ -324,7 +324,7 @@ public class BookingService : IBookingService
         return bookings.Select(MapToDto).ToList();
     }
 
-    // ── Force Checkout (Manager) ──────────────────────────────────────────────
+    
     public async Task<BookingDto> ForceCheckOutAsync(int bookingId, int managerId)
     {
         var booking = await GetAndValidateBookingAsync(bookingId);
@@ -357,14 +357,14 @@ public class BookingService : IBookingService
         return MapToDto(updated);
     }
 
-    // ── Get All Bookings (Admin) ──────────────────────────────────────────────
+    
     public async Task<List<BookingDto>> GetAllBookingsAsync()
     {
         var bookings = await _repository.GetAllAsync();
         return bookings.Select(MapToDto).ToList();
     }
 
-    // ── Auto Cancel Expired Bookings (Background Service) ─────────────────────
+    
     public async Task AutoCancelExpiredBookingsAsync()
     {
         var graceDeadline = DateTime.UtcNow.AddMinutes(-GracePeriodMinutes);
@@ -396,7 +396,7 @@ public class BookingService : IBookingService
                 "{Count} expired bookings auto-cancelled", expired.Count);
     }
 
-    // ── Private Helpers ───────────────────────────────────────────────────────
+    
     private async Task<BookingEntity> GetAndValidateBookingAsync(int bookingId) =>
         await _repository.FindByBookingIdAsync(bookingId)
             ?? throw new KeyNotFoundException($"Booking {bookingId} not found.");

@@ -11,7 +11,7 @@ public class VehicleService : IVehicleService
     private readonly IPublishEndpoint _publishEndpoint;
     private readonly ILogger<VehicleService> _logger;
 
-    // Valid vehicle types
+    
     private static readonly string[] ValidVehicleTypes = { "2W", "4W", "HEAVY" };
 
     public VehicleService(
@@ -24,16 +24,16 @@ public class VehicleService : IVehicleService
         _logger = logger;
     }
 
-    // ── Register Vehicle ──────────────────────────────────────────────────────
+    
     public async Task<VehicleDto> RegisterVehicleAsync(int ownerId, RegisterVehicleDto request)
     {
-        // Validate vehicle type
+        
         var vehicleType = request.VehicleType.ToUpper();
         if (!ValidVehicleTypes.Contains(vehicleType))
             throw new InvalidOperationException(
                 $"Invalid vehicle type '{vehicleType}'. Must be 2W, 4W or HEAVY.");
 
-        // Check duplicate license plate for same owner
+        
         if (await _vehicleRepository.ExistsByLicensePlateAndOwnerAsync(
             request.LicensePlate, ownerId))
             throw new InvalidOperationException(
@@ -54,7 +54,7 @@ public class VehicleService : IVehicleService
 
         var created = await _vehicleRepository.CreateAsync(vehicle);
 
-        // Publish event for booking-service to keep reference
+        
         await _publishEndpoint.Publish(new VehicleRegisteredEvent
         {
             VehicleId = created.VehicleId,
@@ -71,25 +71,25 @@ public class VehicleService : IVehicleService
         return MapToDto(created);
     }
 
-    // ── Get Vehicle By Id ─────────────────────────────────────────────────────
+    
     public async Task<VehicleDto> GetVehicleByIdAsync(
         int vehicleId, int requestingUserId, string requestingUserRole)
     {
         var vehicle = await _vehicleRepository.FindByVehicleIdAsync(vehicleId)
             ?? throw new KeyNotFoundException($"Vehicle {vehicleId} not found.");
 
-        // RBAC: driver can only see own vehicles, admin sees all
+        
         if (requestingUserRole != "ADMIN" && vehicle.OwnerId != requestingUserId)
             throw new UnauthorizedAccessException("You can only view your own vehicles.");
 
         return MapToDto(vehicle);
     }
 
-    // ── Get All Vehicles By Owner ─────────────────────────────────────────────
+    
     public async Task<List<VehicleDto>> GetVehiclesByOwnerAsync(
         int ownerId, int requestingUserId, string requestingUserRole)
     {
-        // RBAC: driver can only see own, admin sees any
+        
         if (requestingUserRole != "ADMIN" && ownerId != requestingUserId)
             throw new UnauthorizedAccessException("You can only view your own vehicles.");
 
@@ -97,14 +97,14 @@ public class VehicleService : IVehicleService
         return vehicles.Select(MapToDto).ToList();
     }
 
-    // ── Update Vehicle ────────────────────────────────────────────────────────
+    
     public async Task<VehicleDto> UpdateVehicleAsync(
         int vehicleId, int ownerId, UpdateVehicleDto request)
     {
         var vehicle = await _vehicleRepository.FindByVehicleIdAsync(vehicleId)
             ?? throw new KeyNotFoundException($"Vehicle {vehicleId} not found.");
 
-        // Only owner can update
+        
         if (vehicle.OwnerId != ownerId)
             throw new UnauthorizedAccessException("You can only update your own vehicles.");
 
@@ -125,7 +125,7 @@ public class VehicleService : IVehicleService
 
         var updated = await _vehicleRepository.UpdateAsync(vehicle);
 
-        // Publish update event for booking-service
+        
         await _publishEndpoint.Publish(new VehicleUpdatedEvent
         {
             VehicleId = updated.VehicleId,
@@ -141,13 +141,13 @@ public class VehicleService : IVehicleService
         return MapToDto(updated);
     }
 
-    // ── Delete Vehicle ────────────────────────────────────────────────────────
+    
     public async Task DeleteVehicleAsync(int vehicleId, int ownerId, string role)
     {
         var vehicle = await _vehicleRepository.FindByVehicleIdAsync(vehicleId)
             ?? throw new KeyNotFoundException($"Vehicle {vehicleId} not found.");
 
-        // Owner or admin can delete
+        
         if (role != "ADMIN" && vehicle.OwnerId != ownerId)
             throw new UnauthorizedAccessException("You can only delete your own vehicles.");
 
@@ -164,7 +164,7 @@ public class VehicleService : IVehicleService
         _logger.LogInformation("Vehicle {VehicleId} deleted", vehicleId);
     }
 
-    // ── Get Vehicle Type ──────────────────────────────────────────────────────
+    
     public async Task<string> GetVehicleTypeAsync(int vehicleId)
     {
         var vehicle = await _vehicleRepository.FindByVehicleIdAsync(vehicleId)
@@ -172,7 +172,7 @@ public class VehicleService : IVehicleService
         return vehicle.VehicleType;
     }
 
-    // ── Is EV Vehicle ─────────────────────────────────────────────────────────
+    
     public async Task<bool> IsEVVehicleAsync(int vehicleId)
     {
         var vehicle = await _vehicleRepository.FindByVehicleIdAsync(vehicleId)
@@ -180,21 +180,21 @@ public class VehicleService : IVehicleService
         return vehicle.IsEV;
     }
 
-    // ── Get All Vehicles (Admin) ──────────────────────────────────────────────
+    
     public async Task<List<VehicleDto>> GetAllVehiclesAsync()
     {
         var vehicles = await _vehicleRepository.GetAllAsync();
         return vehicles.Select(MapToDto).ToList();
     }
 
-    // ── Cascade Delete (on driver deletion) ───────────────────────────────────
+    
     public async Task DeleteAllByOwnerIdAsync(int ownerId)
     {
         await _vehicleRepository.DeleteAllByOwnerIdAsync(ownerId);
         _logger.LogInformation("All vehicles deleted for Owner={OwnerId}", ownerId);
     }
 
-    // ── Mapper ────────────────────────────────────────────────────────────────
+    
     public static VehicleDto MapToDto(Entities.Vehicle v) => new()
     {
         VehicleId = v.VehicleId,

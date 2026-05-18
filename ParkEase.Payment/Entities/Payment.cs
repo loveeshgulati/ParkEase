@@ -7,10 +7,10 @@ public class Payment
     public int UserId { get; set; }
     public double Amount { get; set; }
 
-    // PENDING | PAID | REFUNDED | FAILED
+    
     public string Status { get; set; } = "PENDING";
 
-    // CARD | UPI | WALLET | CASH
+    
     public string Mode { get; set; } = string.Empty;
 
     public string? TransactionId { get; set; }

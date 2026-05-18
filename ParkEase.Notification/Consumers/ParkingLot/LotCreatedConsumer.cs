@@ -16,7 +16,7 @@ public class LotCreatedConsumer : IConsumer<LotCreatedEvent>
         
         await _service.SendAsync(new SendNotificationDto
         {
-            RecipientId = 1, // Platform Admin
+            RecipientId = 1, 
             Title = "New Parking Lot Pending Approval 🏢",
             Message = $"Manager (ID: {e.ManagerId}) has submitted a new lot '{e.Name}' in {e.City} for approval.",
             Type = "SYSTEM",

@@ -1,8 +1,8 @@
 namespace ParkEase.Payment.DTOs;
 
-/// <summary>
-/// DTO representing platform-wide revenue data
-/// </summary>
+
+
+
 public class PlatformRevenueDto
 {
     public double TotalRevenue { get; set; }

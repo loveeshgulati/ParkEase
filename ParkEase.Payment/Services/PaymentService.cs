@@ -27,7 +27,7 @@ public class PaymentService : IPaymentService
         _razorpayService = razorpayService;
     }
 
-    // ── Create Razorpay Order ───────────────────────────────────────────────────
+    
     public async Task<RazorpayOrderDto> CreateOrderAsync(CreateOrderDto request)
     {
         var receipt = $"order_{DateTime.UtcNow:yyyyMMddHHmmss}_{Random.Shared.Next(1000, 9999)}";
@@ -46,7 +46,7 @@ public class PaymentService : IPaymentService
         };
     }
 
-    // ── Process Payment ───────────────────────────────────────────────────────
+    
     public async Task<PaymentDto> ProcessPaymentAsync(
         int userId, ProcessPaymentDto request)
     {
@@ -55,7 +55,7 @@ public class PaymentService : IPaymentService
             throw new InvalidOperationException(
                 $"Invalid payment mode. Must be: {string.Join(", ", ValidModes)}");
 
-        // Verify Razorpay payment signature
+        
         if (!string.IsNullOrEmpty(request.RazorpayOrderId) && 
             !string.IsNullOrEmpty(request.RazorpayPaymentId) && 
             !string.IsNullOrEmpty(request.RazorpaySignature))
@@ -69,14 +69,14 @@ public class PaymentService : IPaymentService
                 throw new InvalidOperationException("Invalid payment signature. Payment verification failed.");
         }
 
-        // Check if payment already exists for this booking
+        
         var existing = await _repository.FindByBookingIdAsync(request.BookingId);
 
         PaymentEntity payment;
 
         if (existing != null)
         {
-            // Update existing PENDING record
+            
             if (existing.Status == "PAID")
                 throw new InvalidOperationException(
                     "Payment already processed for this booking.");
@@ -91,7 +91,7 @@ public class PaymentService : IPaymentService
         }
         else
         {
-            // Create new payment record
+            
             payment = new PaymentEntity
             {
                 BookingId = request.BookingId,
@@ -127,7 +127,7 @@ public class PaymentService : IPaymentService
         return MapToDto(payment);
     }
 
-    // ── Get Payment By Id ─────────────────────────────────────────────────────
+    
     public async Task<PaymentDto> GetPaymentByIdAsync(
         int paymentId, int userId, string role)
     {
@@ -141,7 +141,7 @@ public class PaymentService : IPaymentService
         return MapToDto(payment);
     }
 
-    // ── Get Payment By Booking ────────────────────────────────────────────────
+    
     public async Task<PaymentDto> GetPaymentByBookingIdAsync(
         int bookingId, int userId, string role)
     {
@@ -156,14 +156,14 @@ public class PaymentService : IPaymentService
         return MapToDto(payment);
     }
 
-    // ── Get My Payments ───────────────────────────────────────────────────────
+    
     public async Task<List<PaymentDto>> GetMyPaymentsAsync(int userId)
     {
         var payments = await _repository.FindByUserIdAsync(userId);
         return payments.Select(MapToDto).ToList();
     }
 
-    // ── Refund Payment ────────────────────────────────────────────────────────
+    
     public async Task<PaymentDto> RefundPaymentAsync(
         int userId, string role, RefundPaymentDto request)
     {
@@ -205,7 +205,7 @@ public class PaymentService : IPaymentService
         return MapToDto(updated);
     }
 
-    // ── Generate Receipt ──────────────────────────────────────────────────────
+    
     public async Task<string> GenerateReceiptAsync(
         int paymentId, int userId, string role)
     {
@@ -216,7 +216,7 @@ public class PaymentService : IPaymentService
             throw new UnauthorizedAccessException(
                 "You can only view your own receipts.");
 
-        // Receipt as formatted text (PDF generation can be added later with QuestPDF)
+        
         var receipt = $"""
             ==========================================
             ParkEase — Payment Receipt
@@ -239,12 +239,12 @@ public class PaymentService : IPaymentService
         return receipt;
     }
 
-    // ── Get Revenue By Lot (Manager) ──────────────────────────────────────────
+    
     public async Task<RevenueDto> GetRevenueByLotAsync(
         int lotId, DateTime from, DateTime to)
     {
-        // Revenue aggregation via LINQ over payments
-        // In production: join with bookings table which has lotId
+        
+        
         var allPayments = await _repository.GetAllAsync();
         var lotPayments = allPayments
             .Where(p => p.Status == "PAID"
@@ -262,7 +262,7 @@ public class PaymentService : IPaymentService
         };
     }
 
-    // ── Get Platform Revenue (Admin) ──────────────────────────────────────────
+    
     public async Task<PlatformRevenueDto> GetPlatformRevenueAsync(
         DateTime from, DateTime to)
     {
@@ -282,14 +282,14 @@ public class PaymentService : IPaymentService
         };
     }
 
-    // ── Get All Payments (Admin) ──────────────────────────────────────────────
+    
     public async Task<List<PaymentDto>> GetAllPaymentsAsync()
     {
         var payments = await _repository.GetAllAsync();
         return payments.Select(MapToDto).ToList();
     }
 
-    // ── Helpers ───────────────────────────────────────────────────────────────
+    
     private static string GenerateTransactionId() =>
         $"TXN{DateTime.UtcNow:yyyyMMddHHmmss}{Random.Shared.Next(1000, 9999)}";
 

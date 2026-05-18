@@ -11,6 +11,6 @@ public interface IVehicleService
     Task DeleteVehicleAsync(int vehicleId, int ownerId, string role);
     Task<string> GetVehicleTypeAsync(int vehicleId);
     Task<bool> IsEVVehicleAsync(int vehicleId);
-    Task<List<VehicleDto>> GetAllVehiclesAsync();         // admin only
-    Task DeleteAllByOwnerIdAsync(int ownerId);            // cascade on driver delete
+    Task<List<VehicleDto>> GetAllVehiclesAsync();         
+    Task DeleteAllByOwnerIdAsync(int ownerId);            
 }

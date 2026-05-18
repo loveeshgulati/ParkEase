@@ -4,16 +4,16 @@ public class ParkingSpot
 {
     public int SpotId { get; set; }
     public int LotId { get; set; }
-    public string SpotNumber { get; set; } = string.Empty;  // e.g. A-01, B-12
-    public int Floor { get; set; } = 0;                     // 0 = Ground
+    public string SpotNumber { get; set; } = string.Empty;  
+    public int Floor { get; set; } = 0;                     
 
-    // COMPACT | STANDARD | LARGE | MOTORBIKE | EV
+    
     public string SpotType { get; set; } = string.Empty;
 
-    // 2W | 4W | HEAVY
+    
     public string VehicleType { get; set; } = string.Empty;
 
-    // AVAILABLE | RESERVED | OCCUPIED
+    
     public string Status { get; set; } = "AVAILABLE";
 
     public bool IsHandicapped { get; set; } = false;

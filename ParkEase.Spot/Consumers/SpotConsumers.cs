@@ -4,10 +4,10 @@ using ParkEase.Spot.Interfaces;
 
 namespace ParkEase.Spot.Consumers;
 
-/// <summary>
-/// When a lot is deleted from parkinglot-service,
-/// cascade delete ALL spots in that lot.
-/// </summary>
+
+
+
+
 public class LotDeletedConsumer : IConsumer<LotDeletedEvent>
 {
     private readonly ISpotService _spotService;

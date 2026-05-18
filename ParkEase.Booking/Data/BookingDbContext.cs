@@ -41,7 +41,7 @@ public class BookingDbContext : DbContext
             entity.Property(b => b.CreatedAt).HasColumnName("created_at");
             entity.Property(b => b.UpdatedAt).HasColumnName("updated_at");
 
-            // Indexes for fast queries
+            
             entity.HasIndex(b => b.UserId);
             entity.HasIndex(b => b.LotId);
             entity.HasIndex(b => b.SpotId);

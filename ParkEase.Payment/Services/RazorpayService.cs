@@ -41,7 +41,7 @@ public class RazorpayService : IRazorpayService
         {
             var orderRequest = new
             {
-                amount = (int)(amount * 100), // Convert to paise
+                amount = (int)(amount * 100), 
                 currency = "INR",
                 receipt = receipt,
                 payment_capture = 1

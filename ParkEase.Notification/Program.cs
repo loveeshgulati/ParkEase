@@ -18,7 +18,7 @@ using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// ── Serilog ───────────────────────────────────────────────────────────────────
+
 Log.Logger = new LoggerConfiguration()
     .ReadFrom.Configuration(builder.Configuration)
     .Enrich.FromLogContext()
@@ -27,18 +27,18 @@ Log.Logger = new LoggerConfiguration()
     .CreateLogger();
 builder.Host.UseSerilog();
 
-// ── PostgreSQL + EF Core ──────────────────────────────────────────────────────
+
 builder.Services.AddDbContext<NotificationDbContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection"), x => x.MigrationsHistoryTable("__EFMigrationsHistory_Notification", "notification")));
 
-// ── Repository + Service ──────────────────────────────────────────────────────
+
 builder.Services.AddScoped<INotificationRepository, NotificationRepository>();
 builder.Services.AddScoped<INotificationService, NotificationService>();
 
-// ── SignalR ───────────────────────────────────────────────────────────────────
+
 builder.Services.AddSignalR();
 
-// ── JWT Authentication ────────────────────────────────────────────────────────
+
 var key = Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Secret"]!);
 
 builder.Services.AddAuthentication(options =>
@@ -61,7 +61,7 @@ builder.Services.AddAuthentication(options =>
         RoleClaimType = System.Security.Claims.ClaimTypes.Role
     };
 
-    // Allow JWT via query string for SignalR
+    
     options.Events = new JwtBearerEvents
     {
         OnMessageReceived = ctx =>
@@ -80,10 +80,10 @@ builder.Services.AddAuthentication(options =>
 
 builder.Services.AddAuthorization();
 
-// ── MassTransit + RabbitMQ ────────────────────────────────────────────────────
+
 builder.Services.AddMassTransit(x =>
 {
-    // Auth-service events
+    
     x.AddConsumer<UserRegisteredConsumer>();
     x.AddConsumer<ManagerApprovedConsumer>();
     x.AddConsumer<ManagerRejectedConsumer>();
@@ -92,12 +92,12 @@ builder.Services.AddMassTransit(x =>
     x.AddConsumer<DriverSuspendedConsumer>();
     x.AddConsumer<DriverReactivatedConsumer>();
 
-    // ParkingLot-service events
+    
     x.AddConsumer<LotCreatedConsumer>();
     x.AddConsumer<LotApprovedConsumer>();
     x.AddConsumer<LotRejectedConsumer>();
 
-    // Booking-service events
+    
     x.AddConsumer<BookingCreatedConsumer>();
     x.AddConsumer<BookingCancelledConsumer>();
     x.AddConsumer<BookingCheckedInConsumer>();
@@ -105,7 +105,7 @@ builder.Services.AddMassTransit(x =>
     x.AddConsumer<BookingExpiredConsumer>();
     x.AddConsumer<BookingExtendedConsumer>();
 
-    // Payment-service events
+    
     x.AddConsumer<PaymentProcessedConsumer>();
     x.AddConsumer<RefundProcessedConsumer>();
 
@@ -122,7 +122,7 @@ builder.Services.AddMassTransit(x =>
     });
 });
 
-// ── Controllers + Swagger ─────────────────────────────────────────────────────
+
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(c =>
@@ -160,29 +160,29 @@ builder.Services.AddSwaggerGen(c =>
     });
 });
 
-// ── Health Checks ─────────────────────────────────────────────────────────────
+
 builder.Services.AddHealthChecks();
 
-// ── CORS ──────────────────────────────────────────────────────────────────────
+
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowAll", policy =>
-        policy.SetIsOriginAllowed(_ => true)  // allows any origin, works with credentials
+        policy.SetIsOriginAllowed(_ => true)  
               .AllowAnyMethod()
               .AllowAnyHeader()
-              .AllowCredentials());            // required for SignalR
+              .AllowCredentials());            
 });
-// ─────────────────────────────────────────────────────────────────────────────
+
 var app = builder.Build();
 
-// ── Auto-migrate ──────────────────────────────────────────────────────────────
+
 using (var scope = app.Services.CreateScope())
 {
     var db = scope.ServiceProvider.GetRequiredService<NotificationDbContext>();
     db.Database.Migrate();
 }
 
-// ── Middleware Pipeline ───────────────────────────────────────────────────────
+
 app.UseSwagger();
 app.UseSwaggerUI(c =>
 {
@@ -190,7 +190,7 @@ app.UseSwaggerUI(c =>
     c.RoutePrefix = "swagger";
 });
 app.UseMiddleware<GlobalExceptionMiddleware>();
-//app.UseHttpsRedirection();
+
 app.UseSerilogRequestLogging();
 app.UseCors("AllowAll");
 app.UseMiddleware<JwtMiddleware>();

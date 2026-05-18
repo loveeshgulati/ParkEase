@@ -17,7 +17,7 @@ public interface IPaymentRepository
 
 public interface IPaymentService
 {
-    // ── Driver actions ────────────────────────────────────────────────────────
+    
     Task<RazorpayOrderDto> CreateOrderAsync(CreateOrderDto request);
     Task<PaymentDto> ProcessPaymentAsync(int userId, ProcessPaymentDto request);
     Task<PaymentDto> GetPaymentByIdAsync(int paymentId, int userId, string role);
@@ -26,10 +26,10 @@ public interface IPaymentService
     Task<PaymentDto> RefundPaymentAsync(int userId, string role, RefundPaymentDto request);
     Task<string> GenerateReceiptAsync(int paymentId, int userId, string role);
 
-    // ── Manager actions ───────────────────────────────────────────────────────
+    
     Task<RevenueDto> GetRevenueByLotAsync(int lotId, DateTime from, DateTime to);
 
-    // ── Admin actions ─────────────────────────────────────────────────────────
+    
     Task<List<PaymentDto>> GetAllPaymentsAsync();
     Task<PlatformRevenueDto> GetPlatformRevenueAsync(DateTime from, DateTime to);
 }

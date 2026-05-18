@@ -19,21 +19,21 @@ public interface INotificationRepository
 
 public interface INotificationService
 {
-    // ── Send ─────────────────────────────────────────────────────────────────
+    
     Task<NotificationDto> SendAsync(SendNotificationDto request);
     Task SendBulkAsync(List<SendNotificationDto> requests);
     Task BroadcastAsync(BroadcastNotificationDto request, List<int> recipientIds);
 
-    // ── Read ─────────────────────────────────────────────────────────────────
+    
     Task<List<NotificationDto>> GetByRecipientAsync(int recipientId);
     Task<List<NotificationDto>> GetUnreadAsync(int recipientId);
     Task<int> GetUnreadCountAsync(int recipientId);
 
-    // ── Manage ───────────────────────────────────────────────────────────────
+    
     Task MarkAsReadAsync(int notificationId, int recipientId);
     Task MarkAllReadAsync(int recipientId);
     Task DeleteAsync(int notificationId, int recipientId);
 
-    // ── Admin ────────────────────────────────────────────────────────────────
+    
     Task<List<NotificationDto>> GetAllAsync();
 }

@@ -25,7 +25,7 @@ public class NotificationController : ControllerBase
         _logger = logger;
     }
 
-    // GET /api/v1/notifications
+    
     [HttpGet]
     public async Task<IActionResult> GetMyNotifications()
     {
@@ -34,7 +34,7 @@ public class NotificationController : ControllerBase
             $"{result.Count} notifications"));
     }
 
-    // GET /api/v1/notifications/unread
+    
     [HttpGet("unread")]
     public async Task<IActionResult> GetUnread()
     {
@@ -43,7 +43,7 @@ public class NotificationController : ControllerBase
             $"{result.Count} unread"));
     }
 
-    // GET /api/v1/notifications/unread-count
+    
     [HttpGet("unread-count")]
     public async Task<IActionResult> GetUnreadCount()
     {
@@ -51,7 +51,7 @@ public class NotificationController : ControllerBase
         return Ok(ApiResponse<int>.Ok(count));
     }
 
-    // PUT /api/v1/notifications/{id}/read
+    
     [HttpPut("{id:int}/read")]
     public async Task<IActionResult> MarkAsRead(int id)
     {
@@ -70,7 +70,7 @@ public class NotificationController : ControllerBase
         }
     }
 
-    // PUT /api/v1/notifications/read-all
+    
     [HttpPut("read-all")]
     public async Task<IActionResult> MarkAllRead()
     {
@@ -78,7 +78,7 @@ public class NotificationController : ControllerBase
         return Ok(ApiResponse<object>.Ok(null!, "All notifications marked as read"));
     }
 
-    // DELETE /api/v1/notifications/{id}
+    
     [HttpDelete("{id:int}")]
     public async Task<IActionResult> Delete(int id)
     {
@@ -96,7 +96,7 @@ public class NotificationController : ControllerBase
             return Forbid();
         }
     }
-    // POST /api/v1/notifications/send
+    
 [HttpPost("send")]
 [Authorize(Roles = "ADMIN")]
 public async Task<IActionResult> Send([FromBody] SendNotificationDto request)
@@ -104,7 +104,7 @@ public async Task<IActionResult> Send([FromBody] SendNotificationDto request)
     var result = await _service.SendAsync(request);
     return Ok(ApiResponse<NotificationDto>.Ok(result, "Notification sent"));
 }
-    // POST /api/v1/notifications/broadcast  (Admin only)
+    
     [HttpPost("broadcast")]
     [Authorize(Roles = "ADMIN")]
     public async Task<IActionResult> Broadcast(
@@ -116,7 +116,7 @@ public async Task<IActionResult> Send([FromBody] SendNotificationDto request)
             $"Broadcast sent to {recipientIds.Count} users"));
     }
 
-    // GET /api/v1/notifications/all  (Admin only)
+    
     [HttpGet("all")]
     [Authorize(Roles = "ADMIN")]
     public async Task<IActionResult> GetAll()

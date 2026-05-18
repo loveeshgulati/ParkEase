@@ -1,8 +1,8 @@
 namespace ParkEase.Payment.Events;
 
-/// <summary>
-/// Event published when a refund is successfully processed
-/// </summary>
+
+
+
 public class RefundProcessedEvent
 {
     public int PaymentId { get; set; }

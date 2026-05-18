@@ -1,8 +1,8 @@
 namespace ParkEase.Payment.DTOs;
 
-/// <summary>
-/// DTO representing revenue data for a parking lot
-/// </summary>
+
+
+
 public class RevenueDto
 {
     public int LotId { get; set; }

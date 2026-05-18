@@ -3,11 +3,11 @@ using Microsoft.AspNetCore.SignalR;
 
 namespace ParkEase.Notification.Hubs;
 
-/// <summary>
-/// SignalR Hub for real-time in-app notifications.
-/// Connected clients join a group named by their userId.
-/// When a notification is sent to a user, it's pushed via their group.
-/// </summary>
+
+
+
+
+
 [Authorize]
 public class NotificationHub : Hub
 {

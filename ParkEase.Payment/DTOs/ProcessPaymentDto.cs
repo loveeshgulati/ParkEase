@@ -2,9 +2,9 @@ using System.ComponentModel.DataAnnotations;
 
 namespace ParkEase.Payment.DTOs;
 
-/// <summary>
-/// DTO for processing a payment
-/// </summary>
+
+
+
 public class ProcessPaymentDto
 {
     [Required] public int BookingId { get; set; }
@@ -20,7 +20,7 @@ public class ProcessPaymentDto
     public string? TransactionId { get; set; }
     public string? Description { get; set; }
     
-    // Razorpay fields for payment verification
+    
     public string? RazorpayOrderId { get; set; }
     public string? RazorpayPaymentId { get; set; }
     public string? RazorpaySignature { get; set; }

@@ -41,7 +41,7 @@ public class ParkingLotServiceTests
             _repo.Object, _bus.Object, NullLogger<ParkingLotService>.Instance);
     }
 
-    // ── Create ────────────────────────────────────────────────────────────────
+    
 
     [Test]
     public async Task CreateLot_ValidRequest_ReturnsPendingApproval()
@@ -60,7 +60,7 @@ public class ParkingLotServiceTests
         Assert.That(result.ApprovalStatus, Is.EqualTo("PENDING_APPROVAL"));
     }
 
-    // ── Update ────────────────────────────────────────────────────────────────
+    
 
     [Test]
     public void UpdateLot_DifferentManager_ThrowsUnauthorized()
@@ -72,7 +72,7 @@ public class ParkingLotServiceTests
             _sut.UpdateLotAsync(1, managerId: 99, new UpdateLotDto { Name = "X" }));
     }
 
-    // ── Delete ────────────────────────────────────────────────────────────────
+    
 
     [Test]
     public async Task DeleteLot_AdminRole_DeletesAnyLot()
@@ -86,7 +86,7 @@ public class ParkingLotServiceTests
         _repo.Verify(r => r.DeleteByLotIdAsync(2), Times.Once);
     }
 
-    // ── Approve ───────────────────────────────────────────────────────────────
+    
 
     [Test]
     public async Task ApproveLot_PendingLot_SetsApproved()
@@ -101,7 +101,7 @@ public class ParkingLotServiceTests
         Assert.That(result.ApprovalStatus, Is.EqualTo("APPROVED"));
     }
 
-    // ── Toggle Open ───────────────────────────────────────────────────────────
+    
 
     [Test]
     public async Task ToggleOpen_ApprovedLot_TogglesIsOpen()

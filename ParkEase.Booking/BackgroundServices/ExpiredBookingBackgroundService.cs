@@ -2,13 +2,13 @@ using ParkEase.Booking.Interfaces;
 
 namespace ParkEase.Booking.BackgroundServices;
 
-/// <summary>
-/// IHostedService that runs every 5 minutes to auto-cancel
-/// pre-bookings where the check-in grace period has elapsed.
-///
-/// Replaces Hangfire for simplicity.
-/// Grace period = 30 minutes after booking start time.
-/// </summary>
+
+
+
+
+
+
+
 public class ExpiredBookingBackgroundService : BackgroundService
 {
     private readonly IServiceProvider _serviceProvider;

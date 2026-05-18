@@ -1,8 +1,8 @@
 namespace ParkEase.Payment.Events;
 
-/// <summary>
-/// Event published when a payment fails
-/// </summary>
+
+
+
 public class PaymentFailedEvent
 {
     public int BookingId { get; set; }

@@ -5,11 +5,11 @@ using ParkEase.Payment.Events;
 
 namespace ParkEase.Payment.Consumers;
 
-/// <summary>
-/// When booking-service completes a checkout,
-/// auto-create a PENDING payment record.
-/// Driver then calls /payments/process to complete payment.
-/// </summary>
+
+
+
+
+
 public class BookingCheckedOutConsumer : IConsumer<BookingCheckedOutEvent>
 {
     private readonly PaymentDbContext _context;
@@ -27,7 +27,7 @@ public class BookingCheckedOutConsumer : IConsumer<BookingCheckedOutEvent>
     {
         var evt = context.Message;
 
-        // Check if payment already exists for this booking
+        
         var existing = _context.Payments
             .FirstOrDefault(p => p.BookingId == evt.BookingId);
 

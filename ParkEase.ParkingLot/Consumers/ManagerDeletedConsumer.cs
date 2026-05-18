@@ -4,10 +4,10 @@ using ParkEase.ParkingLot.Interfaces;
 
 namespace ParkEase.ParkingLot.Consumers;
 
-/// <summary>
-/// When admin deletes a manager from auth-service,
-/// cascade delete ALL their parking lots.
-/// </summary>
+
+
+
+
 public class ManagerDeletedConsumer : IConsumer<ManagerDeletedEvent>
 {
     private readonly IParkingLotRepository _repository;

@@ -9,10 +9,10 @@ public class Booking
     public string VehiclePlate { get; set; } = string.Empty;
     public string VehicleType { get; set; } = string.Empty;
 
-    // PRE_BOOKING | WALK_IN
+    
     public string BookingType { get; set; } = string.Empty;
 
-    // RESERVED | ACTIVE | COMPLETED | CANCELLED | EXPIRED
+    
     public string Status { get; set; } = "RESERVED";
 
     public DateTime StartTime { get; set; }

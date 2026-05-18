@@ -20,7 +20,7 @@ public class SpotHttpClient : ISpotHttpClient
         _logger = logger;
     }
 
-    // ── Add this private helper ───────────────────────────────────────────────
+    
     private void AttachToken()
     {
         var token = _httpContextAccessor.HttpContext?.Request.Headers["Authorization"]
@@ -35,7 +35,7 @@ public class SpotHttpClient : ISpotHttpClient
     {
         try
         {
-            AttachToken(); // ← add this
+            AttachToken(); 
             var response = await _httpClient.GetAsync($"/api/v1/spots/{spotId}");
             if (!response.IsSuccessStatusCode) return null;
 
@@ -56,7 +56,7 @@ public class SpotHttpClient : ISpotHttpClient
     {
         try
         {
-            AttachToken(); // ← add this
+            AttachToken(); 
             var response = await _httpClient.PutAsync(
                 $"/api/v1/spots/{spotId}/reserve", null);
             return response.IsSuccessStatusCode;
@@ -72,7 +72,7 @@ public class SpotHttpClient : ISpotHttpClient
     {
         try
         {
-            AttachToken(); // ← add this
+            AttachToken(); 
             var response = await _httpClient.PutAsync(
                 $"/api/v1/spots/{spotId}/occupy", null);
             return response.IsSuccessStatusCode;
@@ -88,7 +88,7 @@ public class SpotHttpClient : ISpotHttpClient
     {
         try
         {
-            AttachToken(); // ← add this
+            AttachToken(); 
             var response = await _httpClient.PutAsync(
                 $"/api/v1/spots/{spotId}/release", null);
             return response.IsSuccessStatusCode;
@@ -100,7 +100,7 @@ public class SpotHttpClient : ISpotHttpClient
         }
     }
 
-    // ── Inner class for deserialization ───────────────────────────────────────
+    
     private class SpotApiResponse
     {
         public bool Success { get; set; }

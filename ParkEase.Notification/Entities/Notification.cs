@@ -7,8 +7,8 @@ public class Notification
     public string Title { get; set; } = string.Empty;
     public string Message { get; set; } = string.Empty;
 
-    // BOOKING | CHECKIN | EXPIRY | CHECKOUT | PAYMENT
-    // REFUND | APPROVAL | REJECTION | SUSPENSION | WELCOME | PROMO
+    
+    
     public string Type { get; set; } = string.Empty;
 
     public int? RelatedId { get; set; }

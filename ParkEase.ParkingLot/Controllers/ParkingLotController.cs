@@ -24,11 +24,11 @@ public class ParkingLotController : ControllerBase
         _logger = logger;
     }
 
-    // ═══════════════════════════════════════════════════════════════════════════
-    // PUBLIC — No auth required
-    // ═══════════════════════════════════════════════════════════════════════════
+    
+    
+    
 
-    // GET /api/v1/lots/search?city=Delhi
+    
     [HttpGet("search")]
     [AllowAnonymous]
     public async Task<IActionResult> SearchByCity([FromQuery] string city)
@@ -45,7 +45,7 @@ public class ParkingLotController : ControllerBase
         }
     }
 
-    // GET /api/v1/lots/nearby?lat=28.6&lng=77.2&radius=5
+    
     [HttpGet("nearby")]
     [AllowAnonymous]
     public async Task<IActionResult> GetNearbyLots(
@@ -58,7 +58,7 @@ public class ParkingLotController : ControllerBase
             $"{result.Count} lots found within {radius}km"));
     }
 
-    // GET /api/v1/lots/{id}
+    
     [HttpGet("{id:int}")]
     [AllowAnonymous]
     public async Task<IActionResult> GetLotById(int id)
@@ -74,11 +74,11 @@ public class ParkingLotController : ControllerBase
         }
     }
 
-    // ═══════════════════════════════════════════════════════════════════════════
-    // MANAGER — Manage own lots
-    // ═══════════════════════════════════════════════════════════════════════════
+    
+    
+    
 
-    // POST /api/v1/lots
+    
     [HttpPost]
     [Authorize(Roles = "MANAGER")]
     public async Task<IActionResult> CreateLot([FromBody] CreateLotDto request)
@@ -95,7 +95,7 @@ public class ParkingLotController : ControllerBase
         }
     }
 
-    // GET /api/v1/lots/my-lots
+    
     [HttpGet("my-lots")]
     [Authorize(Roles = "MANAGER")]
     public async Task<IActionResult> GetMyLots()
@@ -105,7 +105,7 @@ public class ParkingLotController : ControllerBase
             $"{result.Count} lots found"));
     }
 
-    // PUT /api/v1/lots/{id}
+    
     [HttpPut("{id:int}")]
     [Authorize(Roles = "MANAGER,ADMIN")]
     public async Task<IActionResult> UpdateLot(int id, [FromBody] UpdateLotDto request)
@@ -126,7 +126,7 @@ public class ParkingLotController : ControllerBase
         }
     }
 
-    // DELETE /api/v1/lots/{id}
+    
     [HttpDelete("{id:int}")]
     [Authorize(Roles = "MANAGER,ADMIN")]
     public async Task<IActionResult> DeleteLot(int id)
@@ -147,7 +147,7 @@ public class ParkingLotController : ControllerBase
         }
     }
 
-    // PUT /api/v1/lots/{id}/toggle
+    
     [HttpPut("{id:int}/toggle")]
     [Authorize(Roles = "MANAGER,ADMIN")]
     public async Task<IActionResult> ToggleLot(int id)
@@ -173,11 +173,11 @@ public class ParkingLotController : ControllerBase
         }
     }
 
-    // ═══════════════════════════════════════════════════════════════════════════
-    // ADMIN — Platform management
-    // ═══════════════════════════════════════════════════════════════════════════
+    
+    
+    
 
-    // GET /api/v1/lots/all
+    
     [HttpGet("all")]
     [Authorize(Roles = "ADMIN")]
     public async Task<IActionResult> GetAllLots()
@@ -187,7 +187,7 @@ public class ParkingLotController : ControllerBase
             $"{result.Count} total lots"));
     }
 
-    // GET /api/v1/lots/pending
+    
     [HttpGet("pending")]
     [Authorize(Roles = "ADMIN")]
     public async Task<IActionResult> GetPendingLots()
@@ -197,7 +197,7 @@ public class ParkingLotController : ControllerBase
             $"{result.Count} pending lots awaiting approval"));
     }
 
-    // PUT /api/v1/lots/{id}/approve
+    
     [HttpPut("{id:int}/approve")]
     [Authorize(Roles = "ADMIN")]
     public async Task<IActionResult> ApproveLot(int id)
@@ -218,7 +218,7 @@ public class ParkingLotController : ControllerBase
         }
     }
 
-    // PUT /api/v1/lots/{id}/reject
+    
     [HttpPut("{id:int}/reject")]
     [Authorize(Roles = "ADMIN")]
     public async Task<IActionResult> RejectLot(int id, [FromBody] RejectLotDto request)
@@ -236,7 +236,7 @@ public class ParkingLotController : ControllerBase
         }
     }
 
-    // GET /api/v1/lots/manager/{managerId}
+    
     [HttpGet("manager/{managerId:int}")]
     [Authorize(Roles = "ADMIN")]
     public async Task<IActionResult> GetLotsByManager(int managerId)
@@ -246,7 +246,7 @@ public class ParkingLotController : ControllerBase
             $"{result.Count} lots for manager {managerId}"));
     }
 
-    // ── Helpers ───────────────────────────────────────────────────────────────
+    
     private int GetCurrentUserId()
     {
         var claim = User.FindFirst(ClaimTypes.NameIdentifier)?.Value

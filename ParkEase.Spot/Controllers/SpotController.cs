@@ -22,11 +22,11 @@ public class SpotController : ControllerBase
         _logger = logger;
     }
 
-    // ═══════════════════════════════════════════════════════════════════════════
-    // PUBLIC — No auth required
-    // ═══════════════════════════════════════════════════════════════════════════
+    
+    
+    
 
-    // GET /api/v1/spots/lot/{lotId}
+    
     [HttpGet("lot/{lotId:int}")]
     [AllowAnonymous]
     public async Task<IActionResult> GetSpotsByLot(int lotId)
@@ -36,7 +36,7 @@ public class SpotController : ControllerBase
             $"{result.Count} spots found"));
     }
 
-    // GET /api/v1/spots/lot/{lotId}/available
+    
     [HttpGet("lot/{lotId:int}/available")]
     [AllowAnonymous]
     public async Task<IActionResult> GetAvailableSpots(int lotId)
@@ -46,7 +46,7 @@ public class SpotController : ControllerBase
             $"{result.Count} available spots"));
     }
 
-    // GET /api/v1/spots/lot/{lotId}/count
+    
     [HttpGet("lot/{lotId:int}/count")]
     [AllowAnonymous]
     public async Task<IActionResult> GetAvailableCount(int lotId)
@@ -55,7 +55,7 @@ public class SpotController : ControllerBase
         return Ok(ApiResponse<int>.Ok(count, $"{count} available spots"));
     }
 
-    // GET /api/v1/spots/lot/{lotId}/type?spotType=STANDARD
+    
     [HttpGet("lot/{lotId:int}/type")]
     [AllowAnonymous]
     public async Task<IActionResult> GetSpotsByType(int lotId, [FromQuery] string spotType)
@@ -65,7 +65,7 @@ public class SpotController : ControllerBase
             $"{result.Count} {spotType} spots"));
     }
 
-    // GET /api/v1/spots/lot/{lotId}/vehicle?vehicleType=4W
+    
     [HttpGet("lot/{lotId:int}/vehicle")]
     [AllowAnonymous]
     public async Task<IActionResult> GetSpotsByVehicleType(
@@ -76,7 +76,7 @@ public class SpotController : ControllerBase
             $"{result.Count} spots for {vehicleType}"));
     }
 
-    // GET /api/v1/spots/lot/{lotId}/floor/{floor}
+    
     [HttpGet("lot/{lotId:int}/floor/{floor:int}")]
     [AllowAnonymous]
     public async Task<IActionResult> GetSpotsByFloor(int lotId, int floor)
@@ -86,7 +86,7 @@ public class SpotController : ControllerBase
             $"{result.Count} spots on floor {floor}"));
     }
 
-    // GET /api/v1/spots/lot/{lotId}/ev
+    
     [HttpGet("lot/{lotId:int}/ev")]
     [AllowAnonymous]
     public async Task<IActionResult> GetEVSpots(int lotId)
@@ -96,7 +96,7 @@ public class SpotController : ControllerBase
             $"{result.Count} EV charging spots"));
     }
 
-    // GET /api/v1/spots/lot/{lotId}/handicapped
+    
     [HttpGet("lot/{lotId:int}/handicapped")]
     [AllowAnonymous]
     public async Task<IActionResult> GetHandicappedSpots(int lotId)
@@ -106,7 +106,7 @@ public class SpotController : ControllerBase
             $"{result.Count} handicapped spots"));
     }
 
-    // GET /api/v1/spots/{id}
+    
     [HttpGet("{id:int}")]
     [AllowAnonymous]
     public async Task<IActionResult> GetSpotById(int id)
@@ -122,11 +122,11 @@ public class SpotController : ControllerBase
         }
     }
 
-    // ═══════════════════════════════════════════════════════════════════════════
-    // MANAGER — Manage spots in own lots
-    // ═══════════════════════════════════════════════════════════════════════════
+    
+    
+    
 
-    // POST /api/v1/spots
+    
     [HttpPost]
     [Authorize(Roles = "MANAGER,ADMIN")]
     public async Task<IActionResult> AddSpot([FromBody] AddSpotDto request)
@@ -143,7 +143,7 @@ public class SpotController : ControllerBase
         }
     }
 
-    // POST /api/v1/spots/bulk
+    
     [HttpPost("bulk")]
     [Authorize(Roles = "MANAGER,ADMIN")]
     public async Task<IActionResult> AddBulkSpots([FromBody] BulkAddSpotDto request)
@@ -160,7 +160,7 @@ public class SpotController : ControllerBase
         }
     }
 
-    // PUT /api/v1/spots/{id}
+    
     [HttpPut("{id:int}")]
     [Authorize(Roles = "MANAGER,ADMIN")]
     public async Task<IActionResult> UpdateSpot(int id, [FromBody] UpdateSpotDto request)
@@ -181,7 +181,7 @@ public class SpotController : ControllerBase
         }
     }
 
-    // DELETE /api/v1/spots/{id}
+    
     [HttpDelete("{id:int}")]
     [Authorize(Roles = "MANAGER,ADMIN")]
     public async Task<IActionResult> DeleteSpot(int id)
@@ -202,11 +202,11 @@ public class SpotController : ControllerBase
         }
     }
 
-    // ═══════════════════════════════════════════════════════════════════════════
-    // INTERNAL — Called by booking-service via HTTP
-    // ═══════════════════════════════════════════════════════════════════════════
+    
+    
+    
 
-    // PUT /api/v1/spots/{id}/reserve
+    
     [HttpPut("{id:int}/reserve")]
     [Authorize]
     public async Task<IActionResult> ReserveSpot(int id)
@@ -226,7 +226,7 @@ public class SpotController : ControllerBase
         }
     }
 
-    // PUT /api/v1/spots/{id}/occupy
+    
     [HttpPut("{id:int}/occupy")]
     [Authorize]
     public async Task<IActionResult> OccupySpot(int id)
@@ -246,7 +246,7 @@ public class SpotController : ControllerBase
         }
     }
 
-    // PUT /api/v1/spots/{id}/release
+    
     [HttpPut("{id:int}/release")]
     [Authorize]
     public async Task<IActionResult> ReleaseSpot(int id)
@@ -266,7 +266,7 @@ public class SpotController : ControllerBase
         }
     }
 
-    // ── Helpers ───────────────────────────────────────────────────────────────
+    
     private int GetCurrentUserId()
     {
         var claim = User.FindFirst(ClaimTypes.NameIdentifier)?.Value

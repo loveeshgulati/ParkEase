@@ -22,7 +22,7 @@ public class JwtMiddleware
             ? authHeader["Bearer ".Length..].Trim()
             : authHeader?.Trim();
 
-    // Also handle SignalR query-string token
+    
     if (string.IsNullOrEmpty(token))
         token = context.Request.Query["access_token"];
 

@@ -41,7 +41,7 @@ public class BookingServiceTests
             _bus.Object, NullLogger<BookingService>.Instance);
     }
 
-    // ── Create ────────────────────────────────────────────────────────────────
+    
 
     [Test]
     public async Task CreateBooking_ValidRequest_ReturnsReservedBooking()
@@ -79,7 +79,7 @@ public class BookingServiceTests
             }));
     }
 
-    // ── Cancel ────────────────────────────────────────────────────────────────
+    
 
     [Test]
     public async Task CancelBooking_OwnReservedBooking_SetsCancelled()
@@ -98,7 +98,7 @@ public class BookingServiceTests
         Assert.That(result.Status, Is.EqualTo("CANCELLED"));
     }
 
-    // ── Check In ──────────────────────────────────────────────────────────────
+    
 
     [Test]
     public async Task CheckIn_ReservedBooking_SetsActive()
@@ -113,7 +113,7 @@ public class BookingServiceTests
         Assert.That(result.Status, Is.EqualTo("ACTIVE"));
     }
 
-    // ── Check Out ─────────────────────────────────────────────────────────────
+    
 
     [Test]
     public async Task CheckOut_ActiveBooking_SetsCompleted()

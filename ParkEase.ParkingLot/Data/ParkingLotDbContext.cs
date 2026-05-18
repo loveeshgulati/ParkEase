@@ -38,9 +38,9 @@ public class ParkingLotDbContext : DbContext
             entity.Property(l => l.CreatedAt).HasColumnName("created_at");
             entity.Property(l => l.UpdatedAt).HasColumnName("updated_at");
 
-            // Index on city for fast search
+            
             entity.HasIndex(l => l.City);
-            // Index on manager for fast lookup
+            
             entity.HasIndex(l => l.ManagerId);
         });
     }

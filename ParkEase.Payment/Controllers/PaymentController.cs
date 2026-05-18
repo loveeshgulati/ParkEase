@@ -23,11 +23,11 @@ public class PaymentController : ControllerBase
         _logger = logger;
     }
 
-    // ═══════════════════════════════════════════════════════════════════════════
-    // DRIVER
-    // ═══════════════════════════════════════════════════════════════════════════
+    
+    
+    
 
-    // POST /api/v1/payments/create-order
+    
     [HttpPost("create-order")]
     [Authorize(Roles = "DRIVER")]
     public async Task<IActionResult> CreateOrder([FromBody] CreateOrderDto request)
@@ -44,7 +44,7 @@ public class PaymentController : ControllerBase
         }
     }
 
-    // POST /api/v1/payments/process
+    
     [HttpPost("process")]
     [Authorize(Roles = "DRIVER")]
     public async Task<IActionResult> ProcessPayment([FromBody] ProcessPaymentDto request)
@@ -62,7 +62,7 @@ public class PaymentController : ControllerBase
         }
     }
 
-    // GET /api/v1/payments/my-payments
+    
     [HttpGet("my-payments")]
     [Authorize(Roles = "DRIVER")]
     public async Task<IActionResult> GetMyPayments()
@@ -72,7 +72,7 @@ public class PaymentController : ControllerBase
             $"{result.Count} payments found"));
     }
 
-    // GET /api/v1/payments/{id}
+    
     [HttpGet("{id:int}")]
     [Authorize(Roles = "DRIVER,MANAGER,ADMIN")]
     public async Task<IActionResult> GetPaymentById(int id)
@@ -93,7 +93,7 @@ public class PaymentController : ControllerBase
         }
     }
 
-    // GET /api/v1/payments/booking/{bookingId}
+    
     [HttpGet("booking/{bookingId:int}")]
     [Authorize(Roles = "DRIVER,MANAGER,ADMIN")]
     public async Task<IActionResult> GetPaymentByBooking(int bookingId)
@@ -114,7 +114,7 @@ public class PaymentController : ControllerBase
         }
     }
 
-    // POST /api/v1/payments/refund
+    
     [HttpPost("refund")]
     [Authorize(Roles = "DRIVER,ADMIN")]
     public async Task<IActionResult> RefundPayment([FromBody] RefundPaymentDto request)
@@ -140,7 +140,7 @@ public class PaymentController : ControllerBase
         }
     }
 
-    // GET /api/v1/payments/{id}/receipt
+    
     [HttpGet("{id:int}/receipt")]
     [Authorize(Roles = "DRIVER,ADMIN")]
     public async Task<IActionResult> GetReceipt(int id)
@@ -161,11 +161,11 @@ public class PaymentController : ControllerBase
         }
     }
 
-    // ═══════════════════════════════════════════════════════════════════════════
-    // MANAGER
-    // ═══════════════════════════════════════════════════════════════════════════
+    
+    
+    
 
-    // GET /api/v1/payments/revenue/{lotId}?from=2024-01-01&to=2024-12-31
+    
     [HttpGet("revenue/{lotId:int}")]
     [Authorize(Roles = "MANAGER,ADMIN")]
     public async Task<IActionResult> GetRevenueByLot(
@@ -182,11 +182,11 @@ public class PaymentController : ControllerBase
             $"Revenue: ₹{result.TotalRevenue}"));
     }
 
-    // ═══════════════════════════════════════════════════════════════════════════
-    // ADMIN
-    // ═══════════════════════════════════════════════════════════════════════════
+    
+    
+    
 
-    // GET /api/v1/payments/all
+    
     [HttpGet("all")]
     [Authorize(Roles = "ADMIN")]
     public async Task<IActionResult> GetAllPayments()
@@ -196,7 +196,7 @@ public class PaymentController : ControllerBase
             $"{result.Count} total payments"));
     }
 
-    // GET /api/v1/payments/platform/revenue?from=2024-01-01&to=2024-12-31
+    
     [HttpGet("platform/revenue")]
     [Authorize(Roles = "ADMIN")]
     public async Task<IActionResult> GetPlatformRevenue(
@@ -211,7 +211,7 @@ public class PaymentController : ControllerBase
             $"Platform revenue: ₹{result.TotalRevenue}"));
     }
 
-    // ── Helpers ───────────────────────────────────────────────────────────────
+    
     private int GetCurrentUserId()
     {
         var claim = User.FindFirst(ClaimTypes.NameIdentifier)?.Value

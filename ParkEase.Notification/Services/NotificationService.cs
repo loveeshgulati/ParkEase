@@ -24,7 +24,7 @@ public class NotificationService : INotificationService
         _logger = logger;
     }
 
-    // ── Send single notification ──────────────────────────────────────────────
+    
     public async Task<NotificationDto> SendAsync(SendNotificationDto request)
     {
         var notification = new ParkEase.Notification.Entities.Notification
@@ -41,7 +41,7 @@ public class NotificationService : INotificationService
 
         var created = await _repository.CreateAsync(notification);
 
-        // Push real-time via SignalR to connected client
+        
         await _hubContext.Clients
             .Group($"user_{request.RecipientId}")
             .SendAsync("ReceiveNotification", new
@@ -60,14 +60,14 @@ public class NotificationService : INotificationService
         return MapToDto(created);
     }
 
-    // ── Send bulk notifications ───────────────────────────────────────────────
+    
     public async Task SendBulkAsync(List<SendNotificationDto> requests)
     {
         foreach (var request in requests)
             await SendAsync(request);
     }
 
-    // ── Broadcast to all users of a role ─────────────────────────────────────
+    
     public async Task BroadcastAsync(
         BroadcastNotificationDto request, List<int> recipientIds)
     {
@@ -86,25 +86,25 @@ public class NotificationService : INotificationService
             recipientIds.Count, request.Title);
     }
 
-    // ── Get all notifications for a user ──────────────────────────────────────
+    
     public async Task<List<NotificationDto>> GetByRecipientAsync(int recipientId)
     {
         var notifications = await _repository.FindByRecipientIdAsync(recipientId);
         return notifications.Select(MapToDto).ToList();
     }
 
-    // ── Get unread notifications ──────────────────────────────────────────────
+    
     public async Task<List<NotificationDto>> GetUnreadAsync(int recipientId)
     {
         var notifications = await _repository.FindUnreadByRecipientIdAsync(recipientId);
         return notifications.Select(MapToDto).ToList();
     }
 
-    // ── Get unread count ──────────────────────────────────────────────────────
+    
     public async Task<int> GetUnreadCountAsync(int recipientId) =>
         await _repository.CountUnreadByRecipientIdAsync(recipientId);
 
-    // ── Mark single notification as read ──────────────────────────────────────
+    
     public async Task MarkAsReadAsync(int notificationId, int recipientId)
     {
         var notification = await _repository.FindByNotificationIdAsync(notificationId)
@@ -119,11 +119,11 @@ public class NotificationService : INotificationService
         await _repository.UpdateAsync(notification);
     }
 
-    // ── Mark all as read ──────────────────────────────────────────────────────
+    
     public async Task MarkAllReadAsync(int recipientId) =>
         await _repository.MarkAllReadByRecipientAsync(recipientId);
 
-    // ── Delete notification ───────────────────────────────────────────────────
+    
     public async Task DeleteAsync(int notificationId, int recipientId)
     {
         var notification = await _repository.FindByNotificationIdAsync(notificationId)
@@ -137,14 +137,14 @@ public class NotificationService : INotificationService
         await _repository.DeleteByNotificationIdAsync(notificationId);
     }
 
-    // ── Get all (Admin) ───────────────────────────────────────────────────────
+    
     public async Task<List<NotificationDto>> GetAllAsync()
     {
         var notifications = await _repository.GetAllAsync();
         return notifications.Select(MapToDto).ToList();
     }
 
-    // ── Mapper ────────────────────────────────────────────────────────────────
+    
     public static NotificationDto MapToDto(ParkEase.Notification.Entities.Notification n) => new()
     {
         NotificationId = n.NotificationId,

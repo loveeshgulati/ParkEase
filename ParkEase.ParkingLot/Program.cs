@@ -15,7 +15,7 @@ using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// ── Serilog ───────────────────────────────────────────────────────────────────
+
 Log.Logger = new LoggerConfiguration()
     .ReadFrom.Configuration(builder.Configuration)
     .Enrich.FromLogContext()
@@ -23,15 +23,15 @@ Log.Logger = new LoggerConfiguration()
     .CreateLogger();
 builder.Host.UseSerilog();
 
-// ── PostgreSQL + EF Core ──────────────────────────────────────────────────────
+
 builder.Services.AddDbContext<ParkingLotDbContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection"), x => x.MigrationsHistoryTable("__EFMigrationsHistory_ParkingLot", "parking")));
 
-// ── Repository + Service ──────────────────────────────────────────────────────
+
 builder.Services.AddScoped<IParkingLotRepository, ParkingLotRepository>();
 builder.Services.AddScoped<IParkingLotService, ParkingLotService>();
 
-// ── JWT Authentication ────────────────────────────────────────────────────────
+
 var key = Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Secret"]!);
 
 builder.Services.AddAuthentication(options =>
@@ -57,7 +57,7 @@ builder.Services.AddAuthentication(options =>
 
 builder.Services.AddAuthorization();
 
-// ── MassTransit + RabbitMQ ────────────────────────────────────────────────────
+
 builder.Services.AddMassTransit(x =>
 {
     x.AddConsumer<ManagerDeletedConsumer>();
@@ -89,7 +89,7 @@ builder.Services.AddMassTransit(x =>
     });
 });
 
-// ── Controllers + Swagger ─────────────────────────────────────────────────────
+
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(c =>
@@ -127,27 +127,27 @@ builder.Services.AddSwaggerGen(c =>
     });
 });
 
-// ── Health Checks ─────────────────────────────────────────────────────────────
+
 builder.Services.AddHealthChecks();
 
-// ── CORS ──────────────────────────────────────────────────────────────────────
+
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowAll", policy =>
         policy.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
 });
 
-// ─────────────────────────────────────────────────────────────────────────────
+
 var app = builder.Build();
 
-// ── Auto-migrate ──────────────────────────────────────────────────────────────
+
 using (var scope = app.Services.CreateScope())
 {
     var db = scope.ServiceProvider.GetRequiredService<ParkingLotDbContext>();
     db.Database.Migrate();
 }
 
-// ── Middleware Pipeline ───────────────────────────────────────────────────────
+
 app.UseSwagger();
 app.UseSwaggerUI(c =>
 {

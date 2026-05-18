@@ -29,7 +29,7 @@ public class VehicleDbContext : DbContext
             entity.Property(v => v.IsActive).HasColumnName("is_active").HasDefaultValue(true);
             entity.Property(v => v.RegisteredAt).HasColumnName("registered_at");
 
-            // Unique license plate per owner
+            
             entity.HasIndex(v => new { v.OwnerId, v.LicensePlate }).IsUnique();
         });
     }

@@ -3,7 +3,7 @@ using ParkEase.ParkingLot.Events.Published;
 
 namespace ParkEase.ParkingLot.Sagas;
 
-// ─── Saga State ───────────────────────────────────────────────────────────────
+
 
 public class LotApprovalSagaState : SagaStateMachineInstance
 {
@@ -16,7 +16,7 @@ public class LotApprovalSagaState : SagaStateMachineInstance
     public DateTime InitiatedAt { get; set; }
 }
 
-// ─── Commands ─────────────────────────────────────────────────────────────────
+
 
 public class SendLotApprovalNotificationCommand
 {
@@ -28,7 +28,7 @@ public class SendLotApprovalNotificationCommand
     public string? RejectionReason { get; set; }
 }
 
-// ─── Response Events from other services ─────────────────────────────────────
+
 
 public class LotApprovalNotificationSentEvent
 {
@@ -36,18 +36,18 @@ public class LotApprovalNotificationSentEvent
     public int LotId { get; set; }
 }
 
-// ─── Saga State Machine ───────────────────────────────────────────────────────
 
-/// <summary>
-/// LotApprovalSaga
-///
-/// Flow:
-///   Step 1: admin approves/rejects lot  (local — in ParkingLotService)
-///   Step 2: notification-service notifies manager (cross-service)
-///
-/// Simple 2-step saga — no complex compensation needed here.
-/// If notification fails, lot stays approved; manager just doesn't get notified.
-/// </summary>
+
+
+
+
+
+
+
+
+
+
+
 public class LotApprovalSaga : MassTransitStateMachine<LotApprovalSagaState>
 {
     public State Notifying { get; private set; } = null!;
@@ -70,7 +70,7 @@ public class LotApprovalSaga : MassTransitStateMachine<LotApprovalSagaState>
         Event(() => NotificationSent,
             x => x.CorrelateById(ctx => ctx.Message.SagaCorrelationId));
 
-        // ── Lot Approved ──────────────────────────────────────────────────────
+        
         Initially(
             When(LotApproved)
                 .Then(ctx =>
@@ -92,7 +92,7 @@ public class LotApprovalSaga : MassTransitStateMachine<LotApprovalSagaState>
                 }))
                 .TransitionTo(Notifying),
 
-            // ── Lot Rejected ──────────────────────────────────────────────────
+            
             When(LotRejected)
                 .Then(ctx =>
                 {

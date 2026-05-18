@@ -4,10 +4,10 @@ using ParkEase.Vehicle.Interfaces;
 
 namespace ParkEase.Vehicle.Consumers;
 
-/// <summary>
-/// When admin permanently deletes a driver from auth-service,
-/// this consumer cascades and deletes ALL their registered vehicles.
-/// </summary>
+
+
+
+
 public class DriverDeletedConsumer : IConsumer<DriverDeletedEvent>
 {
     private readonly IVehicleService _vehicleService;

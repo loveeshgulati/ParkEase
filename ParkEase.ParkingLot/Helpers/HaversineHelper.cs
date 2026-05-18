@@ -1,10 +1,10 @@
 namespace ParkEase.ParkingLot.Helpers;
 
-/// <summary>
-/// Haversine formula — calculates the great-circle distance
-/// between two GPS coordinates on Earth.
-/// Used for nearby lot discovery.
-/// </summary>
+
+
+
+
+
 public static class HaversineHelper
 {
     private const double EarthRadiusKm = 6371.0;

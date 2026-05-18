@@ -1,8 +1,8 @@
 namespace ParkEase.Payment.DTOs;
 
-/// <summary>
-/// DTO representing a payment entity
-/// </summary>
+
+
+
 public class PaymentDto
 {
     public int PaymentId { get; set; }
@@ -21,18 +21,18 @@ public class PaymentDto
     public DateTime CreatedAt { get; set; }
 }
 
-/// <summary>
-/// DTO for creating Razorpay order
-/// </summary>
+
+
+
 public class CreateOrderDto
 {
     public decimal Amount { get; set; }
     public string Receipt { get; set; } = string.Empty;
 }
 
-/// <summary>
-/// DTO for Razorpay order response
-/// </summary>
+
+
+
 public class RazorpayOrderDto
 {
     public string Id { get; set; } = string.Empty;

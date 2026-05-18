@@ -1,8 +1,8 @@
 namespace ParkEase.Payment.DTOs;
 
-/// <summary>
-/// Common response wrapper for API responses
-/// </summary>
+
+
+
 public class ApiResponse<T>
 {
     public bool Success { get; set; }

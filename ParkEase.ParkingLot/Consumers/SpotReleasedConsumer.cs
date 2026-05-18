@@ -4,10 +4,10 @@ using ParkEase.ParkingLot.Interfaces;
 
 namespace ParkEase.ParkingLot.Consumers;
 
-/// <summary>
-/// When a spot is released (checkout/cancellation),
-/// increment available spots in lot.
-/// </summary>
+
+
+
+
 public class SpotReleasedConsumer : IConsumer<SpotReleasedEvent>
 {
     private readonly IParkingLotRepository _repository;

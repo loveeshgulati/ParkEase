@@ -15,7 +15,7 @@ using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// ── Serilog ───────────────────────────────────────────────────────────────────
+
 Log.Logger = new LoggerConfiguration()
     .ReadFrom.Configuration(builder.Configuration)
     .Enrich.FromLogContext()
@@ -24,25 +24,25 @@ Log.Logger = new LoggerConfiguration()
     .CreateLogger();
 builder.Host.UseSerilog();
 
-// ── PostgreSQL + EF Core ──────────────────────────────────────────────────────
+
 builder.Services.AddDbContext<BookingDbContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection"), x => x.MigrationsHistoryTable("__EFMigrationsHistory_Booking", "booking")));
 
-// ── Repository + Service ──────────────────────────────────────────────────────
+
 builder.Services.AddScoped<IBookingRepository, BookingRepository>();
 builder.Services.AddScoped<IBookingService, BookingService>();
 
-// ── HTTP Client for Spot-Service ──────────────────────────────────────────────
+
 builder.Services.AddHttpClient<ISpotHttpClient, SpotHttpClient>(client =>
 {
     client.BaseAddress = new Uri(
         builder.Configuration["ServiceUrls:SpotService"]!);
 });
 
-// ── Background Service ────────────────────────────────────────────────────────
+
 builder.Services.AddHostedService<ExpiredBookingBackgroundService>();
 
-// ── JWT Authentication ────────────────────────────────────────────────────────
+
 var key = Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Secret"]!);
 
 builder.Services.AddAuthentication(options =>
@@ -68,7 +68,7 @@ builder.Services.AddAuthentication(options =>
 
 builder.Services.AddAuthorization();
 
-// ── MassTransit + RabbitMQ ────────────────────────────────────────────────────
+
 builder.Services.AddMassTransit(x =>
 {
     x.AddConsumer<CancelBookingsForUserConsumer>();
@@ -87,9 +87,9 @@ builder.Services.AddMassTransit(x =>
     });
 });
 
-// ── Controllers + Swagger ─────────────────────────────────────────────────────
+
 builder.Services.AddControllers();
-builder.Services.AddHttpContextAccessor(); // ← add this
+builder.Services.AddHttpContextAccessor(); 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(c =>
 {
@@ -126,27 +126,27 @@ builder.Services.AddSwaggerGen(c =>
     });
 });
 
-// ── Health Checks ─────────────────────────────────────────────────────────────
+
 builder.Services.AddHealthChecks();
 
-// ── CORS ──────────────────────────────────────────────────────────────────────
+
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowAll", policy =>
         policy.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
 });
 
-// ─────────────────────────────────────────────────────────────────────────────
+
 var app = builder.Build();
 
-// ── Auto-migrate ──────────────────────────────────────────────────────────────
+
 using (var scope = app.Services.CreateScope())
 {
     var db = scope.ServiceProvider.GetRequiredService<BookingDbContext>();
     db.Database.Migrate();
 }
 
-// ── Middleware Pipeline ───────────────────────────────────────────────────────
+
 app.UseSwagger();
 app.UseSwaggerUI(c =>
 {

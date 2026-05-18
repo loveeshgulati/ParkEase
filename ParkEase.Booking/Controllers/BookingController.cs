@@ -25,11 +25,11 @@ public class BookingController : ControllerBase
         _logger = logger;
     }
 
-    // ═══════════════════════════════════════════════════════════════════════════
-    // DRIVER
-    // ═══════════════════════════════════════════════════════════════════════════
+    
+    
+    
 
-    // POST /api/v1/bookings
+    
     [HttpPost]
     [Authorize(Roles = "DRIVER")]
     public async Task<IActionResult> CreateBooking([FromBody] CreateBookingDto request)
@@ -47,7 +47,7 @@ public class BookingController : ControllerBase
         }
     }
 
-    // GET /api/v1/bookings/my-bookings
+    
     [HttpGet("my-bookings")]
     [Authorize(Roles = "DRIVER")]
     public async Task<IActionResult> GetMyBookings()
@@ -57,7 +57,7 @@ public class BookingController : ControllerBase
             $"{result.Count} bookings found"));
     }
 
-    // GET /api/v1/bookings/{id}
+    
     [HttpGet("{id:int}")]
     [Authorize(Roles = "DRIVER,MANAGER,ADMIN")]
     public async Task<IActionResult> GetBookingById(int id)
@@ -78,7 +78,7 @@ public class BookingController : ControllerBase
         }
     }
 
-    // PUT /api/v1/bookings/{id}/cancel
+    
     [HttpPut("{id:int}/cancel")]
     [Authorize(Roles = "DRIVER,MANAGER,ADMIN")]
     public async Task<IActionResult> CancelBooking(
@@ -105,7 +105,7 @@ public class BookingController : ControllerBase
         }
     }
 
-    // PUT /api/v1/bookings/{id}/checkin
+    
     [HttpPut("{id:int}/checkin")]
     [Authorize(Roles = "DRIVER,MANAGER,ADMIN")]
     public async Task<IActionResult> CheckIn(int id)
@@ -131,7 +131,7 @@ public class BookingController : ControllerBase
         }
     }
 
-    // PUT /api/v1/bookings/{id}/checkout
+    
     [HttpPut("{id:int}/checkout")]
     [Authorize(Roles = "DRIVER,MANAGER,ADMIN")]
     public async Task<IActionResult> CheckOut(int id)
@@ -157,7 +157,7 @@ public class BookingController : ControllerBase
         }
     }
 
-    // PUT /api/v1/bookings/{id}/extend
+    
     [HttpPut("{id:int}/extend")]
     [Authorize(Roles = "DRIVER")]
     public async Task<IActionResult> ExtendBooking(
@@ -184,7 +184,7 @@ public class BookingController : ControllerBase
         }
     }
 
-    // GET /api/v1/bookings/{id}/fare
+    
     [HttpGet("{id:int}/fare")]
     [Authorize(Roles = "DRIVER,MANAGER,ADMIN")]
     public async Task<IActionResult> CalculateFare(int id)
@@ -200,11 +200,11 @@ public class BookingController : ControllerBase
         }
     }
 
-    // ═══════════════════════════════════════════════════════════════════════════
-    // MANAGER
-    // ═══════════════════════════════════════════════════════════════════════════
+    
+    
+    
 
-    // GET /api/v1/bookings/lot/{lotId}
+    
     [HttpGet("lot/{lotId:int}")]
     [Authorize(Roles = "MANAGER,ADMIN")]
     public async Task<IActionResult> GetBookingsByLot(int lotId)
@@ -215,7 +215,7 @@ public class BookingController : ControllerBase
             $"{result.Count} bookings"));
     }
 
-    // GET /api/v1/bookings/lot/{lotId}/active
+    
     [HttpGet("lot/{lotId:int}/active")]
     [Authorize(Roles = "MANAGER,ADMIN")]
     public async Task<IActionResult> GetActiveBookingsByLot(int lotId)
@@ -226,7 +226,7 @@ public class BookingController : ControllerBase
             $"{result.Count} active check-ins"));
     }
 
-    // PUT /api/v1/bookings/{id}/force-checkout
+    
     [HttpPut("{id:int}/force-checkout")]
     [Authorize(Roles = "MANAGER,ADMIN")]
     public async Task<IActionResult> ForceCheckOut(int id)
@@ -248,11 +248,11 @@ public class BookingController : ControllerBase
         }
     }
 
-    // ═══════════════════════════════════════════════════════════════════════════
-    // ADMIN
-    // ═══════════════════════════════════════════════════════════════════════════
+    
+    
+    
 
-    // GET /api/v1/bookings/all
+    
     [HttpGet("all")]
     [Authorize(Roles = "ADMIN")]
     public async Task<IActionResult> GetAllBookings()
@@ -262,7 +262,7 @@ public class BookingController : ControllerBase
             $"{result.Count} total bookings"));
     }
 
-    // ── Helpers ───────────────────────────────────────────────────────────────
+    
     private int GetCurrentUserId()
     {
         var claim = User.FindFirst(ClaimTypes.NameIdentifier)?.Value

@@ -23,7 +23,7 @@ public class ParkingLotService : IParkingLotService
         _logger = logger;
     }
 
-    // ── Create Lot (Manager) ──────────────────────────────────────────────────
+    
     public async Task<LotDto> CreateLotAsync(int managerId, CreateLotDto request)
     {
         var lot = new Entities.ParkingLot
@@ -61,12 +61,12 @@ public class ParkingLotService : IParkingLotService
         return MapToDto(created);
     }
 
-    // ── Update Lot (Manager/Admin) ────────────────────────────────────────────
+    
     public async Task<LotDto> UpdateLotAsync(int lotId, int managerId, UpdateLotDto request)
     {
         var lot = await GetAndValidateLotAsync(lotId);
 
-        // Only owner manager or admin can update
+        
         if (lot.ManagerId != managerId)
             throw new UnauthorizedAccessException("You can only update your own lots.");
 
@@ -85,7 +85,7 @@ public class ParkingLotService : IParkingLotService
         return MapToDto(updated);
     }
 
-    // ── Delete Lot (Manager/Admin) ────────────────────────────────────────────
+    
     public async Task DeleteLotAsync(int lotId, int managerId, string role)
     {
         var lot = await GetAndValidateLotAsync(lotId);
@@ -105,7 +105,7 @@ public class ParkingLotService : IParkingLotService
         _logger.LogInformation("Lot {LotId} deleted", lotId);
     }
 
-    // ── Toggle Open/Closed (Manager/Admin) ────────────────────────────────────
+    
     public async Task<LotDto> ToggleOpenAsync(int lotId, int managerId, string role)
     {
         var lot = await GetAndValidateLotAsync(lotId);
@@ -132,14 +132,14 @@ public class ParkingLotService : IParkingLotService
         return MapToDto(updated);
     }
 
-    // ── Get Lots By Manager ───────────────────────────────────────────────────
+    
     public async Task<List<LotDto>> GetLotsByManagerAsync(int managerId)
     {
         var lots = await _repository.FindByManagerIdAsync(managerId);
         return lots.Select(MapToDto).ToList();
     }
 
-    // ── Approve Lot (Admin) ───────────────────────────────────────────────────
+    
     public async Task<LotDto> ApproveLotAsync(int lotId, int adminId)
     {
         var lot = await GetAndValidateLotAsync(lotId);
@@ -154,7 +154,7 @@ public class ParkingLotService : IParkingLotService
 
         var updated = await _repository.UpdateAsync(lot);
 
-        // Triggers LotApprovalSaga → notifies manager
+        
         await _publishEndpoint.Publish(new LotApprovedEvent
         {
             LotId = lotId,
@@ -168,7 +168,7 @@ public class ParkingLotService : IParkingLotService
         return MapToDto(updated);
     }
 
-    // ── Reject Lot (Admin) ────────────────────────────────────────────────────
+    
     public async Task<LotDto> RejectLotAsync(int lotId, int adminId, string reason)
     {
         var lot = await GetAndValidateLotAsync(lotId);
@@ -179,7 +179,7 @@ public class ParkingLotService : IParkingLotService
 
         var updated = await _repository.UpdateAsync(lot);
 
-        // Triggers LotApprovalSaga → notifies manager of rejection
+        
         await _publishEndpoint.Publish(new LotRejectedEvent
         {
             LotId = lotId,
@@ -196,28 +196,28 @@ public class ParkingLotService : IParkingLotService
         return MapToDto(updated);
     }
 
-    // ── Get Pending Lots (Admin) ──────────────────────────────────────────────
+    
     public async Task<List<LotDto>> GetPendingLotsAsync()
     {
         var lots = await _repository.FindByApprovalStatusAsync("PENDING_APPROVAL");
         return lots.Select(MapToDto).ToList();
     }
 
-    // ── Get All Lots (Admin) ──────────────────────────────────────────────────
+    
     public async Task<List<LotDto>> GetAllLotsAsync()
     {
         var lots = await _repository.GetAllAsync();
         return lots.Select(MapToDto).ToList();
     }
 
-    // ── Get Lot By Id (Public) ────────────────────────────────────────────────
+    
     public async Task<LotDto> GetLotByIdAsync(int lotId)
     {
         var lot = await GetAndValidateLotAsync(lotId);
         return MapToDto(lot);
     }
 
-    // ── Search By City (Public) ───────────────────────────────────────────────
+    
     public async Task<List<LotDto>> SearchLotsByCityAsync(string city)
     {
         if (string.IsNullOrWhiteSpace(city))
@@ -227,11 +227,11 @@ public class ParkingLotService : IParkingLotService
         return lots.Select(MapToDto).ToList();
     }
 
-    // ── Nearby Lots via Haversine (Public/Driver) ─────────────────────────────
+    
     public async Task<List<NearbyLotDto>> GetNearbyLotsAsync(
         double latitude, double longitude, double radiusKm = 5.0)
     {
-        // Get all approved + open lots
+        
         var allLots = await _repository.FindAllApprovedAndOpenAsync();
 
         return allLots
@@ -262,7 +262,7 @@ public class ParkingLotService : IParkingLotService
             .ToList();
     }
 
-    // ── Internal Spot Count Updates ───────────────────────────────────────────
+    
     public async Task IncrementAvailableSpotsAsync(int lotId) =>
         await _repository.IncrementAvailableSpotsAsync(lotId);
 
@@ -272,7 +272,7 @@ public class ParkingLotService : IParkingLotService
     public async Task UpdateSpotCountsAsync(int lotId, int totalSpots, int availableSpots) =>
         await _repository.UpdateSpotCountsAsync(lotId, totalSpots, availableSpots);
 
-    // ── Helpers ───────────────────────────────────────────────────────────────
+    
     private async Task<Entities.ParkingLot> GetAndValidateLotAsync(int lotId)
     {
         return await _repository.FindByLotIdAsync(lotId)

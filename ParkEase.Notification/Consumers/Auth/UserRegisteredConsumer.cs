@@ -21,12 +21,12 @@ public class UserRegisteredConsumer : IConsumer<UserRegisteredEvent>
             Type = "WELCOME"
         });
 
-        // If it's a manager, notify the admin
+        
         if (e.Role == "MANAGER")
         {
             await _service.SendAsync(new SendNotificationDto
             {
-                RecipientId = 1, // Platform Admin
+                RecipientId = 1, 
                 Title = "New Manager Registration 📋",
                 Message = $"{e.FullName} ({e.Email}) has registered as a Manager and is awaiting your approval.",
                 Type = "SYSTEM",

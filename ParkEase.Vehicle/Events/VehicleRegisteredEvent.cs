@@ -1,6 +1,6 @@
 namespace ParkEase.Vehicle.Events;
 
-// Published by Vehicle-Service
+
 
 public class VehicleRegisteredEvent
 {

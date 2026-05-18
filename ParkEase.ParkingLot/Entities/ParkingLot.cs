@@ -3,7 +3,7 @@ namespace ParkEase.ParkingLot.Entities;
 public class ParkingLot
 {
     public int LotId { get; set; }
-    public int ManagerId { get; set; }              // links to User in auth-service
+    public int ManagerId { get; set; }              
     public string Name { get; set; } = string.Empty;
     public string Address { get; set; } = string.Empty;
     public string City { get; set; } = string.Empty;
@@ -15,7 +15,7 @@ public class ParkingLot
     public TimeOnly OpenTime { get; set; }
     public TimeOnly CloseTime { get; set; }
 
-    // PENDING_APPROVAL | APPROVED | REJECTED
+    
     public string ApprovalStatus { get; set; } = "PENDING_APPROVAL";
     public string? RejectionReason { get; set; }
     public DateTime? ApprovedAt { get; set; }

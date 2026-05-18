@@ -8,7 +8,7 @@ public class NearbyLotDto
     public string City { get; set; } = string.Empty;
     public double Latitude { get; set; }
     public double Longitude { get; set; }
-    public double DistanceKm { get; set; }           // calculated distance
+    public double DistanceKm { get; set; }           
     public int AvailableSpots { get; set; }
     public int TotalSpots { get; set; }
     public bool IsOpen { get; set; }

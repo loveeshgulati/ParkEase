@@ -4,10 +4,10 @@ using ParkEase.ParkingLot.Interfaces;
 
 namespace ParkEase.ParkingLot.Consumers;
 
-/// <summary>
-/// When spots are added or removed from a lot,
-/// update the lot's total and available spot counts.
-/// </summary>
+
+
+
+
 public class LotSpotCountUpdatedConsumer : IConsumer<LotSpotCountUpdatedEvent>
 {
     private readonly IParkingLotRepository _repository;

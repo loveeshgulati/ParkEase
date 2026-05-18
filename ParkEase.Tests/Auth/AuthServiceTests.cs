@@ -41,7 +41,7 @@ public class AuthServiceTests
             _config, NullLogger<AuthService>.Instance);
     }
 
-    // ── Register ──────────────────────────────────────────────────────────────
+    
 
     [Test]
     public async Task Register_NewDriver_ReturnsActiveStatus()
@@ -75,7 +75,7 @@ public class AuthServiceTests
         Assert.That(result.Status, Is.EqualTo("PENDING_APPROVAL"));
     }
 
-    // ── Login ─────────────────────────────────────────────────────────────────
+    
 
     [Test]
     public async Task Login_ValidCredentials_ReturnsTokens()

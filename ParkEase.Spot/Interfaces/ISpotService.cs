@@ -5,13 +5,13 @@ namespace ParkEase.Spot.Interfaces;
 
 public interface ISpotService
 {
-    // ── Manager actions ───────────────────────────────────────────────────────
+    
     Task<SpotDto> AddSpotAsync(int managerId, AddSpotDto request);
     Task<BulkAddResultDto> AddBulkSpotsAsync(int managerId, BulkAddSpotDto request);
     Task<SpotDto> UpdateSpotAsync(int spotId, int managerId, UpdateSpotDto request);
     Task DeleteSpotAsync(int spotId, int managerId, string role);
 
-    // ── Public / Driver actions ───────────────────────────────────────────────
+    
     Task<SpotDto> GetSpotByIdAsync(int spotId);
     Task<List<SpotDto>> GetSpotsByLotAsync(int lotId);
     Task<List<SpotDto>> GetAvailableSpotsByLotAsync(int lotId);
@@ -22,11 +22,11 @@ public interface ISpotService
     Task<List<SpotDto>> GetHandicappedSpotsByLotAsync(int lotId);
     Task<int> CountAvailableAsync(int lotId);
 
-    // ── Internal (called by booking-service) ──────────────────────────────────
-    Task<SpotDto> ReserveSpotAsync(int spotId);   // AVAILABLE → RESERVED
-    Task<SpotDto> OccupySpotAsync(int spotId);    // RESERVED → OCCUPIED
-    Task<SpotDto> ReleaseSpotAsync(int spotId);   // OCCUPIED/RESERVED → AVAILABLE
+    
+    Task<SpotDto> ReserveSpotAsync(int spotId);   
+    Task<SpotDto> OccupySpotAsync(int spotId);    
+    Task<SpotDto> ReleaseSpotAsync(int spotId);   
 
-    // ── Cascade ───────────────────────────────────────────────────────────────
+    
     Task DeleteAllByLotIdAsync(int lotId);
 }

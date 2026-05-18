@@ -1,9 +1,9 @@
 namespace ParkEase.Booking.Interfaces;
 
-/// <summary>
-/// Handles HTTP calls to other microservices via IHttpClientFactory.
-/// Booking-service needs to call Spot-service and ParkingLot-service.
-/// </summary>
+
+
+
+
 public interface ISpotHttpClient
 {
     Task<SpotInfo?> GetSpotAsync(int spotId);

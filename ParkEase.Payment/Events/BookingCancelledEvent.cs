@@ -1,9 +1,9 @@
 namespace ParkEase.Payment.Events;
 
-/// <summary>
-/// Event consumed from Booking-Service when booking is cancelled
-/// Used to process refund if applicable
-/// </summary>
+
+
+
+
 public class BookingCancelledEvent
 {
     public int BookingId { get; set; }

@@ -5,12 +5,12 @@ using ParkEase.Booking.Interfaces;
 
 namespace ParkEase.Booking.Consumers;
 
-/// <summary>
-/// Part of AccountDeactivationSaga from auth-service.
-/// When a user deactivates their account, cancel all their active bookings.
-/// On success → publish BookingsCancelledForUserEvent (saga continues)
-/// On failure → publish BookingCancellationFailedEvent (saga compensates)
-/// </summary>
+
+
+
+
+
+
 public class CancelBookingsForUserConsumer : IConsumer<CancelBookingsForUserCommand>
 {
     private readonly IBookingRepository _repository;
@@ -51,7 +51,7 @@ public class CancelBookingsForUserConsumer : IConsumer<CancelBookingsForUserComm
                 await _spotHttpClient.ReleaseSpotAsync(booking.SpotId);
             }
 
-            // Saga step 2 complete → continue to step 3 (notification)
+            
             await _publishEndpoint.Publish(new BookingsCancelledForUserEvent
             {
                 SagaCorrelationId = cmd.CorrelationId,
@@ -68,7 +68,7 @@ public class CancelBookingsForUserConsumer : IConsumer<CancelBookingsForUserComm
             _logger.LogError(ex,
                 "Failed to cancel bookings for User {UserId}", cmd.UserId);
 
-            // Saga compensation → auth-service reactivates user
+            
             await _publishEndpoint.Publish(new BookingCancellationFailedEvent
             {
                 SagaCorrelationId = cmd.CorrelationId,

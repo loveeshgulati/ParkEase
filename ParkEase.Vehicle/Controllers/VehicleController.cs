@@ -21,8 +21,8 @@ public class VehicleController : ControllerBase
         _logger = logger;
     }
 
-    // ── POST /api/v1/vehicles ─────────────────────────────────────────────────
-    /// <summary>Register a new vehicle (Driver only)</summary>
+    
+    
     [HttpPost]
     [Authorize(Roles = "DRIVER")]
     public async Task<IActionResult> RegisterVehicle([FromBody] RegisterVehicleDto request)
@@ -40,8 +40,8 @@ public class VehicleController : ControllerBase
         }
     }
 
-    // ── GET /api/v1/vehicles/my-vehicles ──────────────────────────────────────
-    /// <summary>Get all vehicles for current driver</summary>
+    
+    
     [HttpGet("my-vehicles")]
     [Authorize(Roles = "DRIVER")]
     public async Task<IActionResult> GetMyVehicles()
@@ -52,8 +52,8 @@ public class VehicleController : ControllerBase
             $"{result.Count} vehicles found"));
     }
 
-    // ── GET /api/v1/vehicles/{id} ─────────────────────────────────────────────
-    /// <summary>Get vehicle by id (owner or admin)</summary>
+    
+    
     [HttpGet("{id:int}")]
     [Authorize(Roles = "DRIVER,ADMIN")]
     public async Task<IActionResult> GetVehicleById(int id)
@@ -74,8 +74,8 @@ public class VehicleController : ControllerBase
         }
     }
 
-    // ── GET /api/v1/vehicles/owner/{ownerId} ──────────────────────────────────
-    /// <summary>Get all vehicles by owner id (admin only)</summary>
+    
+    
     [HttpGet("owner/{ownerId:int}")]
     [Authorize(Roles = "ADMIN")]
     public async Task<IActionResult> GetVehiclesByOwner(int ownerId)
@@ -86,8 +86,8 @@ public class VehicleController : ControllerBase
             $"{result.Count} vehicles found"));
     }
 
-    // ── GET /api/v1/vehicles/all ──────────────────────────────────────────────
-    /// <summary>Get all vehicles on platform (admin only)</summary>
+    
+    
     [HttpGet("all")]
     [Authorize(Roles = "ADMIN")]
     public async Task<IActionResult> GetAllVehicles()
@@ -97,8 +97,8 @@ public class VehicleController : ControllerBase
             $"{result.Count} vehicles found"));
     }
 
-    // ── PUT /api/v1/vehicles/{id} ─────────────────────────────────────────────
-    /// <summary>Update vehicle details (owner only)</summary>
+    
+    
     [HttpPut("{id:int}")]
     [Authorize(Roles = "DRIVER")]
     public async Task<IActionResult> UpdateVehicle(int id, [FromBody] UpdateVehicleDto request)
@@ -123,8 +123,8 @@ public class VehicleController : ControllerBase
         }
     }
 
-    // ── DELETE /api/v1/vehicles/{id} ──────────────────────────────────────────
-    /// <summary>Delete a vehicle (owner or admin)</summary>
+    
+    
     [HttpDelete("{id:int}")]
     [Authorize(Roles = "DRIVER,ADMIN")]
     public async Task<IActionResult> DeleteVehicle(int id)
@@ -145,8 +145,8 @@ public class VehicleController : ControllerBase
         }
     }
 
-    // ── GET /api/v1/vehicles/{id}/type ────────────────────────────────────────
-    /// <summary>Get vehicle type — used by booking-service internally</summary>
+    
+    
     [HttpGet("{id:int}/type")]
     [Authorize(Roles = "DRIVER,ADMIN")]
     public async Task<IActionResult> GetVehicleType(int id)
@@ -162,8 +162,8 @@ public class VehicleController : ControllerBase
         }
     }
 
-    // ── GET /api/v1/vehicles/{id}/is-ev ──────────────────────────────────────
-    /// <summary>Check if vehicle is EV — used by booking-service internally</summary>
+    
+    
     [HttpGet("{id:int}/is-ev")]
     [Authorize(Roles = "DRIVER,ADMIN")]
     public async Task<IActionResult> IsEV(int id)
@@ -179,7 +179,7 @@ public class VehicleController : ControllerBase
         }
     }
 
-    // ── Helpers ───────────────────────────────────────────────────────────────
+    
     private int GetCurrentUserId()
     {
         var claim = User.FindFirst(ClaimTypes.NameIdentifier)?.Value

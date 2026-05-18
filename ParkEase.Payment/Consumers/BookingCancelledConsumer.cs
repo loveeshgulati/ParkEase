@@ -4,10 +4,10 @@ using ParkEase.Payment.Events;
 
 namespace ParkEase.Payment.Consumers;
 
-/// <summary>
-/// When booking is cancelled and eligible for refund,
-/// auto-process the refund.
-/// </summary>
+
+
+
+
 public class BookingCancelledConsumer : IConsumer<BookingCancelledEvent>
 {
     private readonly PaymentDbContext _context;

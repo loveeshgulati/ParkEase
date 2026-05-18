@@ -1,8 +1,8 @@
 namespace ParkEase.ParkingLot.Events.Consumed;
 
-/// <summary>
-/// When admin deletes a manager, cascade delete all their lots.
-/// </summary>
+
+
+
 public class ManagerDeletedEvent
 {
     public int ManagerId { get; set; }

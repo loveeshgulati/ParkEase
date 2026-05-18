@@ -29,7 +29,7 @@ public class SpotService : ISpotService
         _logger = logger;
     }
 
-    // ── Add Single Spot (Manager) ─────────────────────────────────────────────
+    
     public async Task<SpotDto> AddSpotAsync(int managerId, AddSpotDto request)
     {
         ValidateSpotTypes(request.SpotType, request.VehicleType);
@@ -54,7 +54,7 @@ public class SpotService : ISpotService
 
         var created = await _repository.CreateAsync(spot);
 
-        // Sync lot spot counts
+        
         await SyncLotSpotCountsAsync(request.LotId);
 
         await _publishEndpoint.Publish(new SpotAddedEvent
@@ -75,7 +75,7 @@ public class SpotService : ISpotService
         return MapToDto(created);
     }
 
-    // ── Bulk Add Spots (Manager) ──────────────────────────────────────────────
+    
     public async Task<BulkAddResultDto> AddBulkSpotsAsync(int managerId, BulkAddSpotDto request)
     {
         ValidateSpotTypes(request.SpotType, request.VehicleType);
@@ -89,7 +89,7 @@ public class SpotService : ISpotService
         {
             var spotNumber = $"{request.Prefix.ToUpper()}-{i:D2}";
 
-            // Skip if already exists
+            
             if (await _repository.ExistsBySpotNumberAndLotAsync(spotNumber, request.LotId))
                 continue;
 
@@ -110,7 +110,7 @@ public class SpotService : ISpotService
 
         var created = await _repository.CreateBulkAsync(spots);
 
-        // Sync lot spot counts
+        
         await SyncLotSpotCountsAsync(request.LotId);
 
         _logger.LogInformation(
@@ -124,7 +124,7 @@ public class SpotService : ISpotService
         };
     }
 
-    // ── Update Spot (Manager) ─────────────────────────────────────────────────
+    
     public async Task<SpotDto> UpdateSpotAsync(
         int spotId, int managerId, UpdateSpotDto request)
     {
@@ -156,7 +156,7 @@ public class SpotService : ISpotService
         return MapToDto(updated);
     }
 
-    // ── Delete Spot (Manager/Admin) ───────────────────────────────────────────
+    
     public async Task DeleteSpotAsync(int spotId, int managerId, string role)
     {
         var spot = await GetAndValidateSpotAsync(spotId);
@@ -168,7 +168,7 @@ public class SpotService : ISpotService
         var lotId = spot.LotId;
         await _repository.DeleteBySpotIdAsync(spotId);
 
-        // Sync lot spot counts after deletion
+        
         await SyncLotSpotCountsAsync(lotId);
 
         await _publishEndpoint.Publish(new SpotDeletedEvent
@@ -181,28 +181,28 @@ public class SpotService : ISpotService
         _logger.LogInformation("Spot {SpotId} deleted from Lot {LotId}", spotId, lotId);
     }
 
-    // ── Get Spot By Id ────────────────────────────────────────────────────────
+    
     public async Task<SpotDto> GetSpotByIdAsync(int spotId)
     {
         var spot = await GetAndValidateSpotAsync(spotId);
         return MapToDto(spot);
     }
 
-    // ── Get All Spots In Lot ──────────────────────────────────────────────────
+    
     public async Task<List<SpotDto>> GetSpotsByLotAsync(int lotId)
     {
         var spots = await _repository.FindByLotIdAsync(lotId);
         return spots.Select(MapToDto).ToList();
     }
 
-    // ── Get Available Spots ───────────────────────────────────────────────────
+    
     public async Task<List<SpotDto>> GetAvailableSpotsByLotAsync(int lotId)
     {
         var spots = await _repository.FindByLotIdAndStatusAsync(lotId, "AVAILABLE");
         return spots.Select(MapToDto).ToList();
     }
 
-    // ── Get Spots By Type ─────────────────────────────────────────────────────
+    
     public async Task<List<SpotDto>> GetSpotsByTypeAndLotAsync(int lotId, string spotType)
     {
         var spots = await _repository.FindByLotIdAndSpotTypeAsync(
@@ -210,7 +210,7 @@ public class SpotService : ISpotService
         return spots.Select(MapToDto).ToList();
     }
 
-    // ── Get Spots By Vehicle Type ─────────────────────────────────────────────
+    
     public async Task<List<SpotDto>> GetSpotsByVehicleTypeAsync(int lotId, string vehicleType)
     {
         var spots = await _repository.FindByLotIdAndVehicleTypeAsync(
@@ -218,32 +218,32 @@ public class SpotService : ISpotService
         return spots.Select(MapToDto).ToList();
     }
 
-    // ── Get Spots By Floor ────────────────────────────────────────────────────
+    
     public async Task<List<SpotDto>> GetSpotsByFloorAsync(int lotId, int floor)
     {
         var spots = await _repository.FindByLotIdAndFloorAsync(lotId, floor);
         return spots.Select(MapToDto).ToList();
     }
 
-    // ── Get EV Spots ──────────────────────────────────────────────────────────
+    
     public async Task<List<SpotDto>> GetEVSpotsByLotAsync(int lotId)
     {
         var spots = await _repository.FindByIsEVChargingAsync(lotId, true);
         return spots.Select(MapToDto).ToList();
     }
 
-    // ── Get Handicapped Spots ─────────────────────────────────────────────────
+    
     public async Task<List<SpotDto>> GetHandicappedSpotsByLotAsync(int lotId)
     {
         var spots = await _repository.FindByIsHandicappedAsync(lotId, true);
         return spots.Select(MapToDto).ToList();
     }
 
-    // ── Count Available ───────────────────────────────────────────────────────
+    
     public async Task<int> CountAvailableAsync(int lotId) =>
         await _repository.CountByLotIdAndStatusAsync(lotId, "AVAILABLE");
 
-    // ── Reserve Spot (AVAILABLE → RESERVED) ──────────────────────────────────
+    
     public async Task<SpotDto> ReserveSpotAsync(int spotId)
     {
         var spot = await GetAndValidateSpotAsync(spotId);
@@ -269,7 +269,7 @@ public class SpotService : ISpotService
         return MapToDto(updated);
     }
 
-    // ── Occupy Spot (RESERVED → OCCUPIED) ────────────────────────────────────
+    
     public async Task<SpotDto> OccupySpotAsync(int spotId)
     {
         var spot = await GetAndValidateSpotAsync(spotId);
@@ -282,7 +282,7 @@ public class SpotService : ISpotService
         spot.Status = "OCCUPIED";
         var updated = await _repository.UpdateAsync(spot);
 
-        // Notify parkinglot-service to decrement available spots
+        
         await _publishEndpoint.Publish(new SpotOccupiedEvent
         {
             LotId = spot.LotId,
@@ -303,7 +303,7 @@ public class SpotService : ISpotService
         return MapToDto(updated);
     }
 
-    // ── Release Spot (OCCUPIED/RESERVED → AVAILABLE) ──────────────────────────
+    
     public async Task<SpotDto> ReleaseSpotAsync(int spotId)
     {
         var spot = await GetAndValidateSpotAsync(spotId);
@@ -315,7 +315,7 @@ public class SpotService : ISpotService
         spot.Status = "AVAILABLE";
         var updated = await _repository.UpdateAsync(spot);
 
-        // Notify parkinglot-service to increment available spots
+        
         await _publishEndpoint.Publish(new SpotReleasedEvent
         {
             LotId = spot.LotId,
@@ -336,14 +336,14 @@ public class SpotService : ISpotService
         return MapToDto(updated);
     }
 
-    // ── Cascade Delete ────────────────────────────────────────────────────────
+    
     public async Task DeleteAllByLotIdAsync(int lotId)
     {
         await _repository.DeleteAllByLotIdAsync(lotId);
         _logger.LogInformation("All spots deleted for Lot {LotId}", lotId);
     }
 
-    // ── Private Helpers ───────────────────────────────────────────────────────
+    
     private async Task<ParkingSpot> GetAndValidateSpotAsync(int spotId) =>
         await _repository.FindBySpotIdAsync(spotId)
             ?? throw new KeyNotFoundException($"Spot {spotId} not found.");

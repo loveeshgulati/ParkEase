@@ -4,9 +4,9 @@ using ParkEase.ParkingLot.Interfaces;
 
 namespace ParkEase.ParkingLot.Consumers;
 
-/// <summary>
-/// When a spot is occupied (check-in), decrement available spots in lot.
-/// </summary>
+
+
+
 public class SpotOccupiedConsumer : IConsumer<SpotOccupiedEvent>
 {
     private readonly IParkingLotRepository _repository;

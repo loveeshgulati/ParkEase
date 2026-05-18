@@ -4,10 +4,10 @@ using ParkEase.Booking.Interfaces;
 
 namespace ParkEase.Booking.Consumers;
 
-/// <summary>
-/// When admin permanently deletes a driver,
-/// cancel ALL their bookings (active + reserved).
-/// </summary>
+
+
+
+
 public class DriverDeletedConsumer : IConsumer<DriverDeletedEvent>
 {
     private readonly IBookingRepository _repository;

@@ -37,10 +37,10 @@ public class SpotDbContext : DbContext
             entity.Property(s => s.CreatedAt).HasColumnName("created_at");
             entity.Property(s => s.UpdatedAt).HasColumnName("updated_at");
 
-            // Unique spot number per lot
+            
             entity.HasIndex(s => new { s.LotId, s.SpotNumber }).IsUnique();
 
-            // Index for fast availability queries
+            
             entity.HasIndex(s => new { s.LotId, s.Status });
             entity.HasIndex(s => new { s.LotId, s.SpotType });
             entity.HasIndex(s => new { s.LotId, s.VehicleType });
