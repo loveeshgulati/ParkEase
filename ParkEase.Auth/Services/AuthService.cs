@@ -31,20 +31,20 @@ public class AuthService : IAuthService
         _logger = logger;
     }
 
-    // ── Register ──────────────────────────────────────────────────────────────
+    
     public async Task<RegisterResponseDto> RegisterAsync(RegisterRequestDto request)
     {
         if (await _userRepository.ExistsByEmailAsync(request.Email))
             throw new InvalidOperationException($"Email '{request.Email}' is already registered.");
 
-        // Prevent registering as ADMIN via API
+        
         if (request.Role.ToUpper() == "ADMIN")
             throw new InvalidOperationException("Cannot register as Admin.");
 
         var role = request.Role.ToUpper();
 
-        // Drivers get ACTIVE immediately
-        // Managers get PENDING_APPROVAL
+        
+        
         var status = role == "MANAGER" ? "PENDING_APPROVAL" : "ACTIVE";
 
         var user = new User
@@ -61,7 +61,7 @@ public class AuthService : IAuthService
 
         var created = await _userRepository.CreateAsync(user);
 
-        // Fire-and-forget welcome notification
+        
         await _publishEndpoint.Publish(new UserRegisteredEvent
         {
             UserId = created.UserId,
@@ -72,7 +72,7 @@ public class AuthService : IAuthService
             RegisteredAt = created.CreatedAt
         });
 
-        // If manager — notify admin of pending request
+        
         if (role == "MANAGER")
         {
             await _publishEndpoint.Publish(new ManagerSignupRequestedEvent
@@ -103,7 +103,7 @@ public class AuthService : IAuthService
         };
     }
 
-    // ── Login ─────────────────────────────────────────────────────────────────
+    
     public async Task<LoginResponseDto> LoginAsync(LoginRequestDto request)
     {
         var user = await _userRepository.FindByEmailAsync(request.Email)
@@ -112,7 +112,7 @@ public class AuthService : IAuthService
         if (!BCrypt.Net.BCrypt.Verify(request.Password, user.PasswordHash))
             throw new UnauthorizedAccessException("Invalid email or password.");
 
-        // Status checks
+        
         switch (user.Status)
         {
             case "PENDING_APPROVAL":
@@ -148,7 +148,7 @@ public class AuthService : IAuthService
         };
     }
 
-    // ── Logout ────────────────────────────────────────────────────────────────
+    
     public async Task LogoutAsync(int userId)
     {
         var user = await _userRepository.FindByUserIdAsync(userId)
@@ -159,7 +159,7 @@ public class AuthService : IAuthService
         await _userRepository.UpdateAsync(user);
     }
 
-    // ── Refresh Token ─────────────────────────────────────────────────────────
+    
     public async Task<TokenResponseDto> RefreshTokenAsync(string refreshToken)
     {
         var user = await _userRepository.FindByRefreshTokenAsync(refreshToken)
@@ -180,7 +180,7 @@ public class AuthService : IAuthService
         };
     }
 
-    // ── Validate Token ────────────────────────────────────────────────────────
+    
     public Task<bool> ValidateTokenAsync(string token)
     {
         try
@@ -203,7 +203,7 @@ public class AuthService : IAuthService
         catch { return Task.FromResult(false); }
     }
 
-    // ── Get Profile ───────────────────────────────────────────────────────────
+    
     public async Task<UserProfileDto> GetUserByIdAsync(int userId)
     {
         var user = await _userRepository.FindByUserIdAsync(userId)
@@ -218,7 +218,7 @@ public class AuthService : IAuthService
         return MapToProfileDto(user);
     }
 
-    // ── Update Profile ────────────────────────────────────────────────────────
+    
     public async Task<UserProfileDto> UpdateProfileAsync(int userId, UpdateProfileDto request)
     {
         var user = await _userRepository.FindByUserIdAsync(userId)
@@ -243,7 +243,7 @@ public class AuthService : IAuthService
         return MapToProfileDto(user);
     }
 
-    // ── Change Password ───────────────────────────────────────────────────────
+    
     public async Task ChangePasswordAsync(int userId, ChangePasswordDto request)
     {
         var user = await _userRepository.FindByUserIdAsync(userId)
@@ -256,7 +256,7 @@ public class AuthService : IAuthService
         await _userRepository.UpdateAsync(user);
     }
 
-    // ── Deactivate Account ────────────────────────────────────────────────────
+    
     public async Task DeactivateAccountAsync(int userId)
     {
         var user = await _userRepository.FindByUserIdAsync(userId)
@@ -268,7 +268,7 @@ public class AuthService : IAuthService
         user.RefreshTokenExpiry = null;
         await _userRepository.UpdateAsync(user);
 
-        // Triggers AccountDeactivationSaga
+        
         await _publishEndpoint.Publish(new UserDeactivatedEvent
         {
             UserId = user.UserId,
@@ -279,10 +279,10 @@ public class AuthService : IAuthService
         _logger.LogInformation("User {UserId} deactivated. Saga triggered.", userId);
     }
 
-    // ── Google OAuth ──────────────────────────────────────────────────────────
+    
     public async Task<LoginResponseDto> GoogleAuthAsync(string idToken, string role)
     {
-        // 1. Verify the token against Google's public keys
+        
         GoogleJsonWebSignature.Payload payload;
         try
         {
@@ -297,12 +297,12 @@ public class AuthService : IAuthService
             throw new UnauthorizedAccessException($"Invalid Google token: {ex.Message}");
         }
 
-        // 2. Find existing user or create a new one
+        
         var user = await _userRepository.FindByEmailAsync(payload.Email);
 
         if (user == null)
         {
-            // Normalise role
+            
             var normalisedRole = (role ?? "DRIVER").ToUpper();
             if (normalisedRole == "ADMIN")
                 throw new InvalidOperationException("Cannot register as Admin.");
@@ -313,8 +313,8 @@ public class AuthService : IAuthService
             {
                 FullName      = payload.Name ?? payload.Email,
                 Email         = payload.Email.ToLower(),
-                PasswordHash  = string.Empty,          // no password for OAuth users
-                Phone         = string.Empty,          // can be filled in later
+                PasswordHash  = string.Empty,          
+                Phone         = string.Empty,          
                 Role          = normalisedRole,
                 Status        = status,
                 IsActive      = normalisedRole != "MANAGER",
@@ -326,7 +326,7 @@ public class AuthService : IAuthService
 
             user = await _userRepository.CreateAsync(user);
 
-            // Fire welcome notification
+            
             await _publishEndpoint.Publish(new UserRegisteredEvent
             {
                 UserId       = user.UserId,
@@ -354,7 +354,7 @@ public class AuthService : IAuthService
         }
         else
         {
-            // Update OAuth fields if this is the first time the user signs in via Google
+            
             if (string.IsNullOrEmpty(user.OAuthProvider))
             {
                 user.OAuthProvider   = "GOOGLE";
@@ -365,11 +365,11 @@ public class AuthService : IAuthService
             _logger.LogInformation("Google OAuth: Existing user signed in {Email}", user.Email);
         }
 
-        // 3. Status checks (applies to both new and existing users)
+        
         switch (user.Status)
         {
             case "PENDING_APPROVAL":
-                // If it's a new user, say "Registration successful", otherwise just standard login error.
+                
                 if (user.CreatedAt >= DateTime.UtcNow.AddSeconds(-5))
                 {
                     throw new UnauthorizedAccessException(
@@ -388,7 +388,7 @@ public class AuthService : IAuthService
         if (!user.IsActive)
             throw new UnauthorizedAccessException("Account is deactivated.");
 
-        // 4. Issue ParkEase tokens
+        
         var (accessToken, expiry) = GenerateJwtToken(user);
         var refreshToken = GenerateRefreshToken();
 
@@ -408,7 +408,7 @@ public class AuthService : IAuthService
         };
     }
 
-    // ── Helpers ───────────────────────────────────────────────────────────────
+    
     private (string token, DateTime expiry) GenerateJwtToken(User user)
     {
         var key = Encoding.UTF8.GetBytes(_configuration["Jwt:Secret"]!);

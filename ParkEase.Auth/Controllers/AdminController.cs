@@ -21,11 +21,11 @@ public class AdminController : ControllerBase
         _logger = logger;
     }
 
-    // ═══════════════════════════════════════════════════════════════════════════
-    // MANAGER MANAGEMENT
-    // ═══════════════════════════════════════════════════════════════════════════
+    
+    
+    
 
-    // GET /api/v1/admin/managers/pending
+    
     [HttpGet("managers/pending")]
     public async Task<IActionResult> GetPendingManagers()
     {
@@ -34,7 +34,7 @@ public class AdminController : ControllerBase
             $"{result.Count} pending manager requests"));
     }
 
-    // GET /api/v1/admin/managers
+    
     [HttpGet("managers")]
     public async Task<IActionResult> GetAllManagers()
     {
@@ -43,7 +43,7 @@ public class AdminController : ControllerBase
             $"{result.Count} managers found"));
     }
 
-    // GET /api/v1/admin/managers/{id}
+    
     [HttpGet("managers/{id:int}")]
     public async Task<IActionResult> GetManagerById(int id)
     {
@@ -58,7 +58,7 @@ public class AdminController : ControllerBase
         }
     }
 
-    // PUT /api/v1/admin/managers/{id}/approve
+    
     [HttpPut("managers/{id:int}/approve")]
     public async Task<IActionResult> ApproveManager(int id)
     {
@@ -78,7 +78,7 @@ public class AdminController : ControllerBase
         }
     }
 
-    // PUT /api/v1/admin/managers/{id}/reject
+    
     [HttpPut("managers/{id:int}/reject")]
     public async Task<IActionResult> RejectManager(int id, [FromBody] RejectManagerDto request)
     {
@@ -98,7 +98,7 @@ public class AdminController : ControllerBase
         }
     }
 
-    // PUT /api/v1/admin/managers/{id}/suspend
+    
     [HttpPut("managers/{id:int}/suspend")]
     public async Task<IActionResult> SuspendManager(int id, [FromBody] SuspendUserDto request)
     {
@@ -113,7 +113,7 @@ public class AdminController : ControllerBase
         }
     }
 
-    // PUT /api/v1/admin/managers/{id}/reactivate
+    
     [HttpPut("managers/{id:int}/reactivate")]
     public async Task<IActionResult> ReactivateManager(int id)
     {
@@ -128,7 +128,7 @@ public class AdminController : ControllerBase
         }
     }
 
-    // DELETE /api/v1/admin/managers/{id}
+    
     [HttpDelete("managers/{id:int}")]
     public async Task<IActionResult> DeleteManager(int id)
     {
@@ -143,11 +143,11 @@ public class AdminController : ControllerBase
         }
     }
 
-    // ═══════════════════════════════════════════════════════════════════════════
-    // DRIVER MANAGEMENT
-    // ═══════════════════════════════════════════════════════════════════════════
+    
+    
+    
 
-    // GET /api/v1/admin/drivers
+    
     [HttpGet("drivers")]
     public async Task<IActionResult> GetAllDrivers()
     {
@@ -156,7 +156,7 @@ public class AdminController : ControllerBase
             $"{result.Count} drivers found"));
     }
 
-    // GET /api/v1/admin/drivers/{id}
+    
     [HttpGet("drivers/{id:int}")]
     public async Task<IActionResult> GetDriverById(int id)
     {
@@ -171,7 +171,7 @@ public class AdminController : ControllerBase
         }
     }
 
-    // PUT /api/v1/admin/drivers/{id}/suspend
+    
     [HttpPut("drivers/{id:int}/suspend")]
     public async Task<IActionResult> SuspendDriver(int id, [FromBody] SuspendUserDto request)
     {
@@ -186,7 +186,7 @@ public class AdminController : ControllerBase
         }
     }
 
-    // PUT /api/v1/admin/drivers/{id}/reactivate
+    
     [HttpPut("drivers/{id:int}/reactivate")]
     public async Task<IActionResult> ReactivateDriver(int id)
     {
@@ -201,7 +201,7 @@ public class AdminController : ControllerBase
         }
     }
 
-    // DELETE /api/v1/admin/drivers/{id}
+    
     [HttpDelete("drivers/{id:int}")]
     public async Task<IActionResult> DeleteDriver(int id)
     {
@@ -216,11 +216,11 @@ public class AdminController : ControllerBase
         }
     }
 
-    // ═══════════════════════════════════════════════════════════════════════════
-    // PLATFORM OVERVIEW
-    // ═══════════════════════════════════════════════════════════════════════════
+    
+    
+    
 
-    // GET /api/v1/admin/users
+    
     [HttpGet("users")]
     public async Task<IActionResult> GetAllUsers()
     {
@@ -229,7 +229,7 @@ public class AdminController : ControllerBase
             $"{result.Count} total users"));
     }
 
-    // GET /api/v1/admin/users/{id}
+    
     [HttpGet("users/{id:int}")]
     public async Task<IActionResult> GetUserById(int id)
     {
@@ -244,7 +244,7 @@ public class AdminController : ControllerBase
         }
     }
 
-    // ── Helper ────────────────────────────────────────────────────────────────
+    
     private int GetCurrentAdminId()
     {
         var claim = User.FindFirst(ClaimTypes.NameIdentifier)?.Value

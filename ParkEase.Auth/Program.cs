@@ -14,18 +14,18 @@ using ParkEase.Auth.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// ── PostgreSQL + EF Core ──────────────────────────────────────────────────────
+
 builder.Services.AddDbContext<AuthDbContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection"), x => x.MigrationsHistoryTable("__EFMigrationsHistory_Auth", "auth")));
 
-// ── Repositories ──────────────────────────────────────────────────────────────
+
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 
-// ── Services ──────────────────────────────────────────────────────────────────
+
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<IAdminService, AdminService>();
 
-// ── JWT Authentication ────────────────────────────────────────────────────────
+
 var jwtSecret = builder.Configuration["Jwt:Secret"]!;
 var key = Encoding.UTF8.GetBytes(jwtSecret);
 
@@ -52,7 +52,7 @@ builder.Services.AddAuthentication(options =>
 
 builder.Services.AddAuthorization();
 
-// ── MassTransit + RabbitMQ ────────────────────────────────────────────────────
+
 builder.Services.AddMassTransit(x =>
 {
     x.AddConsumer<UserDeactivationRolledBackConsumer>();
@@ -81,7 +81,7 @@ builder.Services.AddMassTransit(x =>
     });
 });
 
-// ── Controllers + Swagger ─────────────────────────────────────────────────────
+
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(c =>
@@ -119,23 +119,23 @@ builder.Services.AddSwaggerGen(c =>
     });
 });
 
-// ── Health Checks ─────────────────────────────────────────────────────────────
+
 builder.Services.AddHealthChecks();
 
-// ── CORS ──────────────────────────────────────────────────────────────────────
+
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowAll", policy =>
         policy.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
 });
 
-// ─────────────────────────────────────────────────────────────────────────────
+
 var app = builder.Build();
 
-// ── Auto-migrate + Seed Admin ─────────────────────────────────────────────────
+
 DatabaseSeeder.SeedDatabase(app.Services);
 
-// ── Middleware Pipeline ───────────────────────────────────────────────────────
+
 app.UseSwagger();
 app.UseSwaggerUI(c =>
 {
@@ -145,7 +145,7 @@ app.UseSwaggerUI(c =>
 
 app.UseMiddleware<GlobalExceptionMiddleware>();
 app.UseCors("AllowAll");
-//app.UseHttpsRedirection();
+
 app.UseAuthentication();
 app.UseAuthorization();
 app.UseMiddleware<JwtMiddleware>();

@@ -8,10 +8,10 @@ public class User
     public string PasswordHash { get; set; } = string.Empty;
     public string Phone { get; set; } = string.Empty;
 
-    // DRIVER | MANAGER | ADMIN
+    
     public string Role { get; set; } = "DRIVER";
 
-    // ACTIVE | PENDING_APPROVAL | REJECTED | SUSPENDED
+    
     public string Status { get; set; } = "ACTIVE";
 
     public string? RejectionReason { get; set; }

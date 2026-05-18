@@ -12,7 +12,7 @@ public class DatabaseSeeder
             var db = scope.ServiceProvider.GetRequiredService<AuthDbContext>();
             db.Database.Migrate();
 
-            // Seed single admin if not exists
+            
             if (!db.Users.Any(u => u.Role == "ADMIN"))
             {
                 db.Users.Add(new ParkEase.Auth.Entities.User

@@ -3,7 +3,7 @@ using ParkEase.Auth.Events;
 
 namespace ParkEase.Auth.Sagas;
 
-// ─── Saga State ───────────────────────────────────────────────────────────────
+
 public class AccountDeactivationSagaState : SagaStateMachineInstance
 {
     public Guid CorrelationId { get; set; }
@@ -14,7 +14,7 @@ public class AccountDeactivationSagaState : SagaStateMachineInstance
     public string? FailureReason { get; set; }
 }
 
-// ─── Saga Commands ────────────────────────────────────────────────────────────
+
 public class CancelBookingsForUserCommand
 {
     public Guid CorrelationId { get; set; }
@@ -28,7 +28,7 @@ public class SendDeactivationNotificationCommand
     public string Email { get; set; } = string.Empty;
 }
 
-// ─── Saga Response Events (from other services) ───────────────────────────────
+
 public class BookingsCancelledForUserEvent
 {
     public Guid SagaCorrelationId { get; set; }
@@ -49,19 +49,19 @@ public class DeactivationNotificationSentEvent
     public int UserId { get; set; }
 }
 
-// ─── Saga State Machine ───────────────────────────────────────────────────────
 
-/// <summary>
-/// AccountDeactivationSaga
-///
-/// Flow:
-///   Step 1: auth-service marks user inactive        (local)
-///   Step 2: booking-service cancels active bookings (cross-service)
-///   Step 3: notification-service notifies user      (cross-service)
-///
-/// Compensation:
-///   If Step 2 fails → reactivate user (rollback Step 1)
-/// </summary>
+
+
+
+
+
+
+
+
+
+
+
+
 public class AccountDeactivationSaga : MassTransitStateMachine<AccountDeactivationSagaState>
 {
     public State Deactivating { get; private set; } = null!;

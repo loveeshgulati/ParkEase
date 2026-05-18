@@ -21,7 +21,7 @@ public class AdminService : IAdminService
         _logger = logger;
     }
 
-    // ── Manager Management ────────────────────────────────────────────────────
+    
 
     public async Task<List<PendingManagerDto>> GetPendingManagersAsync()
     {
@@ -179,7 +179,7 @@ public class AdminService : IAdminService
         _logger.LogInformation("Manager {ManagerId} deleted by Admin {AdminId}", managerId, adminId);
     }
 
-    // ── Driver Management ─────────────────────────────────────────────────────
+    
 
     public async Task<List<DriverDto>> GetAllDriversAsync()
     {
@@ -265,7 +265,7 @@ public class AdminService : IAdminService
         _logger.LogInformation("Driver {DriverId} deleted by Admin {AdminId}", driverId, adminId);
     }
 
-    // ── Platform Overview ─────────────────────────────────────────────────────
+    
 
     public async Task<List<UserProfileDto>> GetAllUsersAsync()
     {
@@ -280,7 +280,7 @@ public class AdminService : IAdminService
         return AuthService.MapToProfileDto(user);
     }
 
-    // ── Private Helpers ───────────────────────────────────────────────────────
+    
 
     private async Task<Entities.User> GetAndValidateUserAsync(int userId, string expectedRole)
     {

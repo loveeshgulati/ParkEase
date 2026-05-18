@@ -20,7 +20,7 @@ public class AuthController : ControllerBase
         _logger = logger;
     }
 
-    // POST /api/v1/auth/register
+    
     [HttpPost("register")]
     [AllowAnonymous]
     public async Task<IActionResult> Register([FromBody] RegisterRequestDto request)
@@ -36,7 +36,7 @@ public class AuthController : ControllerBase
         }
     }
 
-    // POST /api/v1/auth/login
+    
     [HttpPost("login")]
     [AllowAnonymous]
     public async Task<IActionResult> Login([FromBody] LoginRequestDto request)
@@ -52,7 +52,7 @@ public class AuthController : ControllerBase
         }
     }
 
-    // POST /api/v1/auth/google
+    
     [HttpPost("google")]
     [AllowAnonymous]
     public async Task<IActionResult> GoogleAuth([FromBody] GoogleAuthRequestDto request)
@@ -72,7 +72,7 @@ public class AuthController : ControllerBase
         }
     }
 
-    // POST /api/v1/auth/logout
+    
     [HttpPost("logout")]
     [Authorize]
     public async Task<IActionResult> Logout()
@@ -81,7 +81,7 @@ public class AuthController : ControllerBase
         return Ok(ApiResponse<object>.Ok(null!, "Logged out successfully"));
     }
 
-    // POST /api/v1/auth/refresh
+    
     [HttpPost("refresh")]
     [AllowAnonymous]
     public async Task<IActionResult> Refresh([FromBody] RefreshTokenRequestDto request)
@@ -97,7 +97,7 @@ public class AuthController : ControllerBase
         }
     }
 
-    // GET /api/v1/auth/profile
+    
     [HttpGet("profile")]
     [Authorize]
     public async Task<IActionResult> GetProfile()
@@ -106,7 +106,7 @@ public class AuthController : ControllerBase
         return Ok(ApiResponse<UserProfileDto>.Ok(result));
     }
 
-    // PUT /api/v1/auth/profile
+    
     [HttpPut("profile")]
     [Authorize]
     public async Task<IActionResult> UpdateProfile([FromBody] UpdateProfileDto request)
@@ -115,7 +115,7 @@ public class AuthController : ControllerBase
         return Ok(ApiResponse<UserProfileDto>.Ok(result, "Profile updated successfully"));
     }
 
-    // PUT /api/v1/auth/password
+    
     [HttpPut("password")]
     [Authorize]
     public async Task<IActionResult> ChangePassword([FromBody] ChangePasswordDto request)
@@ -131,7 +131,7 @@ public class AuthController : ControllerBase
         }
     }
 
-    // DELETE /api/v1/auth/deactivate
+    
     [HttpDelete("deactivate")]
     [Authorize]
     public async Task<IActionResult> Deactivate()
@@ -141,7 +141,7 @@ public class AuthController : ControllerBase
             "Account deactivation initiated."));
     }
 
-    // GET /api/v1/auth/validate
+    
     [HttpGet("validate")]
     [AllowAnonymous]
     public async Task<IActionResult> ValidateToken(
@@ -156,7 +156,7 @@ public class AuthController : ControllerBase
             isValid ? "Token is valid" : "Token is invalid"));
     }
 
-    // ── Helper ────────────────────────────────────────────────────────────────
+    
     private int GetCurrentUserId()
     {
         var claim = User.FindFirst(ClaimTypes.NameIdentifier)?.Value
