@@ -7,7 +7,7 @@
       "applicationUrl": "http://localhost:5001",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development",
-        "ConnectionStrings__DefaultConnection": "Host=dpg-d844ild7vvec73eul2s0-a;Port=5432;Database=parkease_lg;Username=parkease_lg_user;Password=jPmVNDg0AoRFLRBxRidE2EYPqMcuAzUf;SSL Mode=Require;Trust Server Certificate=true",
+        "ConnectionStrings__DefaultConnection": "Host=dpg-d844ild7vvec73eul2s0-a.virginia-postgres.render.com;Port=5432;Database=parkease_lg;Username=parkease_lg_user;Password=jPmVNDg0AoRFLRBxRidE2EYPqMcuAzUf;SSL Mode=Require;Trust Server Certificate=true",
         "Jwt__Secret": "ParkEase_SuperSecret_JWT_Key_MinLength32Chars!",
         "Jwt__Issuer": "ParkEase.Auth",
         "Jwt__Audience": "ParkEase.Client",
